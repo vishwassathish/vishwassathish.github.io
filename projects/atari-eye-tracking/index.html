@@ -11,24 +11,20 @@
 <body>
 
 <div id="header">
-  <h1>Where do humans look when exploring for rewards?</h1>
+  <div class="header-row">
+    <h1>Where do humans look when exploring for rewards?</h1>
+    <a href="writeup.html" class="writeup-link">Write-up →</a>
+  </div>
   <p class="page-subtitle">
-    Eye-tracking data from <em>human</em> players across three Atari games —
-    Breakout, Montezuma's Revenge, and Space Invaders — reveals how attention
-    shifts in the seconds before a reward event.
+    Eye-tracking data from <em>human</em> players across Breakout, Montezuma&rsquo;s Revenge,
+    and Space Invaders shows how attention shifts in the seconds before a reward event.
   </p>
   <ul class="interpretation-bullets">
-    <li>Gaze <strong>anticipates</strong> reward locations: players fixate on targets
-        before points are scored, not after.</li>
-    <li>In <strong>Montezuma's Revenge</strong> (sparse rewards) gaze lingers broadly,
-        suggesting exploratory search rather than reactive tracking.</li>
-    <li>In <strong>Breakout</strong> and <strong>Space Invaders</strong> (dense rewards)
-        attention concentrates tightly on the active scoring zone 0–2 s before reward.</li>
+    <li>Gaze <strong>anticipates</strong> reward locations: players fixate on targets before scoring, not after.</li>
+    <li>In <strong>Montezuma’s Revenge</strong> (sparse rewards) gaze lingers broadly, suggesting exploratory search.</li>
+    <li>In <strong>Breakout</strong> and <strong>Space Invaders</strong> (dense rewards) attention concentrates on the scoring zone 0–2 s before reward.</li>
   </ul>
-  <div class="header-links">
-    <a href="writeup.html">Write-up →</a>
-  </div>
-  <div class="subtitle">
+  <div class="header-row header-controls">
     <label for="game-select">Trial:</label>
     <select id="game-select"></select>
     <span id="session-info"></span>
@@ -51,17 +47,52 @@
     <div id="heatmap-col">
       <div class="col-label">Gaze Heatmap</div>
       <canvas id="heatmap-canvas" width="320" height="420"></canvas>
+    </div>
+
+    <!-- Right panel: heatmap controls + compact inline legend -->
+    <div id="side-panel">
+      <div class="side-title">Heatmap controls</div>
       <div id="heatmap-controls">
         <div class="ctrl-row">
           <span class="ctrl-label">Window:</span>
           <button class="k-btn active" data-k="10">Last 10 frames</button>
           <button class="k-btn" data-k="30">Last 30 frames</button>
+          <button class="k-btn" data-k="60">Last 60 frames</button>
         </div>
         <div class="ctrl-row">
           <span class="ctrl-label">Mode:</span>
-          <button class="mode-btn active" data-mode="window">Current window</button>
-          <button class="mode-btn" data-mode="prereward">Pre-reward</button>
-          <button class="mode-btn" data-mode="diff">Pre-reward vs baseline</button>
+          <button class="mode-btn active" data-mode="window">Current gaze</button>
+          <button class="mode-btn" data-mode="prereward">Before rewards</button>
+          <button class="mode-btn" data-mode="aligned">Reward-aligned</button>
+          <button class="mode-btn" data-mode="explore">Exploration</button>
+        </div>
+        <div class="ctrl-row" id="aligned-slices" style="display:none">
+          <span class="ctrl-label">Slice:</span>
+          <button class="slice-btn" data-slice="2-1">2–1 s before</button>
+          <button class="slice-btn" data-slice="1-0.5">1–0.5 s before</button>
+          <button class="slice-btn active" data-slice="0.5-0">0.5–0 s before</button>
+        </div>
+        <div id="mode-desc" class="mode-desc-text">Showing gaze from the last N frames. Adjust the window size above.</div>
+      </div>
+      <div class="inline-legend">
+        <div>
+          <div class="il-legend-label">Gaze overlay</div>
+          <div class="il-overlay-row">
+            <span class="il-item"><span class="il-dot" style="background:#ffaa22"></span>Trail</span>
+            <span class="il-item"><span class="il-dot" style="background:#ff3322"></span>Mean gaze</span>
+            <span class="il-item"><span class="il-dot" style="background:#33ee77;border-radius:2px"></span>Reward frame</span>
+          </div>
+        </div>
+        <div>
+          <div class="il-legend-label">Actions</div>
+          <div class="il-actions">
+            <span class="il-act">∅ No-op</span>
+            <span class="il-act">● Fire</span>
+            <span class="il-act">→ Right</span>
+            <span class="il-act">← Left</span>
+            <span class="il-act">→● R+Fire</span>
+            <span class="il-act">←● L+Fire</span>
+          </div>
         </div>
       </div>
     </div>
@@ -99,6 +130,38 @@
     <div class="info-item"><span class="info-key">Action:</span><span class="info-val" id="ip-action">—</span></div>
     <div class="info-item"><span class="info-key">Gaze samples:</span><span class="info-val" id="ip-gaze">—</span></div>
     <div class="info-item"><span class="info-key">Time to next reward:</span><span class="info-val" id="ip-ttnr">—</span></div>
+  </div>
+
+  <!-- How to use -->
+  <div id="how-to-use">
+    <div class="htu-header">How to use this visualization</div>
+    <div class="htu-grid">
+      <div class="htu-card">
+        <div class="htu-card-title">Playback controls</div>
+        <div class="htu-card-body">
+          <span class="htu-key">▶</span> Play / pause &nbsp;
+          <span class="htu-key">‹ ›</span> Step one frame<br>
+          <span class="htu-key">⏮ ⏭</span> Jump to prev / next reward<br>
+          Click the <strong style="color:#c8d8f0">timeline</strong> bar to seek. Drag the slider below it.
+        </div>
+      </div>
+      <div class="htu-card">
+        <div class="htu-card-title">Current gaze</div>
+        <div class="htu-card-body">Live heatmap built from gaze in the last N frames (set via Window). Lets you watch attention move in real time while playing.</div>
+      </div>
+      <div class="htu-card">
+        <div class="htu-card-title">Before rewards</div>
+        <div class="htu-card-body">Aggregate heatmap of all gaze recorded in the 2 s window before any reward event in this trial. Shows where the player was looking before scoring.</div>
+      </div>
+      <div class="htu-card">
+        <div class="htu-card-title">Reward-aligned</div>
+        <div class="htu-card-body">Average gaze across <em>all</em> reward events, split into time slices: 2–1 s, 1–0.5 s, or 0.5–0 s before the reward. Reveals how attention sharpens and shifts as scoring approaches.</div>
+      </div>
+      <div class="htu-card">
+        <div class="htu-card-title">Exploration</div>
+        <div class="htu-card-body">Heatmap of gaze during frames that are &gt;2 s from any reward event — the player is searching, not scoring. Reveals default attention when no immediate goal is visible.</div>
+      </div>
+    </div>
   </div>
 
 </div>

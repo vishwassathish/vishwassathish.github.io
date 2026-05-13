@@ -34,7 +34,8 @@ let currentIdx = 0;
 let playing    = false;
 let speed      = 1.0;
 let heatK      = 10;
-let heatMode   = 'window';   // 'window' | 'prereward' | 'diff'
+let heatMode     = 'window';   // 'window' | 'prereward' | 'aligned' | 'explore'
+let alignedSlice = '0.5-0';   // active reward-aligned slice: '2-1' | '1-0.5' | '0.5-0'
 
 // Playback timing
 let rafId        = null;
@@ -46,9 +47,13 @@ let renderVersion = 0;       // incremented on each renderFrame to cancel stale 
 const imgCache = new Map();
 
 // Pre-computed static density grids (set by buildStaticDensities)
-let preRewardGrid = null;   // Float32Array, size img_width × img_height
-let baselineGrid  = null;
-let diffGrid      = null;
+let preRewardGrid    = null;   // gaze 0–2 s before any reward
+let baselineGrid     = null;   // kept for internal diff calculation
+let diffGrid         = null;
+let exploreGrid      = null;   // gaze far from rewards (> 2 s from any reward)
+let aligned2to1Grid  = null;   // gaze 2.0–1.0 s before reward
+let aligned1to05Grid = null;   // gaze 1.0–0.5 s before reward
+let aligned05to0Grid = null;   // gaze 0.5–0.0 s before reward
 
 // ---------------------------------------------------------------------------
 // DOM refs
@@ -139,29 +144,49 @@ function accumulateDensity(frameSubset, BW, BH) {
 function buildStaticDensities() {
   const BW = meta.img_width, BH = meta.img_height;
 
+  // All frames 0–2 s before a positive reward
   const preFrames  = frames.filter(f =>
     f.relative_time_to_next_reward_sec !== null &&
     f.relative_time_to_next_reward_sec >= -PRE_REWARD_SEC &&
     f.relative_time_to_next_reward_sec < 0
   );
-  const baseFrames = frames.filter(f =>
+  // Exploration: far from any reward (> 2 s away)
+  const explFrames = frames.filter(f =>
     !f.is_positive_reward &&
     (f.relative_time_to_next_reward_sec === null ||
      f.relative_time_to_next_reward_sec < -PRE_REWARD_SEC)
   );
+  // Reward-aligned slices (field value = -(seconds until next reward))
+  const slice2to1  = frames.filter(f =>
+    f.relative_time_to_next_reward_sec !== null &&
+    f.relative_time_to_next_reward_sec >= -2.0 &&
+    f.relative_time_to_next_reward_sec  < -1.0
+  );
+  const slice1to05 = frames.filter(f =>
+    f.relative_time_to_next_reward_sec !== null &&
+    f.relative_time_to_next_reward_sec >= -1.0 &&
+    f.relative_time_to_next_reward_sec  < -0.5
+  );
+  const slice05to0 = frames.filter(f =>
+    f.relative_time_to_next_reward_sec !== null &&
+    f.relative_time_to_next_reward_sec >= -0.5 &&
+    f.relative_time_to_next_reward_sec  <  0
+  );
 
-  preRewardGrid = accumulateDensity(preFrames,  BW, BH);
-  baselineGrid  = accumulateDensity(baseFrames, BW, BH);
+  preRewardGrid    = accumulateDensity(preFrames,  BW, BH);
+  exploreGrid      = accumulateDensity(explFrames, BW, BH);
+  aligned2to1Grid  = accumulateDensity(slice2to1,  BW, BH);
+  aligned1to05Grid = accumulateDensity(slice1to05, BW, BH);
+  aligned05to0Grid = accumulateDensity(slice05to0, BW, BH);
 
-  // Normalise each grid and compute difference
+  // Keep baseline/diff for internal reference
+  baselineGrid = exploreGrid;
   let maxPre = 0, maxBase = 0;
   for (let i = 0; i < BW * BH; i++) {
-    if (preRewardGrid[i] > maxPre)   maxPre  = preRewardGrid[i];
-    if (baselineGrid[i]  > maxBase)  maxBase = baselineGrid[i];
+    if (preRewardGrid[i] > maxPre)  maxPre  = preRewardGrid[i];
+    if (baselineGrid[i]  > maxBase) maxBase = baselineGrid[i];
   }
-  maxPre  = maxPre  || 1;
-  maxBase = maxBase || 1;
-
+  maxPre = maxPre || 1; maxBase = maxBase || 1;
   diffGrid = new Float32Array(BW * BH);
   for (let i = 0; i < BW * BH; i++) {
     diffGrid[i] = (preRewardGrid[i] / maxPre) - (baselineGrid[i] / maxBase);
@@ -257,15 +282,25 @@ function loadImg(path) {
   if (imgCache.has(path)) return Promise.resolve(imgCache.get(path));
   return new Promise(resolve => {
     const img = new Image();
-    img.onload  = () => { imgCache.set(path, img); resolve(img); };
+    img.onload = () => {
+      imgCache.set(path, img);
+      // decode() ensures the bitmap is ready for paint before resolving, reducing frame jank
+      if (img.decode) {
+        img.decode().then(() => resolve(img)).catch(() => resolve(img));
+      } else {
+        resolve(img);
+      }
+    };
     img.onerror = () => resolve(null);
     img.src = path;
   });
 }
 
 function prefetch(idx) {
-  for (let i = idx + 1; i <= idx + 8 && i < frames.length; i++) {
-    const p = frames[i].frame_path;
+  // Preload ~1 s of frames ahead (Atari-HEAD is ~60 FPS)
+  const end = Math.min(frames.length - 1, idx + 60);
+  for (let i = idx + 1; i <= end; i++) {
+    const p = frames[i]?.frame_path;
     if (p && !imgCache.has(p)) {
       const img = new Image();
       img.onload = () => imgCache.set(p, img);
@@ -332,23 +367,20 @@ function drawHeatmap(idx) {
 
   const BW = meta.img_width, BH = meta.img_height;
 
-  if (heatMode === 'prereward') {
-    if (!preRewardGrid) return;
+  function renderStaticGrid(grid) {
+    if (!grid) return;
     let maxV = 0;
-    for (let i = 0; i < BW * BH; i++) if (preRewardGrid[i] > maxV) maxV = preRewardGrid[i];
-    heatCtx.putImageData(densityToImageData(preRewardGrid, BW, BH, t => rampColor(t), maxV), 0, 0);
-    return;
+    for (let i = 0; i < BW * BH; i++) if (grid[i] > maxV) maxV = grid[i];
+    heatCtx.putImageData(densityToImageData(grid, BW, BH, t => rampColor(t), maxV || 1), 0, 0);
   }
 
-  if (heatMode === 'diff') {
-    if (!diffGrid) return;
-    // For diverging map, find max absolute value
-    let maxAbs = 0;
-    for (let i = 0; i < BW * BH; i++) if (Math.abs(diffGrid[i]) > maxAbs) maxAbs = Math.abs(diffGrid[i]);
-    heatCtx.putImageData(
-      densityToImageData(diffGrid, BW, BH, v => diffColor(maxAbs > 0 ? v / maxAbs : 0), 1),
-      0, 0
-    );
+  if (heatMode === 'prereward') { renderStaticGrid(preRewardGrid);   return; }
+  if (heatMode === 'explore')   { renderStaticGrid(exploreGrid);      return; }
+  if (heatMode === 'aligned') {
+    const g = alignedSlice === '2-1'   ? aligned2to1Grid
+            : alignedSlice === '1-0.5' ? aligned1to05Grid
+            :                            aligned05to0Grid;
+    renderStaticGrid(g);
     return;
   }
 
@@ -569,13 +601,71 @@ async function loadGame(entry) {
   // Build static densities
   buildStaticDensities();
 
-  gameMs     = 0;
-  currentIdx = 0;
+  gameMs       = 0;
+  currentIdx   = 0;
+  heatMode     = 'window';
+  alignedSlice = '0.5-0';
+
+  // Reset UI controls to initial state
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  const winBtn = document.querySelector('.mode-btn[data-mode="window"]');
+  if (winBtn) winBtn.classList.add('active');
+  const alignedRow = document.getElementById('aligned-slices');
+  if (alignedRow) alignedRow.style.display = 'none';
+  document.querySelectorAll('.slice-btn').forEach(b => b.classList.remove('active'));
+  const defSlice = document.querySelector('.slice-btn[data-slice="0.5-0"]');
+  if (defSlice) defSlice.classList.add('active');
 
   document.getElementById('loading').style.display = 'none';
   document.getElementById('viz').style.display     = '';
 
   renderFrame(0);
+  updateWindowLabels();
+  updateModeDesc();
+
+  // Background-preload all frames in small batches to warm the cache
+  let batchStart = 0;
+  function bgPreloadBatch() {
+    const batchEnd = Math.min(batchStart + 60, frames.length);
+    for (let i = batchStart; i < batchEnd; i++) {
+      const p = frames[i]?.frame_path;
+      if (p && !imgCache.has(p)) {
+        const img = new Image();
+        img.onload = () => imgCache.set(p, img);
+        img.src = p;
+      }
+    }
+    batchStart = batchEnd;
+    if (batchStart < frames.length) setTimeout(bgPreloadBatch, 150);
+  }
+  setTimeout(bgPreloadBatch, 400);
+}
+
+// ---------------------------------------------------------------------------
+// Dynamic label and description helpers
+// ---------------------------------------------------------------------------
+
+function updateWindowLabels() {
+  if (!frames.length || !meta.segment_duration_ms) return;
+  // Compute avg ms per frame from the actual segment data
+  const avgFrameMs = meta.segment_duration_ms / frames.length;
+  document.querySelectorAll('.k-btn').forEach(btn => {
+    const k = parseInt(btn.dataset.k);
+    const approxSec = (k * avgFrameMs / 1000).toFixed(1);
+    btn.textContent = `Last ${k} frames (~${approxSec} s)`;
+  });
+}
+
+const MODE_DESCRIPTIONS = {
+  window:    'Showing gaze from the last N frames. Adjust the window size above.',
+  prereward: 'Gaze density from all frames within 2 seconds before a reward. Shows where players look before scoring.',
+  aligned:   'Reward-aligned slices: gaze at a specific time before reward. Select a slice below to compare how attention shifts as reward approaches.',
+  explore:   'Gaze density from frames far from any reward, showing where attention goes during ordinary exploration.',
+};
+
+function updateModeDesc() {
+  const el = document.getElementById('mode-desc');
+  if (el) el.textContent = MODE_DESCRIPTIONS[heatMode] ?? '';
 }
 
 // ---------------------------------------------------------------------------
@@ -651,7 +741,20 @@ function wireEvents(games) {
       heatMode = btn.dataset.mode;
       document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+      const alignedRow = document.getElementById('aligned-slices');
+      if (alignedRow) alignedRow.style.display = heatMode === 'aligned' ? '' : 'none';
+      updateModeDesc();
       drawHeatmap(currentIdx);
+    });
+  });
+
+  // Reward-aligned slice buttons
+  document.querySelectorAll('.slice-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      alignedSlice = btn.dataset.slice;
+      document.querySelectorAll('.slice-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (heatMode === 'aligned') drawHeatmap(currentIdx);
     });
   });
 

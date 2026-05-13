@@ -56,12 +56,12 @@
   I selected three games to span a range of reward structures:
 </p>
 <ul>
-  <li><strong>Breakout</strong> — fast-paced; rewards occur every time the ball breaks a brick
+  <li><strong>Breakout</strong>: fast-paced, with rewards every time the ball breaks a brick
       (multiple times per second at peak).</li>
-  <li><strong>Space Invaders</strong> — medium reward density; rewards occur when a laser
+  <li><strong>Space Invaders</strong>: medium reward density, with a reward each time a laser
       destroys an alien.</li>
-  <li><strong>Montezuma's Revenge</strong> — reward-sparse; players must navigate through rooms
-      collecting items; long stretches between any reward.</li>
+  <li><strong>Montezuma's Revenge</strong>: reward-sparse, requiring navigation through rooms
+      to collect items with long stretches between any reward.</li>
 </ul>
 <p>
   For each game I included both regular sessions and high-score (expert) sessions,
@@ -93,7 +93,7 @@
 </p>
 <p>
   I chose to serve all assets statically so the visualization works without a server-side
-  component — the entire site is plain HTML/CSS/JS deployable via GitLab Pages.
+  component. The entire site is plain HTML/CSS/JS, deployable via GitLab Pages.
 </p>
 
 <!-- ───────────────────────────── D. Design choices ───────────────────────────── -->
@@ -112,14 +112,17 @@
   </li>
   <li>
     <strong>Heatmap (right canvas):</strong> Each gaze sample is smeared with an isotropic
-    Gaussian (σ ≈ 3.5% of frame diagonal) and accumulated. Three modes expose different
+    Gaussian (σ ≈ 3.5% of frame diagonal) and accumulated. Four modes expose different
     aggregation windows:
     <ul>
-      <li><em>Window</em> — rolling last N frames (10 or 30); good for local context.</li>
-      <li><em>Pre-reward</em> — all gaze in a 2 s window before each reward event
-          in the displayed segment; reveals the predictive pattern.</li>
-      <li><em>Pre-reward vs baseline</em> — pre-reward heatmap minus a uniform-window
-          baseline, highlighting locations that are <em>over-attended</em> before rewards.</li>
+      <li><em>Current gaze</em>: rolling last N frames (10, 30, or 60), useful for live context.</li>
+      <li><em>Before rewards</em>: all gaze within 2 seconds before a positive reward event,
+          revealing the predictive attention pattern.</li>
+      <li><em>Reward-aligned</em>: three selectable slices (2–1 s, 1–0.5 s, 0.5–0 s before reward)
+          that show how attention concentrates as reward approaches. Each slice is normalized
+          independently so brightness reflects concentration, not frame count.</li>
+      <li><em>Exploration</em>: gaze density from frames far from any reward (more than 2 s away),
+          serving as a baseline for ordinary exploration attention.</li>
     </ul>
   </li>
   <li>
@@ -144,8 +147,8 @@
     <strong>Predictive gaze in Breakout:</strong> In the pre-reward heatmap, attention
     concentrates in the brick-field 1–2 s before a break, well before the ball arrives.
     Players appear to track the ball trajectory and pre-position their gaze on the
-    anticipated contact region. The diff heatmap shows this as a bright cluster in the
-    upper two-thirds of the screen, clearly distinct from times without imminent rewards.
+    anticipated contact region. The reward-aligned heatmap shows this as a bright cluster
+    in the upper two-thirds of the screen, clearly distinct from the exploration baseline.
   </li>
   <li>
     <strong>Threat tracking in Space Invaders:</strong> Pre-reward gaze clusters around
