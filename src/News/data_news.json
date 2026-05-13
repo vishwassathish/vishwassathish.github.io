@@ -1,10 +1,10 @@
 [
     {
         "date": "Jun, 2024",
-        "description": "My paper titled - <i> Learning Hierarchical Abstractions of Complex Dynamics using Predictive Coding </i> has been accepted at <a href='https://sites.google.com/alora.tech/priors4robots24/home?authuser=0'>Priors4Robots</a> Workshop at <a href='https://roboticsconference.org/'> Robotics: Science and Systems (RSS) 2024 </a>"
+        "description": "My paper titled - <i> Learning Hierarchical Abstractions of Complex Dynamics using Predictive Coding </i> has been accepted at <a href='https://sites.google.com/alora.tech/priors4robots24/accepted-contributions?authuser=0'>Priors4Robots</a> Workshop at Robotics: Science and Systems <a href='https://roboticsconference.org/'> (RSS) </a> 2024"
     },
     {
         "date": "Jan, 2024",
-        "description": "<a href='https://direct.mit.edu/neco/article/36/1/1/118264/Active-Predictive-Coding-A-Unifying-Neural-Model'><b>Active Predictive Coding</b></a>, published in <i>Neural Computation</i> Journal!"
+        "description": "<a href='https://direct.mit.edu/neco/article/36/1/1/118264/Active-Predictive-Coding-A-Unifying-Neural-Model'><b>Active Predictive Coding</b></a>, is now published in <i>Neural Computation</i> Journal!"
     }
 ]

@@ -25,10 +25,11 @@ export const Publications = () => {
                                     </td>
 
                                     <td style={{ paddingLeft: '20px',paddingRight: '20px', width: '75%', verticalAlign: 'top' }}>
-                                        <h5><a href={row.link}>
+                                        <a href={row.link}>
                                             <span className="papertitle">{row.title}</span>
-                                        </a></h5>
+                                        </a>
                                         <div dangerouslySetInnerHTML={{ __html: row.authors }} ></div>
+                                        {row.other_links && <div dangerouslySetInnerHTML={{ __html: row.other_links }}></div>}
                                         <div dangerouslySetInnerHTML={{ __html: row.publication }} ></div>
                                         {row.presented && <div dangerouslySetInnerHTML={{ __html: row.presented }} ></div>}
                                         <br />

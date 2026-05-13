@@ -19,20 +19,19 @@ export const Profile = () => {
                                 <p style={{ textAlign: 'justify' }}>
                                     I am a CS PhD student at University of Washington, advised by <a
                                         href="https://www.rajeshpnrao.com/">Prof. Rajesh Rao</a>.
-                                    My research interests lie in Machine Learning, Reinforcement Learning and Computational
-                                    Neuroscience.
+                                    My research interests lie in Unsupervised Representation Learning, Model Based Reinforcement Learning, Computational
+                                    Neuroscience and their applications to Vision, Robotics and other domains. More recently, I have been working on 
+                                    formulating the principles of compositional learning required to solve complex real world problems.
                                 </p>
                                 <p style={{ textAlign: 'justify' }}>
-                                    More recently, I have been interested in formulating the principles of compositional and
-                                    hierarchical computations required
-                                    to solve complex real world problems. I am also interested in building models for general purpose
-                                    perception, policy learning
-                                    and planning using these principles.
+                                    I am also interested in building models for general purpose
+                                    perception, policy learning and planning using these principles. While modern LLMs like GPTs and Dall-E 
+                                    exhibit approximate compositional structures from data, they lack the explicit capability to solve symbol 
+                                    manipulation problems such as spatial reasoning and mathematical deductions. I aim to teach LLMs to do that.
                                 </p>
                                 <p style={{ textAlign: "justify" }}>
                                     Before starting my research, I enjoyed two years working as a Machine Learning Engineer at <a href='www.7sugar.com'>7sugar</a>, a
-                                    small healthcare startup
-                                    in Bangalore. I've also interned in <a href='https://www.morganstanley.com/'>Morgan Stanley</a>.
+                                    small healthcare startup in Bangalore. I have also interned at Morgan Stanley in the past.
                                 </p>
                                 <p style={{ textAlign: "center" }}>
                                     <a href={process.env.PUBLIC_URL + "data/vish_data/Vishwas_Academic_Resume.pdf"}>CV</a> &nbsp;|&nbsp;

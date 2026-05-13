@@ -1,9 +1,11 @@
 [
     {
         "title":"Learning Hierarchical Abstractions of Complex Dynamics using Predictive Coding",
-        "publication":"<em>Structural Priors as Inductive Biases for Learning Robot Dynamics Workshop @ <a href='https://roboticsconference.org/'>Robotics: Science and Systems (RSS), 2024</a></em>. (Paper link coming soon!)",
+        "publication":"<em>Structural Priors as Inductive Biases for Learning Robot Dynamics Workshop @ <a href='https://roboticsconference.org/'>Robotics: Science and Systems (RSS), 2024</a></em>.",
         "img": "images/vish_images/rss_workshop.png",
-        "authors": " <b>Vishwas Sathish</b>; Rajesh Rao"
+        "link": "https://sites.google.com/alora.tech/priors4robots24/accepted-contributions?authuser=0",
+        "authors": " <b>Vishwas Sathish</b>; Rajesh Rao",
+        "other_links":"<span><a href='https://drive.google.com/drive/u/1/folders/1W4id-q70V_42fxkRz0WBy72wXiy7FUcT'>Poster</a> | <a href='https://drive.google.com/file/d/1T5QnNrKEw4Bu1ZnsrrDECuVBdiuqt6B3/view'>Paper</a></span>"
     },
     {
         "title": "Active Predictive Coding: A Unifying Neural Model for Active Perception, Compositional Learning, and Hierarchical Planning",
