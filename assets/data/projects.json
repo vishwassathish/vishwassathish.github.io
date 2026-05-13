@@ -1,0 +1,36 @@
+[
+  {
+    "id": "atari-eye-tracking",
+    "type": "Visualization",
+    "featured": true,
+    "title": "Where do humans look when exploring for rewards?",
+    "description": "An interactive visualization of human eye-tracking behavior during Atari gameplay, examining how visual attention relates to reward events across games with different reward structures (Breakout, Space Invaders, Montezuma\u2019s Revenge).",
+    "thumbnail": "assets/img/thumbnails/atari-eye-tracking.png",
+    "links": {
+      "demo":    "projects/atari-eye-tracking/",
+      "writeup": "projects/atari-eye-tracking/writeup.html"
+    }
+  },
+  {
+    "id": "llm-cognition-puzzles",
+    "type": "Research Report",
+    "featured": true,
+    "title": "Examining LLM Cognition Through Puzzles and Optical Illusions",
+    "description": "An investigation into whether large language models exhibit human-like cognitive biases when presented with classic puzzles, checker-shadow illusions, and visual reasoning tasks.",
+    "thumbnail": "assets/img/thumbnails/Checker_shadow_illusion.png",
+    "links": {
+      "paper": "https://drive.google.com/file/d/1f01YZXtj0j5thr6iflE2JbZsvvJNfQFb/view?usp=sharing"
+    }
+  },
+  {
+    "id": "spatio-temporal-rl",
+    "type": "Research Report",
+    "featured": false,
+    "title": "Spatio-Temporal Abstractions in Reinforcement Learning",
+    "description": "Exploring how hierarchical spatio-temporal abstractions can improve sample efficiency and generalization in deep RL agents navigating complex environments.",
+    "thumbnail": "assets/img/thumbnails/abstraction_project.png",
+    "links": {
+      "paper": "https://drive.google.com/file/d/1cWSafeSTQ5yFKhPi_mGH92sDec4pOJox/view?usp=sharing"
+    }
+  }
+]

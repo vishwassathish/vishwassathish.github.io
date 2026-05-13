@@ -1,0 +1,32 @@
+[
+  {
+    "years": "2025 &ndash; present",
+    "role": "Applied Scientist Intern",
+    "org": "Amazon &mdash; A9 / Search Science & AI",
+    "detail": "RL-based ranking, retrieval, and multimodal search."
+  },
+  {
+    "years": "2022 &ndash; present",
+    "role": "Graduate Research Assistant",
+    "org": "Neural Systems Lab, University of Washington",
+    "detail": "PhD research on reinforcement learning, world models, active predictive coding, and vision-language models. Advised by Prof. Rajesh P. N. Rao."
+  },
+  {
+    "years": "2019 &ndash; 2021",
+    "role": "Machine Learning Engineer",
+    "org": "SensAI Healthcare (7sugar)",
+    "detail": "Built ML systems for continuous glucose monitoring and healthcare analytics at an early-stage startup."
+  },
+  {
+    "years": "Summer 2019",
+    "role": "Technology Analyst Intern",
+    "org": "Morgan Stanley",
+    "detail": "Fixed income technology, cross-asset analytics."
+  },
+  {
+    "years": "Summer 2018",
+    "role": "Research Intern",
+    "org": "Systems Biology Institute",
+    "detail": "Computational biology and network modeling."
+  }
+]

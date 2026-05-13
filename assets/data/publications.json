@@ -1,0 +1,136 @@
+[
+  {
+    "id": "lessons-neuroscience-ai-2025",
+    "type": "preprint",
+    "selected": true,
+    "badge": "Preprint",
+    "title": "Lessons from Neuroscience for AI: How integrating Actions, Compositional Structure and Episodic Memory could enable Safe, Interpretable and Human-Like AI",
+    "authors": "Rajesh P. N. Rao, Vishwas Sathish, Linxing Preston Jiang, Matthew Bryan, Prashant Rangarajan",
+    "authors_html": "<a href='https://www.rajeshpnrao.com/' target='_blank' rel='noopener'>Rajesh P. N. Rao</a>, <strong>Vishwas Sathish</strong>, Linxing Preston Jiang, Matthew Bryan, Prashant Rangarajan",
+    "venue": "arXiv preprint, December 2025",
+    "venue_html": "<a href='https://arxiv.org/abs/2512.22568' target='_blank' rel='noopener'>arXiv:2512.22568</a>, December 2025",
+    "year": 2025,
+    "summary": "A position paper arguing that integrating actions, compositional structure, and episodic memory — inspired by neuroscience — is key to building safe, interpretable, and human-like AI systems.",
+    "thumbnail": null,
+    "links": {
+      "arxiv": "https://arxiv.org/abs/2512.22568"
+    }
+  },
+  {
+    "id": "paindecog-2025",
+    "type": "conference",
+    "selected": false,
+    "badge": null,
+    "title": "PainDECOG: Machine Learning-Based Identification of Pain Biomarkers from sEEG Signals",
+    "authors": "Sidharth Sidharth, Vishwas Sathish, Shweta Bansal, Samantha Sun, Timmy Pham, Kurt Weaver, Rajesh P. N. Rao, Jeffrey Herron",
+    "authors_html": "Sidharth Sidharth, <strong>Vishwas Sathish</strong>, Shweta Bansal, Samantha Sun, Timmy Pham, Kurt Weaver, <a href='https://www.rajeshpnrao.com/' target='_blank' rel='noopener'>Rajesh P. N. Rao</a>, Jeffrey Herron",
+    "venue": "arXiv preprint, February 2025",
+    "venue_html": "<a href='https://arxiv.org/abs/2502.10621' target='_blank' rel='noopener'>arXiv:2502.10621</a>, February 2025",
+    "year": 2025,
+    "summary": "Systematic machine-learning approach for classifying acute pain from raw electrophysiological signals, using Power-In-Band features and signal coherence on a curated sEEG dataset.",
+    "thumbnail": null,
+    "links": {
+      "arxiv": "https://arxiv.org/abs/2502.10621"
+    }
+  },
+  {
+    "id": "hierarchical-abstractions-2024",
+    "type": "workshop",
+    "selected": true,
+    "badge": "Workshop",
+    "title": "Learning Hierarchical Abstractions of Complex Dynamics using Predictive Coding",
+    "authors": "Vishwas Sathish, Rajesh P. N. Rao",
+    "authors_html": "<strong>Vishwas Sathish</strong>, <a href='https://www.rajeshpnrao.com/' target='_blank' rel='noopener'>Rajesh P. N. Rao</a>",
+    "venue": "Structural Priors Workshop @ Robotics: Science and Systems (RSS) 2024",
+    "venue_html": "Structural Priors as Inductive Biases for Robot Dynamics Workshop @ <a href='https://roboticsconference.org/' target='_blank' rel='noopener'>RSS 2024</a>",
+    "year": 2024,
+    "summary": "We demonstrate how predictive coding networks can learn hierarchical temporal abstractions of complex dynamical systems, enabling more structured representations of multi-scale dynamics.",
+    "thumbnail": "assets/img/thumbnails/rss_workshop.png",
+    "links": {
+      "paper":  "https://drive.google.com/file/d/1T5QnNrKEw4Bu1ZnsrrDECuVBdiuqt6B3/view",
+      "poster": "https://drive.google.com/drive/u/1/folders/1W4id-q70V_42fxkRz0WBy72wXiy7FUcT"
+    }
+  },
+  {
+    "id": "active-predictive-coding-2024",
+    "type": "journal",
+    "selected": true,
+    "badge": "Selected",
+    "title": "Active Predictive Coding: A Unifying Neural Model for Active Perception, Compositional Learning, and Hierarchical Planning",
+    "authors": "Rajesh P. N. Rao, Dimitrios Gklezakos, Vishwas Sathish",
+    "authors_html": "<a href='https://www.rajeshpnrao.com/' target='_blank' rel='noopener'>Rajesh P. N. Rao</a>, <a href='https://neural.cs.washington.edu/people' target='_blank' rel='noopener'>Dimitrios Gklezakos</a>, <strong>Vishwas Sathish</strong>",
+    "venue": "Neural Computation, 2024  ·  also presented at CogSci 2023",
+    "venue_html": "<a href='https://direct.mit.edu/neco/article/36/1/1/118264/Active-Predictive-Coding-A-Unifying-Neural-Model' target='_blank' rel='noopener'>Neural Computation, 2024</a> &nbsp;·&nbsp; also presented at <a href='https://escholarship.org/uc/item/6g85953g' target='_blank' rel='noopener'>CogSci 2023</a>",
+    "year": 2024,
+    "summary": "A unified neural model showing how active predictive coding accounts for active perception, compositional learning, and hierarchical planning in biological and artificial neural systems.",
+    "thumbnail": "assets/img/thumbnails/general-apc.png",
+    "links": {
+      "paper": "https://direct.mit.edu/neco/article/36/1/1/118264/Active-Predictive-Coding-A-Unifying-Neural-Model"
+    }
+  },
+  {
+    "id": "apc-patent-2023",
+    "type": "patent",
+    "selected": false,
+    "badge": "Patent",
+    "title": "Apparatuses, Systems, and Methods for Active Predictive Coding Networks",
+    "authors": "Rajesh P. N. Rao, Dimitrios Gklezakos, Vishwas Sathish",
+    "authors_html": "<a href='https://www.rajeshpnrao.com/' target='_blank' rel='noopener'>Rajesh P. N. Rao</a>, <a href='https://neural.cs.washington.edu/people' target='_blank' rel='noopener'>Dimitrios Gklezakos</a>, <strong>Vishwas Sathish</strong>",
+    "venue": "Full US Patent filed (Serial No. 18/408,173) — Patent Pending",
+    "venue_html": "Full US Patent filed (Serial No. 18/408,173) &mdash; <em>Patent Pending</em>",
+    "year": 2023,
+    "summary": "Patent covering the core architecture and methods of active predictive coding neural networks.",
+    "thumbnail": null,
+    "links": {}
+  },
+  {
+    "id": "optimal-stopping-2019",
+    "type": "conference",
+    "selected": false,
+    "badge": null,
+    "title": "Applications of Optimal Stopping Algorithm for Social Graph Based Recommendation",
+    "authors": "Sai Rohit, Vishwas Sathish, Tanya Mehrotra, Bhaskarjyoti Das",
+    "authors_html": "Sai Rohit, <strong>Vishwas Sathish</strong>, Tanya Mehrotra, Bhaskarjyoti Das",
+    "venue": "IEEE Students Conference on Engineering and Systems (SCES), 2019",
+    "venue_html": "<a href='https://ieeexplore.ieee.org/abstract/document/8977222' target='_blank' rel='noopener'>IEEE SCES 2019</a>",
+    "year": 2019,
+    "summary": "Applying optimal stopping theory to improve recommendation accuracy in social network graphs.",
+    "thumbnail": "assets/img/thumbnails/social_graph.jpg",
+    "links": {
+      "paper": "https://ieeexplore.ieee.org/abstract/document/8977222"
+    }
+  },
+  {
+    "id": "graph-embedding-2019",
+    "type": "conference",
+    "selected": false,
+    "badge": null,
+    "title": "Graph Embedding Based Hybrid Social Recommendation System",
+    "authors": "Vishwas Sathish, Tanya Mehrotra, Simran Dhinwa, Bhaskarjyoti Das",
+    "authors_html": "<strong>Vishwas Sathish</strong>, Tanya Mehrotra, Simran Dhinwa, Bhaskarjyoti Das",
+    "venue": "International Conference on Advances in Computing & Communications (ICACC 2019, Oral)",
+    "venue_html": "<a href='https://arxiv.org/pdf/1908.09454.pdf' target='_blank' rel='noopener'>ICACC 2019</a> (Oral)",
+    "year": 2019,
+    "summary": "A hybrid recommendation system combining graph embeddings with collaborative filtering for improved social graph-based recommendation.",
+    "thumbnail": "assets/img/thumbnails/embeddings.png",
+    "links": {
+      "arxiv": "https://arxiv.org/pdf/1908.09454.pdf"
+    }
+  },
+  {
+    "id": "llempower-2024",
+    "type": "preprint",
+    "selected": false,
+    "badge": "Report",
+    "title": "LLeMpower: Understanding Disparities in the Control and Access of Large Language Models",
+    "authors": "Vishwas Sathish et al.",
+    "authors_html": "<strong>Vishwas Sathish</strong> et al.",
+    "venue": "Technical Report, University of Washington, March 2024",
+    "year": 2024,
+    "summary": "Analyzing power disparities and access inequalities in large language model development and deployment.",
+    "thumbnail": null,
+    "links": {
+      "arxiv": "https://arxiv.org/abs/2404.09356"
+    }
+  }
+]

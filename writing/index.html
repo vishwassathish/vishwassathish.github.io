@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Writing &mdash; Vishwas Sathish</title>
+  <meta name="description" content="Essays, notes, and reflections by Vishwas Sathish on AI, neuroscience, and research.">
+
+  <meta property="og:title"       content="Writing — Vishwas Sathish">
+  <meta property="og:url"         content="https://vishwassathish.github.io/writing/">
+  <meta property="og:type"        content="website">
+
+  <link rel="icon"       type="image/png" href="../assets/img/uw_logo.png">
+  <link rel="stylesheet"                  href="../assets/css/styles.css">
+</head>
+<body>
+
+<header id="site-header"></header>
+
+<main class="page-content">
+  <div class="container">
+
+    <div class="page-header">
+      <h1>Writing</h1>
+      <p class="page-intro">
+        Occasional notes, essays, and reflections on research, ideas,
+        and things I find interesting. Not a blog &mdash; more like a
+        public notebook.
+      </p>
+    </div>
+
+    <!-- ══════════════════ Post list ══════════════════ -->
+    <!--
+      HOW TO ADD A NEW POST:
+      1. Copy writing/template.html → writing/posts/your-post-slug.html
+      2. Fill in the content (title, date, tags, body).
+      3. Add a new <li class="writing-item"> entry in the list below.
+
+      Keep posts in writing/posts/. The index here is maintained manually
+      (no build system needed — just HTML).
+    -->
+    <ul class="writing-list">
+
+      <li class="writing-item">
+        <div class="writing-meta">
+          <span>May 2026</span>
+          <span class="writing-tag">AI</span>
+          <span class="writing-tag">Neuroscience</span>
+        </div>
+        <p class="writing-title">
+          <a href="posts/predictive-coding-and-rl.html">
+            Notes on Predictive Coding and Reinforcement Learning
+          </a>
+        </p>
+        <p class="writing-summary">
+          Some informal musings on the connections between predictive coding, the free energy
+          principle, and modern deep RL &mdash; and why I think they point toward the same
+          underlying computational principles.
+        </p>
+      </li>
+
+    </ul>
+
+    <hr style="margin-top:2.5rem;">
+    <p style="font-size:0.875rem; color:var(--text-muted); margin-top:1rem;">
+      To add a new post: copy
+      <code>writing/template.html</code> &rarr; <code>writing/posts/your-slug.html</code>,
+      fill in the content, and add a list item above.
+    </p>
+
+  </div>
+</main>
+
+<footer id="site-footer"></footer>
+
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

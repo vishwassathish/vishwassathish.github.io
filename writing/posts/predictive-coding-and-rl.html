@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notes on Predictive Coding and Reinforcement Learning &mdash; Vishwas Sathish</title>
+  <meta name="description" content="Informal notes on connections between predictive coding, the free energy principle, and modern deep RL.">
+
+  <meta property="og:title"       content="Notes on Predictive Coding and Reinforcement Learning — Vishwas Sathish">
+  <meta property="og:description" content="Why predictive coding and deep RL might be pointing at the same computational principles.">
+  <meta property="og:url"         content="https://vishwassathish.github.io/writing/posts/predictive-coding-and-rl.html">
+  <meta property="og:type"        content="article">
+
+  <link rel="icon"       type="image/png" href="../../assets/img/uw_logo.png">
+  <link rel="stylesheet"                  href="../../assets/css/styles.css">
+</head>
+<body>
+
+<header id="site-header"></header>
+
+<main class="page-content">
+  <div class="container">
+
+    <a href="../index.html" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" aria-hidden="true">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      Writing
+    </a>
+
+    <header class="post-header">
+      <h1 class="post-title">Notes on Predictive Coding and Reinforcement Learning</h1>
+      <div class="post-meta">
+        <span>May 2026</span>
+        <span class="writing-tag">AI</span>
+        <span class="writing-tag">Neuroscience</span>
+        <span class="writing-tag">RL</span>
+      </div>
+    </header>
+
+    <article class="post-body">
+
+      <p>
+        These are rough notes &mdash; the kind I write to organize my own thinking rather than
+        to make a formal argument. The question I keep returning to is: why do predictive coding
+        and modern deep RL feel like they&rsquo;re describing the same thing from different angles?
+      </p>
+
+      <h2>The Basic Idea</h2>
+      <p>
+        Predictive coding, in the neuroscience sense, proposes that the brain is constantly
+        generating predictions about incoming sensory signals, and that what actually gets
+        propagated up the hierarchy are <em>prediction errors</em> &mdash; the residuals between
+        what was expected and what arrived. Karl Friston&rsquo;s free energy principle extends
+        this: agents minimize surprise (or technically, a bound on surprise called free energy)
+        by either updating their internal model or acting on the world to make it conform
+        to predictions.
+      </p>
+      <p>
+        Reinforcement learning, at its core, is also about learning predictions. The Bellman
+        equation is a statement about self-consistency of value predictions across time.
+        Temporal difference learning is literally about propagating prediction errors backwards
+        through time. Actor-critic methods decompose the problem into a prediction component
+        (critic) and a decision component (actor) that looks a lot like the two-stream
+        architecture in predictive coding.
+      </p>
+
+      <h2>Where They Converge</h2>
+      <p>
+        Model-based RL makes the connection even sharper. If you have a learned world model
+        that predicts the next state given the current state and action, you can plan by
+        imagining rollouts &mdash; essentially doing inference in the model. This is structurally
+        similar to active inference, where an agent selects actions that minimize expected
+        free energy under its generative model of the world.
+      </p>
+      <blockquote>
+        The key insight: both frameworks are trying to learn a compressed, hierarchical
+        generative model of the world, and to use that model to guide action.
+      </blockquote>
+      <p>
+        The difference is largely in emphasis. Predictive coding emphasizes the
+        <em>architecture</em> of the hierarchy: top-down predictions, bottom-up errors,
+        lateral connections. Deep RL emphasizes the <em>objective</em>: maximize cumulative
+        reward, with the world model as a means to that end.
+      </p>
+
+      <h2>Hierarchical Structure</h2>
+      <p>
+        One place where the neuroscience perspective offers something genuinely useful is
+        in thinking about timescales. A real agent needs predictions at multiple timescales:
+        millisecond-level motor predictions, second-level task predictions, minute-level
+        goal predictions. Predictive coding models this as a hierarchy where higher levels
+        predict slower, more abstract dynamics.
+      </p>
+      <p>
+        Modern deep RL largely lacks this structured temporal hierarchy. We have options and
+        skill discovery, but these are hard to scale and train. I think there&rsquo;s real
+        value in borrowing the hierarchical architecture from predictive coding and asking:
+        what would it mean to have a world model that is explicitly structured at multiple
+        timescales, with the same error-propagation mechanism that makes cortical hierarchies
+        efficient?
+      </p>
+
+      <h2>Open Questions</h2>
+      <p>
+        A few things I don&rsquo;t know yet:
+      </p>
+      <ul>
+        <li>
+          How do you define &ldquo;surprise&rdquo; in a way that&rsquo;s tractable for complex,
+          partially observed environments?
+        </li>
+        <li>
+          Can compositional structure &mdash; the kind that lets the brain recombine known
+          concepts to understand new situations &mdash; emerge from predictive coding
+          architectures, or does it require explicit symbolic structure?
+        </li>
+        <li>
+          What is the right way to combine extrinsic reward (from the environment) with
+          intrinsic reward (prediction error, novelty) in a single unified objective?
+        </li>
+      </ul>
+
+      <h2>What I&rsquo;m Working On</h2>
+      <p>
+        My current work tries to close some of these gaps by building hierarchical world
+        models that explicitly use predictive coding-style architectures, trained with both
+        reconstruction objectives and task-relevant RL objectives. The hope is that the
+        inductive bias from the architecture helps with compositional generalization in
+        ways that flat world models don&rsquo;t achieve.
+      </p>
+      <p>
+        More to come as the ideas solidify.
+      </p>
+
+    </article>
+
+    <hr style="margin-top:3rem;">
+    <p style="font-size:0.85rem; color:var(--text-muted);">
+      <a href="../index.html">&larr; Back to Writing</a>
+    </p>
+
+  </div>
+</main>
+
+<footer id="site-footer"></footer>
+
+<script src="../../assets/js/main.js"></script>
+</body>
+</html>

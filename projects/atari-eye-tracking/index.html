@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Where do humans look when exploring for rewards?</title>
+  <!-- Vishwas Sathish — CSE 512 A3 -->
+  <!-- https://gitlab.cs.washington.edu/cse512/26sp/a3/atari-eye-tracking -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="header">
+  <h1>Where do humans look when exploring for rewards?</h1>
+  <p class="page-subtitle">
+    Eye-tracking data from <em>human</em> players across three Atari games —
+    Breakout, Montezuma's Revenge, and Space Invaders — reveals how attention
+    shifts in the seconds before a reward event.
+  </p>
+  <ul class="interpretation-bullets">
+    <li>Gaze <strong>anticipates</strong> reward locations: players fixate on targets
+        before points are scored, not after.</li>
+    <li>In <strong>Montezuma's Revenge</strong> (sparse rewards) gaze lingers broadly,
+        suggesting exploratory search rather than reactive tracking.</li>
+    <li>In <strong>Breakout</strong> and <strong>Space Invaders</strong> (dense rewards)
+        attention concentrates tightly on the active scoring zone 0–2 s before reward.</li>
+  </ul>
+  <div class="header-links">
+    <a href="writeup.html">Write-up →</a>
+  </div>
+  <div class="subtitle">
+    <label for="game-select">Trial:</label>
+    <select id="game-select"></select>
+    <span id="session-info"></span>
+  </div>
+</div>
+
+<div id="loading">Loading…</div>
+
+<div id="viz" style="display:none">
+
+  <div id="main-cols">
+    <!-- Frame viewer with gaze overlay -->
+    <div id="frame-col">
+      <div class="col-label">Game Frame + Gaze</div>
+      <canvas id="frame-canvas" width="320" height="420"></canvas>
+      <div id="action-overlay">∅</div>
+    </div>
+
+    <!-- Gaze heatmap -->
+    <div id="heatmap-col">
+      <div class="col-label">Gaze Heatmap</div>
+      <canvas id="heatmap-canvas" width="320" height="420"></canvas>
+      <div id="heatmap-controls">
+        <div class="ctrl-row">
+          <span class="ctrl-label">Window:</span>
+          <button class="k-btn active" data-k="10">Last 10 frames</button>
+          <button class="k-btn" data-k="30">Last 30 frames</button>
+        </div>
+        <div class="ctrl-row">
+          <span class="ctrl-label">Mode:</span>
+          <button class="mode-btn active" data-mode="window">Current window</button>
+          <button class="mode-btn" data-mode="prereward">Pre-reward</button>
+          <button class="mode-btn" data-mode="diff">Pre-reward vs baseline</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Playback controls -->
+  <div id="playback">
+    <div id="playback-row1">
+      <button class="pb-btn" id="prev-reward-btn" title="Jump to previous reward">⏮</button>
+      <button class="pb-btn" id="prev-frame-btn" title="Previous frame">‹</button>
+      <button class="pb-btn" id="play-btn">▶</button>
+      <button class="pb-btn" id="next-frame-btn" title="Next frame">›</button>
+      <button class="pb-btn" id="next-reward-btn" title="Jump to next reward">⏭</button>
+      <span class="pb-sep"></span>
+      <span id="time-display">0:00.0 / 0:00.0</span>
+      <span id="speed-label">Speed:</span>
+      <button class="speed-btn" data-speed="0.5">0.5×</button>
+      <button class="speed-btn active" data-speed="1">1×</button>
+      <button class="speed-btn" data-speed="2">2×</button>
+    </div>
+    <input type="range" id="seek-slider" min="0" max="1000" value="0" step="1">
+  </div>
+
+  <!-- Timeline -->
+  <div id="timeline-wrap">
+    <div class="col-label">Timeline — reward density per 0.5s bin (orange = more rewards)</div>
+    <canvas id="timeline-canvas" height="40"></canvas>
+  </div>
+
+  <!-- Info panel -->
+  <div id="info-panel">
+    <div class="info-item"><span class="info-key">Frame:</span><span class="info-val" id="ip-frame">—</span></div>
+    <div class="info-item" id="ip-score-row"><span class="info-key">Score:</span><span class="info-val" id="ip-score">—</span></div>
+    <div class="info-item"><span class="info-key">Reward:</span><span class="info-val" id="ip-reward">—</span></div>
+    <div class="info-item"><span class="info-key">Action:</span><span class="info-val" id="ip-action">—</span></div>
+    <div class="info-item"><span class="info-key">Gaze samples:</span><span class="info-val" id="ip-gaze">—</span></div>
+    <div class="info-item"><span class="info-key">Time to next reward:</span><span class="info-val" id="ip-ttnr">—</span></div>
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

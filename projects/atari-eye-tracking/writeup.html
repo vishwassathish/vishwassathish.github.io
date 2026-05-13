@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Write-up for Atari Eye-Tracking Visualization</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { max-width: 860px; margin: 0 auto; padding: 24px 20px 60px; }
+    h1 { font-size: 22px; margin-bottom: 6px; }
+    h2 { font-size: 16px; color: #88aadd; margin: 28px 0 8px; border-bottom: 1px solid #222; padding-bottom: 4px; }
+    p, li { font-size: 14px; color: #99aac0; line-height: 1.65; }
+    ul { margin: 6px 0 10px 20px; padding: 0; }
+    li { margin-bottom: 4px; }
+    a { color: #5599dd; text-decoration: none; border-bottom: 1px solid #5599dd44; }
+    a:hover { color: #88ccff; }
+    code { font-family: monospace; font-size: 12px; background: #101020; padding: 2px 5px;
+           border-radius: 3px; color: #b0c0e0; }
+    .nav-top { margin-bottom: 20px; font-size: 13px; }
+    .meta { font-size: 12px; color: #556; margin-bottom: 28px; }
+    strong { color: #c8d8f0; }
+  </style>
+</head>
+<body>
+
+<div class="nav-top"><a href="index.html">← Back to visualization</a></div>
+
+<h1>Where do humans look when exploring for rewards?</h1>
+<p class="meta">CSE 512 Data Visualization · Assignment 3 · University of Washington · Spring 2026</p>
+
+<!-- ───────────────────────────── A. Analysis question ───────────────────────────── -->
+<h2>A. Analysis question</h2>
+<p>
+  How does a human player's visual attention relate to upcoming reward events in Atari games?
+  Specifically, do players look at reward-relevant locations <em>before</em> scoring,
+  suggesting predictive or goal-directed gaze, or does gaze shift only reactively?
+  I further ask whether this pattern differs by game type: a fast, structured game with
+  frequent rewards (Breakout, Space Invaders) vs. a sparse, explorative game where rewards
+  are rare and spatially unpredictable (Montezuma's Revenge).
+</p>
+
+<!-- ───────────────────────────── B. Dataset ───────────────────────────── -->
+<h2>B. Dataset</h2>
+<p>
+  I use the <strong>Atari-HEAD</strong> dataset
+  (<a href="https://zenodo.org/record/3451402" target="_blank" rel="noopener">Zenodo</a> ·
+  <a href="https://arxiv.org/abs/1903.06754" target="_blank" rel="noopener">arXiv 1903.06754</a>),
+  a publicly released collection of human eye-tracking recordings during Atari game play.
+  Each trial file is a CSV with one row per game frame containing:
+  <code>frame_id, episode_id, score, duration(ms), unclipped_reward, action, gaze_positions</code>.
+  Actions follow the standard ALE (Arcade Learning Environment) integer encoding.
+  Gaze positions are raw (x, y) coordinate sequences sampled at ~1000 Hz and co-registered
+  to the 160×210 game frame coordinate space.
+</p>
+<p>
+  I selected three games to span a range of reward structures:
+</p>
+<ul>
+  <li><strong>Breakout</strong> — fast-paced; rewards occur every time the ball breaks a brick
+      (multiple times per second at peak).</li>
+  <li><strong>Space Invaders</strong> — medium reward density; rewards occur when a laser
+      destroys an alien.</li>
+  <li><strong>Montezuma's Revenge</strong> — reward-sparse; players must navigate through rooms
+      collecting items; long stretches between any reward.</li>
+</ul>
+<p>
+  For each game I included both regular sessions and high-score (expert) sessions,
+  giving six trial sets in total.
+</p>
+
+<!-- ───────────────────────────── C. Preprocessing ───────────────────────────── -->
+<h2>C. Preprocessing</h2>
+<p>
+  Raw trial files were processed by a Python script (<code>preprocess_breakout.py</code>)
+  that performed the following steps (run locally; outputs committed to the repo):
+</p>
+<ul>
+  <li>Parse each CSV row; skip malformed lines.</li>
+  <li>Aggregate all gaze (x, y) samples within a frame row into a list of points.</li>
+  <li>Compute a mean gaze position per frame for the overlay dot.</li>
+  <li>Select a contiguous segment of ≤ 1200 frames centred around high-reward-density
+      periods to keep the JSON payload tractable for browser loading.</li>
+  <li>Output one JSON per game/session:
+      <code>{ "frames": [...], "rewards": [...] }</code> with per-frame gaze arrays and
+      reward timing for use by the vis.</li>
+  <li>Extract the corresponding PNG frames from the dataset's frame archive and copy them
+      into <code>public/frames/&lt;game&gt;/</code>.</li>
+</ul>
+<p>
+  The resulting JSON files (≈ 0.8–1.1 MB each) are loaded lazily by the JavaScript
+  front-end; frame images are fetched on demand and cached to avoid re-request stalls
+  during playback.
+</p>
+<p>
+  I chose to serve all assets statically so the visualization works without a server-side
+  component — the entire site is plain HTML/CSS/JS deployable via GitLab Pages.
+</p>
+
+<!-- ───────────────────────────── D. Design choices ───────────────────────────── -->
+<h2>D. Design choices</h2>
+<p>
+  The core design juxtaposes the raw game frame (with live gaze overlay) against a
+  computed gaze heatmap, letting the viewer see both the moment-to-moment gaze trail and
+  the integrated attention distribution across a time window.
+</p>
+<ul>
+  <li>
+    <strong>Gaze overlay (left canvas):</strong> A fading trail of the last 8 raw gaze
+    samples (semi-transparent cyan dots of decreasing size) plus a mean-position dot
+    and a white ring encodes both precision and spread of fixation within a single frame.
+    The trail shows <em>direction of motion</em> that a static dot cannot convey.
+  </li>
+  <li>
+    <strong>Heatmap (right canvas):</strong> Each gaze sample is smeared with an isotropic
+    Gaussian (σ ≈ 3.5% of frame diagonal) and accumulated. Three modes expose different
+    aggregation windows:
+    <ul>
+      <li><em>Window</em> — rolling last N frames (10 or 30); good for local context.</li>
+      <li><em>Pre-reward</em> — all gaze in a 2 s window before each reward event
+          in the displayed segment; reveals the predictive pattern.</li>
+      <li><em>Pre-reward vs baseline</em> — pre-reward heatmap minus a uniform-window
+          baseline, highlighting locations that are <em>over-attended</em> before rewards.</li>
+    </ul>
+  </li>
+  <li>
+    <strong>Timeline:</strong> A colour-coded bar at the bottom shows reward density
+    per 0.5 s bin (orange = high), giving an at-a-glance guide to interesting segments.
+  </li>
+  <li>
+    <strong>Playback controls:</strong> Frame-by-frame stepping and reward-jump buttons
+    let users inspect individual frames or skip directly to reward events, supporting
+    both exploratory browsing and focused analysis.
+  </li>
+  <li>
+    <strong>Dark theme:</strong> Matches the Atari game aesthetic and reduces
+    interference with the colour-coded heatmap.
+  </li>
+</ul>
+
+<!-- ───────────────────────────── E. Findings ───────────────────────────── -->
+<h2>E. Findings</h2>
+<ul>
+  <li>
+    <strong>Predictive gaze in Breakout:</strong> In the pre-reward heatmap, attention
+    concentrates in the brick-field 1–2 s before a break, well before the ball arrives.
+    Players appear to track the ball trajectory and pre-position their gaze on the
+    anticipated contact region. The diff heatmap shows this as a bright cluster in the
+    upper two-thirds of the screen, clearly distinct from times without imminent rewards.
+  </li>
+  <li>
+    <strong>Threat tracking in Space Invaders:</strong> Pre-reward gaze clusters around
+    the nearest low-row alien rather than the player cannon, suggesting players fixate
+    the target rather than their weapon. The effect is most pronounced for expert-session
+    players (high-score trials).
+  </li>
+  <li>
+    <strong>Exploratory gaze in Montezuma's Revenge:</strong> The pre-reward heatmap
+    shows broad, diffuse attention spread across much of the screen with no single
+    dominant cluster. This is consistent with navigational search: players must identify
+    which path leads to the item, and fixation is distributed across multiple candidate
+    locations. The transition from broad to focused gaze 0–0.5 s immediately before
+    reward is visible as a small bright spot appearing in the diff mode.
+  </li>
+  <li>
+    <strong>Expert vs novice contrast:</strong> High-score sessions generally show tighter,
+    more economical gaze patterns (smaller spread in the heatmap) than regular sessions,
+    suggesting attentional efficiency as a correlate of skill.
+  </li>
+</ul>
+
+<!-- ───────────────────────────── F. Limitations ───────────────────────────── -->
+<!--
+<h2>F. Limitations</h2>
+<ul>
+  <li>
+    <strong>Segment selection:</strong> I display at most ~1200 frames per trial.
+    The segment is chosen to maximise reward density, which may not be representative
+    of the full session, particularly for Montezuma's Revenge where high-reward periods
+    are rare.
+  </li>
+  <li>
+    <strong>No object labels:</strong> The heatmap is computed purely from gaze
+    coordinates. Without object bounding boxes (ball, paddle, enemies) I cannot
+    quantify "ball fixation rate" — the spatial patterns are descriptive, not causal.
+  </li>
+  <li>
+    <strong>No fixation model:</strong> Raw gaze samples include saccades, blinks, and
+    noise. I visualise unfiltered samples; a proper fixation/saccade classifier would
+    give cleaner heatmaps but adds complexity outside the scope of this assignment.
+  </li>
+  <li>
+    <strong>Single observer:</strong> Each trial file is from one player. Individual
+    differences in strategy are not averaged out. The patterns described under Findings
+    are consistent across the examined trials but are not statistically confirmed.
+  </li>
+</ul>
+-->
+
+<!-- ───────────────────────────── G. Team contributions ─────────────────────────────
+<h2>G. Team contributions</h2>
+<ul>
+  <li><strong>Vishwas Sathish</strong> — data preprocessing pipeline, JavaScript
+      visualization (gaze overlay, heatmap renderer, playback, timeline), CSS, GitLab CI
+      deployment, write-up.</li>
+</ul> -->
+
+</body>
+</html>

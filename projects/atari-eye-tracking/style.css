@@ -1,0 +1,215 @@
+/* Where do humans look before reward events? — CSE 512 A3 */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #0d0d1a;
+  color: #c8c8d8;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 13px;
+  padding: 16px 20px 32px;
+  max-width: 940px;
+  margin: 0 auto;
+}
+
+/* ---- Header ---- */
+#header { margin-bottom: 14px; }
+#header h1 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #9bbcff;
+  letter-spacing: 0.01em;
+}
+#header .subtitle {
+  margin-top: 7px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+#header .subtitle label { color: #778; font-size: 12px; }
+#game-select {
+  background: #1a1a2e;
+  color: #c8c8d8;
+  border: 1px solid #334;
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+#session-info { font-size: 11px; color: #667; }
+
+/* ---- Loading ---- */
+#loading { color: #667; font-size: 13px; margin: 40px 0; }
+
+/* ---- Main columns ---- */
+#main-cols {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.col-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #445;
+  margin-bottom: 5px;
+}
+
+/* Frame column */
+#frame-col { position: relative; flex-shrink: 0; }
+#frame-canvas {
+  display: block;
+  image-rendering: pixelated;
+  border: 1px solid #223;
+  background: #000;
+}
+#frame-canvas.reward-frame { border-color: #33dd77; border-width: 3px; }
+
+#action-overlay {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: rgba(0,0,0,0.72);
+  color: #ffe066;
+  font-size: 20px;
+  line-height: 1;
+  padding: 3px 7px;
+  border-radius: 4px;
+  pointer-events: none;
+  font-family: monospace;
+}
+
+/* Heatmap column */
+#heatmap-col { flex-shrink: 0; }
+#heatmap-canvas {
+  display: block;
+  image-rendering: pixelated;
+  border: 1px solid #223;
+  background: #000;
+}
+#heatmap-controls { margin-top: 7px; display: flex; flex-direction: column; gap: 5px; }
+.ctrl-row { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+.ctrl-label { font-size: 10px; color: #445; min-width: 52px; }
+
+.k-btn, .mode-btn {
+  background: #1a1a2e;
+  color: #889;
+  border: 1px solid #334;
+  border-radius: 4px;
+  padding: 3px 9px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+  white-space: nowrap;
+}
+.k-btn.active, .mode-btn.active {
+  background: #2a3a6a;
+  color: #9bbcff;
+  border-color: #4466aa;
+}
+
+/* ---- Playback ---- */
+#playback { margin-bottom: 10px; }
+#playback-row1 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+.pb-btn {
+  background: #1a1a2e;
+  color: #9bbcff;
+  border: 1px solid #334;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  min-width: 32px;
+  text-align: center;
+}
+.pb-btn:hover { background: #252540; }
+#play-btn { font-size: 16px; padding: 3px 12px; }
+.pb-sep { width: 8px; }
+#time-display {
+  font-size: 12px;
+  color: #778;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  margin: 0 4px;
+}
+.speed-btn {
+  background: #1a1a2e;
+  color: #667;
+  border: 1px solid #223;
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 11px;
+  cursor: pointer;
+}
+.speed-btn.active { background: #232344; color: #9bbcff; border-color: #4466aa; }
+#speed-label { font-size: 11px; color: #445; margin-left: 2px; }
+
+#seek-slider {
+  width: 100%;
+  accent-color: #5577cc;
+  cursor: pointer;
+  height: 18px;
+}
+
+/* ---- Timeline ---- */
+#timeline-wrap { margin-bottom: 12px; }
+#timeline-canvas {
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+/* ---- Info panel ---- */
+#info-panel {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px 16px;
+  background: #101020;
+  border: 1px solid #1e1e30;
+  border-radius: 5px;
+  padding: 10px 14px;
+  font-size: 12px;
+}
+.info-item { display: flex; gap: 5px; align-items: baseline; }
+.info-key { color: #445; white-space: nowrap; }
+.info-val { color: #b0c0e0; font-variant-numeric: tabular-nums; }
+.info-val.reward-pos { color: #55dd88; font-weight: 600; }
+.info-val.reward-neg { color: #dd6655; }
+
+/* ---- Landing page description / bullets ---- */
+.page-subtitle {
+  margin: 4px 0 8px;
+  font-size: 14px;
+  color: #8899bb;
+  max-width: 820px;
+}
+.interpretation-bullets {
+  margin: 0 0 8px 18px;
+  padding: 0;
+  font-size: 13px;
+  color: #99aac0;
+  max-width: 820px;
+}
+.interpretation-bullets li { margin-bottom: 4px; }
+.interpretation-bullets strong { color: #c8d8f0; }
+.header-links {
+  margin-bottom: 8px;
+}
+.header-links a {
+  font-size: 13px;
+  color: #5599dd;
+  text-decoration: none;
+  border-bottom: 1px solid #5599dd44;
+}
+.header-links a:hover { color: #88ccff; border-color: #88ccff; }

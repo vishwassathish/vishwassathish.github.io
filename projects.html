@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects &mdash; Vishwas Sathish</title>
+  <meta name="description" content="Projects, experiments, and visualizations by Vishwas Sathish.">
+
+  <meta property="og:title"       content="Projects — Vishwas Sathish">
+  <meta property="og:url"         content="https://vishwassathish.github.io/projects.html">
+  <meta property="og:type"        content="website">
+
+  <link rel="icon"       type="image/png" href="assets/img/uw_logo.png">
+  <link rel="stylesheet"                  href="assets/css/styles.css">
+</head>
+<body>
+
+<header id="site-header"></header>
+
+<main class="page-content">
+  <div class="container">
+
+    <div class="page-header">
+      <h1>Weekend Experiments</h1>
+      <p class="page-intro">
+        Things that
+        don&rsquo;t always fit neatly into a paper, but interesting enough to share.
+      </p>
+    </div>
+
+    <!-- ══════════════════ Featured: Atari Eye Tracking ══════════════════ -->
+    <section class="page-section" aria-labelledby="atari-heading">
+      <div class="section-header">
+        <h2 class="section-title" id="atari-heading">Featured</h2>
+      </div>
+
+      <div style="background:var(--bg-alt); border:1px solid var(--border); border-radius:var(--radius); padding:1.75rem; margin-bottom:2rem;">
+        <span class="project-type" style="display:block; margin-bottom:0.5rem;">Visualization &nbsp;·&nbsp; Interactive</span>
+        <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:0.6rem; line-height:1.35;">
+          Where do humans look when exploring for rewards?
+        </h3>
+        <p style="font-size:0.93rem; color:var(--text-muted); max-width:680px; margin-bottom:1rem; line-height:1.65;">
+          An interactive visualization of human eye-tracking behavior during Atari gameplay,
+          using the <a href="https://zenodo.org/record/3451402" target="_blank" rel="noopener">Atari-HEAD dataset</a>.
+          The project examines how visual attention relates to upcoming reward events across games
+          with different reward structures &mdash; fast-paced (Breakout, Space Invaders) vs. sparse
+          explorative (Montezuma&rsquo;s Revenge). Built for CSE 512 Data Visualization, UW, Spring 2026.
+        </p>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <a href="https://cse512.pages.cs.washington.edu/26sp/a3/atari-eye-tracking/"
+             class="btn-primary" target="_blank" rel="noopener" style="font-size:0.85rem; padding:0.4rem 0.9rem;">
+            Live Demo
+          </a>
+          <a href="https://cse512.pages.cs.washington.edu/26sp/a3/atari-eye-tracking/writeup.html"
+             class="btn-secondary" target="_blank" rel="noopener" style="font-size:0.85rem; padding:0.38rem 0.9rem;">
+            Write-up
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════ All projects ══════════════════ -->
+    <section class="page-section" aria-labelledby="all-projects-heading">
+      <div class="section-header">
+        <h2 class="section-title" id="all-projects-heading">All Projects</h2>
+      </div>
+      <div id="projects-container">
+        <p class="loading-placeholder">Loading&hellip;</p>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer id="site-footer"></footer>
+
+<script src="assets/js/main.js"></script>
+<script src="assets/js/render-projects.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    fetchAndRenderProjects('projects-container', 'all');
+  });
+</script>
+</body>
+</html>

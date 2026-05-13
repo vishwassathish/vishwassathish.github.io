@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV &mdash; Vishwas Sathish</title>
+  <meta name="description" content="CV and academic background of Vishwas Sathish — PhD student at the University of Washington.">
+
+  <meta property="og:title"       content="CV — Vishwas Sathish">
+  <meta property="og:url"         content="https://vishwassathish.github.io/cv.html">
+  <meta property="og:type"        content="website">
+
+  <link rel="icon"       type="image/png" href="assets/img/uw_logo.png">
+  <link rel="stylesheet"                  href="assets/css/styles.css">
+</head>
+<body>
+
+<header id="site-header"></header>
+
+<main class="page-content">
+  <div class="container">
+
+    <div class="page-header">
+      <h1>Curriculum Vitae</h1>
+    </div>
+
+    <!-- ══════════════════ Download / Open ══════════════════ -->
+    <div class="cv-actions">
+      <a href="assets/cv/Vishwas_Sathish_CV.pdf" class="btn-primary"
+         target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Download CV (PDF)
+      </a>
+      <a href="assets/cv/Vishwas_Sathish_CV.pdf" class="btn-secondary"
+         target="_blank" rel="noopener">Open in new tab</a>
+    </div>
+
+    <!-- ══════════════════ Embedded PDF ══════════════════ -->
+    <div class="cv-embed-wrapper">
+      <object
+        data="assets/cv/Vishwas_Sathish_CV.pdf"
+        type="application/pdf"
+        class="cv-embed"
+        aria-label="Vishwas Sathish CV"
+      >
+        <!-- Fallback for browsers that don't support embedded PDFs -->
+        <div class="cv-fallback" style="display:block;">
+          <p>Your browser does not support embedded PDFs.</p>
+          <a href="assets/cv/Vishwas_Sathish_CV.pdf" class="btn-primary"
+             target="_blank" rel="noopener">
+            Download CV (PDF)
+          </a>
+        </div>
+      </object>
+    </div>
+
+    <!-- ══════════════════ Experience highlights ══════════════════ -->
+    <section aria-labelledby="exp-heading">
+      <div class="section-header">
+        <h2 class="section-title" id="exp-heading">Experience Highlights</h2>
+      </div>
+      <p class="page-intro" style="margin-bottom:1.5rem;">
+        Selected positions from the past ~7 years. See the full CV above for a complete record.
+      </p>
+      <ul class="experience-list" id="experience-container">
+        <!-- Populated by inline JS below -->
+      </ul>
+    </section>
+
+    <!-- ══════════════════ Education ══════════════════ -->
+    <section aria-labelledby="edu-heading" style="margin-top:2.5rem;">
+      <div class="section-header">
+        <h2 class="section-title" id="edu-heading">Education</h2>
+      </div>
+      <ul class="experience-list">
+        <li class="experience-item">
+          <span class="exp-years">2022 &ndash; present</span>
+          <div>
+            <p class="exp-role">PhD in Computer Science &amp; Engineering</p>
+            <p class="exp-org">University of Washington &nbsp;&mdash;&nbsp; Advisor: Rajesh P. N. Rao</p>
+          </div>
+        </li>
+        <li class="experience-item">
+          <span class="exp-years">2015 &ndash; 2019</span>
+          <div>
+            <p class="exp-role">B.Tech. in Computer Science &amp; Engineering</p>
+            <p class="exp-org">IIIT Hyderabad</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+  </div>
+</main>
+
+<footer id="site-footer"></footer>
+
+<script src="assets/js/main.js"></script>
+<script>
+  /* Inline experience rendering to avoid extra fetch on CV page */
+  document.addEventListener('DOMContentLoaded', async () => {
+    const container = document.getElementById('experience-container');
+    if (!container) return;
+    try {
+      const res = await fetch(getRelativeRoot() + 'assets/data/experience.json');
+      if (!res.ok) throw new Error();
+      const items = await res.json();
+      container.innerHTML = items.map(item => `
+        <li class="experience-item">
+          <span class="exp-years">${item.years}</span>
+          <div>
+            <p class="exp-role">${item.role}</p>
+            <p class="exp-org">${item.org}</p>
+          </div>
+        </li>
+      `.trim()).join('');
+    } catch {
+      container.innerHTML = '<li class="experience-item"><span class="exp-years">&mdash;</span><div><p class="exp-org">Could not load experience data.</p></div></li>';
+    }
+  });
+</script>
+</body>
+</html>

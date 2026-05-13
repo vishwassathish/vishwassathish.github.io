@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research &mdash; Vishwas Sathish</title>
+  <meta name="description" content="Research and publications by Vishwas Sathish — reinforcement learning, world models, active predictive coding, vision-language models.">
+
+  <meta property="og:title"       content="Research — Vishwas Sathish">
+  <meta property="og:description" content="Publications in reinforcement learning, predictive coding, and brain-inspired AI.">
+  <meta property="og:url"         content="https://vishwassathish.github.io/research.html">
+  <meta property="og:type"        content="website">
+
+  <link rel="icon"       type="image/png" href="assets/img/uw_logo.png">
+  <link rel="stylesheet"                  href="assets/css/styles.css">
+</head>
+<body>
+
+<header id="site-header"></header>
+
+<main class="page-content">
+  <div class="container">
+
+    <div class="page-header">
+      <h1>Research</h1>
+      <p class="page-intro">
+        My work spans reinforcement learning, multimodal reasoning, world models, vision-language
+        models, hierarchical planning, and brain-inspired approaches to perception and cognition.
+        I am interested both in principled mathematical frameworks (e.g., predictive coding, free
+        energy) and in their practical instantiation in modern deep learning systems.
+        <br><br>
+        * indicates equal contribution. My name is <strong>bold</strong> in author lists.
+      </p>
+    </div>
+
+    <!-- ══════════════════ Filter tabs ══════════════════ -->
+    <div class="pub-tabs" id="pub-tabs" role="group" aria-label="Filter publications">
+      <button class="pub-tab active" data-filter="all">All</button>
+      <button class="pub-tab" data-filter="selected">Selected</button>
+      <button class="pub-tab" data-filter="journal">Journal</button>
+      <button class="pub-tab" data-filter="conference">Conference</button>
+      <button class="pub-tab" data-filter="workshop">Workshop</button>
+      <button class="pub-tab" data-filter="preprint">Preprints &amp; Reports</button>
+      <button class="pub-tab" data-filter="patent">Patents</button>
+    </div>
+
+    <!-- ══════════════════ Publications list ══════════════════ -->
+    <div id="publications-container">
+      <p class="loading-placeholder">Loading&hellip;</p>
+    </div>
+
+    <!-- ══════════════════ External profiles ══════════════════ -->
+    <hr style="margin-top:3rem;">
+    <p style="font-size:0.9rem; color:var(--text-muted);">
+      For a full list of publications, see my
+      <a href="https://scholar.google.com/citations?user=Ad01nlUAAAAJ&hl=en"
+         target="_blank" rel="noopener">Google Scholar profile</a>.
+    </p>
+
+  </div>
+</main>
+
+<footer id="site-footer"></footer>
+
+<script src="assets/js/main.js"></script>
+<script src="assets/js/render-publications.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    fetchAndRenderPublications('publications-container', 'all');
+    initPubTabs('pub-tabs', 'publications-container');
+  });
+</script>
+</body>
+</html>

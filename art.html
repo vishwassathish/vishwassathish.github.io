@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Art &mdash; Vishwas Sathish</title>
+  <meta name="description" content="Art, visual experiments, and creative work by Vishwas Sathish.">
+
+  <meta property="og:title"       content="Art — Vishwas Sathish">
+  <meta property="og:url"         content="https://vishwassathish.github.io/art.html">
+  <meta property="og:type"        content="website">
+
+  <link rel="icon"       type="image/png" href="assets/img/uw_logo.png">
+  <link rel="stylesheet"                  href="assets/css/styles.css">
+
+  <style>
+    /* Extra style for the placeholder art section */
+    .art-placeholder {
+      background: var(--bg-alt);
+      border: 1.5px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 3rem 2rem;
+      text-align: center;
+      color: var(--text-muted);
+    }
+    .art-placeholder p { font-size: 0.9rem; margin-bottom: 0.5rem; }
+    .art-placeholder .art-placeholder-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+
+<header id="site-header"></header>
+
+<main class="page-content">
+  <div class="container">
+
+    <div class="page-header">
+      <h1>Art &amp; Personal</h1>
+      <p class="page-intro">
+        A low-key space for visual experiments, creative coding, photography,
+        and things that don&rsquo;t fit anywhere else. Kept deliberately separate
+        from the academic content.
+      </p>
+    </div>
+
+    <!-- ══════════════════ Placeholder / future content ══════════════════ -->
+    <section class="page-section" aria-labelledby="art-heading">
+      <div class="section-header">
+        <h2 class="section-title" id="art-heading">Gallery</h2>
+      </div>
+
+      <div class="art-placeholder">
+        <div class="art-placeholder-icon" aria-hidden="true">🎨</div>
+        <p><strong>Coming soon.</strong></p>
+        <p>
+          I&rsquo;ll be adding visual work here over time &mdash; generative art,
+          photography, creative coding experiments, and anything else that feels worth sharing.
+        </p>
+        <p style="margin-top:1rem; font-size:0.82rem;">
+          To add artwork: place images in <code>assets/img/art/</code> and add
+          <code>&lt;div class="art-item"&gt;</code> entries below this placeholder.
+        </p>
+      </div>
+
+      <!--
+        HOW TO ADD ART:
+        Replace the placeholder above with a grid and items like this:
+
+        <div class="art-grid">
+          <div class="art-item">
+            <img src="assets/img/art/your-artwork.jpg" alt="Description of artwork">
+            <div class="art-caption">Title or note about the piece, 2026</div>
+          </div>
+          ... more items ...
+        </div>
+      -->
+    </section>
+
+    <!-- ══════════════════ Creative coding ══════════════════ -->
+    <section class="page-section" aria-labelledby="creative-heading">
+      <div class="section-header">
+        <h2 class="section-title" id="creative-heading">Creative Coding &amp; Experiments</h2>
+      </div>
+      <p style="font-size:0.9rem; color:var(--text-muted);">
+        Some of my data visualization and creative coding work lives on the
+        <a href="projects.html">Projects page</a>, including the
+        <a href="https://cse512.pages.cs.washington.edu/26sp/a3/atari-eye-tracking/"
+           target="_blank" rel="noopener">Atari eye-tracking visualization</a>.
+      </p>
+    </section>
+
+  </div>
+</main>
+
+<footer id="site-footer"></footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
