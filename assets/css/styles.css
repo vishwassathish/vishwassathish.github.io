@@ -238,6 +238,8 @@ hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
   text-decoration: none;
 }
 
+.email-scramble { cursor: pointer; user-select: none; }
+
 .profile-photo-wrap { display: flex; justify-content: center; }
 .profile-photo {
   width: 185px;
