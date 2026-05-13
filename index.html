@@ -51,15 +51,6 @@
           </div>
 
           <nav class="profile-links" aria-label="Contact and profiles">
-            <span class="profile-link email-scramble" id="email-reveal-btn" role="button" tabindex="0" aria-label="Reveal email addresses">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                   stroke-width="2" aria-hidden="true">
-                <rect x="2" y="4" width="20" height="16" rx="2"/>
-                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-              </svg>
-              <span id="email-reveal-label">Unscramble email</span>
-            </span>
-            <span id="email-revealed" style="display:none;font-size:0.82rem;line-height:1.5;"></span>
             <a href="assets/cv/Vishwas_Sathish_CV.pdf" class="profile-link" target="_blank" rel="noopener">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                    stroke-width="2" aria-hidden="true">
@@ -166,30 +157,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     fetchAndRenderNews('news-container', 4);
     fetchAndRenderPublications('selected-pubs-container', 'selected');
-    fetchAndRenderProjects('featured-projects-container', 'featured');
-
-    // Scrambled email reveal
-    // Addresses are split/reversed so they don't appear in plain text in the source.
-    const parts1 = ['ude.notgnihsaw.sc', '@', 'hsitahs v'.split('').reverse().join('')].reverse();
-    const parts2 = ['moc.liamg', '@', 'hsitashsawhs iv'.split('').reverse().join('')].reverse();
-    const addr1 = parts1.join('');
-    const addr2 = parts2.join('');
-
-    const btn = document.getElementById('email-reveal-btn');
-    const revealed = document.getElementById('email-revealed');
-
-    function reveal() {
-      btn.style.display = 'none';
-      revealed.style.display = 'inline-flex';
-      revealed.style.flexDirection = 'column';
-      revealed.style.gap = '0.25rem';
-      revealed.innerHTML =
-        `<a href="mailto:${addr1}" style="color:var(--primary)">${addr1}</a>` +
-        `<a href="mailto:${addr2}" style="color:var(--primary)">${addr2}</a>`;
-    }
-
-    btn.addEventListener('click', reveal);
-    btn.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); reveal(); } });
+    fetchAndRenderProjects('featured-projects-container', 'all');
   });
 </script>
 </body>

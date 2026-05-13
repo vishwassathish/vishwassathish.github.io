@@ -25,17 +25,11 @@ function renderPubCard(pub, root) {
     ? `<img src="${root}${pub.thumbnail}" alt="" class="pub-thumb" loading="lazy">`
     : `<div class="pub-thumb-placeholder" aria-hidden="true">📄</div>`;
 
-  // Badge
-  const badgeKey = (pub.badge || '').toLowerCase().replace(/\s+/g, '-');
-  const badgeHtml = pub.badge
-    ? `<span class="pub-badge badge-${badgeKey}">${pub.badge}</span>`
-    : '';
-
   // Title with optional link
   const firstLink = pub.links && (pub.links.paper || pub.links.arxiv);
   const titleHtml = firstLink
-    ? `<a href="${firstLink}" target="_blank" rel="noopener">${pub.title}</a>${badgeHtml}`
-    : `${pub.title}${badgeHtml}`;
+    ? `<a href="${firstLink}" target="_blank" rel="noopener">${pub.title}</a>`
+    : pub.title;
 
   // Links row
   const linksHtml = pub.links

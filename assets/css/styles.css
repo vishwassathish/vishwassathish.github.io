@@ -167,6 +167,45 @@ hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
   .nav-links li:last-child a { border-bottom: none; }
 }
 
+/* --- Nav email widget --- */
+.nav-email-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: 1;
+  justify-content: center;
+  min-width: 0;
+}
+.nav-email-text {
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.nav-email-link {
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--primary);
+  text-decoration: none;
+}
+.nav-email-link:hover { text-decoration: underline; }
+.nav-unscramble-btn {
+  font-size: 0.7rem;
+  padding: 0.16rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: var(--font);
+  white-space: nowrap;
+  transition: border-color var(--tr), color var(--tr);
+}
+.nav-unscramble-btn:hover { border-color: var(--primary); color: var(--primary); }
+.nav-unscramble-btn:disabled { opacity: 0.4; cursor: default; }
+@media (max-width: 820px) { .nav-email-wrap { display: none; } }
+
 /* --- Profile --- */
 .profile-section { padding: 2.75rem 0 2.5rem; }
 

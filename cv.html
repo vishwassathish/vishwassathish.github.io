@@ -59,41 +59,6 @@
       </object>
     </div>
 
-    <!-- ══════════════════ Experience highlights ══════════════════ -->
-    <section aria-labelledby="exp-heading">
-      <div class="section-header">
-        <h2 class="section-title" id="exp-heading">Experience Highlights</h2>
-      </div>
-      <p class="page-intro" style="margin-bottom:1.5rem;">
-        Selected positions from the past ~5 years. See the full CV above for a complete record.
-      </p>
-      <ul class="experience-list" id="experience-container">
-        <!-- Populated by inline JS below -->
-      </ul>
-    </section>
-
-    <!-- ══════════════════ Education ══════════════════ -->
-    <section aria-labelledby="edu-heading" style="margin-top:2.5rem;">
-      <div class="section-header">
-        <h2 class="section-title" id="edu-heading">Education</h2>
-      </div>
-      <ul class="experience-list">
-        <li class="experience-item">
-          <span class="exp-years">2022 &ndash; present</span>
-          <div>
-            <p class="exp-role">PhD in Computer Science &amp; Engineering</p>
-            <p class="exp-org">University of Washington &nbsp;&mdash;&nbsp; Advisor: Rajesh P. N. Rao</p>
-          </div>
-        </li>
-        <li class="experience-item">
-          <span class="exp-years">2015 &ndash; 2019</span>
-          <div>
-            <p class="exp-role">B.Tech. in Computer Science &amp; Engineering</p>
-            <p class="exp-org">PES University, Bangalore</p>
-          </div>
-        </li>
-      </ul>
-    </section>
 
   </div>
 </main>
@@ -101,28 +66,5 @@
 <footer id="site-footer"></footer>
 
 <script src="assets/js/main.js"></script>
-<script>
-  /* Inline experience rendering to avoid extra fetch on CV page */
-  document.addEventListener('DOMContentLoaded', async () => {
-    const container = document.getElementById('experience-container');
-    if (!container) return;
-    try {
-      const res = await fetch(getRelativeRoot() + 'assets/data/experience.json');
-      if (!res.ok) throw new Error();
-      const items = await res.json();
-      container.innerHTML = items.map(item => `
-        <li class="experience-item">
-          <span class="exp-years">${item.years}</span>
-          <div>
-            <p class="exp-role">${item.role}</p>
-            <p class="exp-org">${item.org}</p>
-          </div>
-        </li>
-      `.trim()).join('');
-    } catch {
-      container.innerHTML = '<li class="experience-item"><span class="exp-years">&mdash;</span><div><p class="exp-org">Could not load experience data.</p></div></li>';
-    }
-  });
-</script>
 </body>
 </html>

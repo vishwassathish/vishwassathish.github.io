@@ -48,9 +48,19 @@ function injectNav() {
     return `<li><a href="${root}${href}"${cls}>${label}</a></li>`;
   }).join('');
 
+  // Email stored as char codes — never appears as plain text in source
+  const _ec = [118,105,115,104,119,97,115,115,97,116,104,105,115,104,64,103,109,97,105,108,46,99,111,109];
+  const _re = _ec.map(c => String.fromCharCode(c)).join('');
+  // ROT13 of the real email — looks scrambled, easy to decode client-side
+  const _sc = 'ivfujnffngvfu@tznvy.pbz';
+
   header.innerHTML = `
     <nav class="container nav-inner" aria-label="Main navigation">
       <a href="${root}index.html" class="nav-logo">Vishwas Sathish</a>
+      <div class="nav-email-wrap" id="nav-email-wrap">
+        <span class="nav-email-text" id="nav-email-text" aria-live="polite">${_sc}</span>
+        <button class="nav-unscramble-btn" id="nav-unscramble-btn">Unscramble</button>
+      </div>
       <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none"
              stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -64,8 +74,30 @@ function injectNav() {
     </nav>
   `;
 
-  const toggle   = header.querySelector('.nav-toggle');
-  const navLinks = header.querySelector('#nav-links');
+  const toggle        = header.querySelector('.nav-toggle');
+  const navLinks      = header.querySelector('#nav-links');
+  const emailText     = header.querySelector('#nav-email-text');
+  const unscrambleBtn = header.querySelector('#nav-unscramble-btn');
+
+  unscrambleBtn.addEventListener('click', () => {
+    unscrambleBtn.disabled = true;
+    const noise = 'abcdefghijklmnopqrstuvwxyz@.-_0123456789';
+    const total = _re.length;
+    const steps = 14;
+    let step = 0;
+    const iv = setInterval(() => {
+      step++;
+      emailText.textContent = _re.split('').map((ch, i) =>
+        (i / total < step / steps) ? ch : noise[Math.floor(Math.random() * noise.length)]
+      ).join('');
+      if (step >= steps) {
+        clearInterval(iv);
+        emailText.textContent = '';
+        emailText.innerHTML = `<a href="mailto:${_re}" class="nav-email-link">${_re}</a>`;
+        unscrambleBtn.style.display = 'none';
+      }
+    }, 40);
+  });
 
   toggle.addEventListener('click', () => {
     const open = navLinks.classList.toggle('open');
@@ -95,8 +127,6 @@ function injectFooter() {
     <div class="container">
       <p>
         © ${new Date().getFullYear()} Vishwas Sathish &nbsp;·&nbsp;
-        <a href="mailto:vsathish@cs.washington.edu">vsathish@cs.washington.edu</a>
-        &nbsp;·&nbsp;
         <a href="${getRelativeRoot()}index.html">Home</a>
       </p>
     </div>
