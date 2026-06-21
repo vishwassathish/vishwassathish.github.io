@@ -1,32 +1,8 @@
 [
-  {
-    "id": "breakout",
-    "name": "Breakout",
-    "file": "data/breakout_gaze.json"
-  },
-  {
-    "id": "breakout_hs",
-    "name": "Breakout (High Score)",
-    "file": "data/breakout_hs_gaze.json"
-  },
-  {
-    "id": "montezuma",
-    "name": "Montezuma's Revenge",
-    "file": "data/montezuma_gaze.json"
-  },
-  {
-    "id": "montezuma_hs",
-    "name": "Montezuma's Revenge (High Score)",
-    "file": "data/montezuma_hs_gaze.json"
-  },
-  {
-    "id": "spaceinvaders",
-    "name": "Space Invaders",
-    "file": "data/spaceinvaders_gaze.json"
-  },
-  {
-    "id": "spaceinvaders_hs",
-    "name": "Space Invaders (High Score)",
-    "file": "data/spaceinvaders_hs_gaze.json"
-  }
+  {"id": "breakout_hs",      "name": "Breakout",             "file": "data/breakout_hs_gaze.json"},
+  {"id": "montezuma_hs",     "name": "Montezuma's Revenge",  "file": "data/montezuma_hs_gaze.json"},
+  {"id": "spaceinvaders_hs", "name": "Space Invaders",       "file": "data/spaceinvaders_hs_gaze.json"},
+  {"id": "mspacman",         "name": "Ms. Pac-Man",          "file": "data/mspacman_gaze.json"},
+  {"id": "hero",             "name": "Hero",                 "file": "data/hero_gaze.json"},
+  {"id": "frostbite",        "name": "Frostbite",            "file": "data/frostbite_gaze.json"}
 ]

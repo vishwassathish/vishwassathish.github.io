@@ -1,7 +1,15 @@
 [
   {
+    "date": "Jun 2026",
+    "description": "Our paper <em>Eliciting Self-Verification in Multimodal Reasoning Agents with Reinforcement Learning</em> has been accepted as a conference paper at <strong>ECCV 2026</strong>. Arxiv coming soon!"
+  },
+  {
+    "date": "Jun 2026",
+    "description": "Paper published: <a href='https://proceedings.mlr.press/v308/duan26a.html' target='_blank' rel='noopener'><em>Multi-Modal Natural Intelligence through Active Predictive Coding</em></a> is now available on PMLR, presented at the NeuroAI Multimodal Intelligence Workshop @ AAAI 2026."
+  },
+  {
     "date": "Dec 2025",
-    "description": "New <a href='https://arxiv.org/abs/2512.22568' target='_blank' rel='noopener'>preprint</a>: <em>Lessons from Neuroscience for AI: How integrating Actions, Compositional Structure and Episodic Memory could enable Safe, Interpretable and Human-Like AI</em> — with Rajesh P. N. Rao, Linxing Preston Jiang, Matthew Bryan, and Prashant Rangarajan."
+    "description": "New <a href='https://arxiv.org/abs/2512.22568' target='_blank' rel='noopener'>preprint</a>: <em>Lessons from Neuroscience for AI: How integrating Actions, Compositional Structure and Episodic Memory could enable Safe, Interpretable and Human-Like AI</em>, with Rajesh P. N. Rao, Linxing Preston Jiang, Matthew Bryan, and Prashant Rangarajan."
   },
   {
     "date": "Dec 2025",

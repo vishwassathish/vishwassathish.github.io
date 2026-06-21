@@ -49,7 +49,7 @@ npx serve .
 │   │   ├── uw_logo.png           Favicon
 │   │   ├── thumbnails/           Publication/project thumbnails
 │   │   └── art/                  (add artwork images here)
-│   ├── cv/Vishwas_Sathish_CV.pdf Your latest CV
+│   ├── cv/Vishwas_Sathish_June2026.pdf Your latest CV
 │   └── data/
 │       ├── publications.json     ← primary edit target
 │       ├── news.json
@@ -102,7 +102,7 @@ Link keys: `demo`, `code`, `writeup`, `paper`, `website`, `video`, `poster`.
 
 ### Replace the CV PDF
 
-Drop the new file at `assets/cv/Vishwas_Sathish_CV.pdf` — same filename, it just works.
+Drop the new file at `assets/cv/Vishwas_Sathish_June2026.pdf` — same filename, it just works.
 
 ### Update Experience Highlights
 
@@ -183,7 +183,7 @@ Change `--primary` to switch the accent color across the entire site.
 - **Profile image**: `assets/img/vish.png`. To replace: drop a new image at that path with
   the same filename, or update the `src` attribute in `index.html` (profile section) and the
   `og:image` meta tag.
-- **CV file**: Placed at `assets/cv/Vishwas_Sathish_CV.pdf`. Replace with your latest version
+- **CV file**: Placed at `assets/cv/Vishwas_Sathish_June2026.pdf`. Replace with your latest version
   using the same filename.
 - **Atari eye-tracking project**: Imported directly into `projects/atari-eye-tracking/` from
   the local source at `cse512_data_viz/hw3/atari-eye-tracking/public/`. Total size is ~31 MB

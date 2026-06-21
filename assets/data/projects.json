@@ -3,8 +3,8 @@
     "id": "atari-eye-tracking",
     "type": "Visualization",
     "featured": true,
-    "title": "Where do humans look when exploring for rewards?",
-    "description": "An interactive visualization of human eye-tracking behavior during Atari gameplay, examining how visual attention relates to reward events across games with different reward structures (Breakout, Space Invaders, Montezuma\u2019s Revenge).",
+    "title": "Visualizing Gaze-Guided Attention in Atari",
+    "description": "An interactive visualization exploring human gaze patterns, fixation stability, and spatial attention across six Atari games using the Atari-HEAD eye-tracking dataset, comparing normal play with high-score sessions.",
     "thumbnail": "assets/img/thumbnails/atari-eye-tracking.png",
     "links": {
       "demo":    "projects/atari-eye-tracking/",

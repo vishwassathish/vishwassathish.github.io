@@ -1,4 +1,4 @@
-/* Where do humans look before reward events? — CSE 512 A3 */
+/* Visualizing Gaze-Guided Attention in Atari — CSE 512 */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -7,29 +7,29 @@ body {
   color: #c8c8d8;
   font-family: 'Segoe UI', system-ui, sans-serif;
   font-size: 13px;
-  padding: 12px 30px 20px;
+  padding: 10px 30px 20px;
   max-width: none;
   margin: 0 auto;
 }
 
 /* ---- Header ---- */
-#header { margin-bottom: 12px; }
+#header { margin-bottom: 8px; }
 .header-row {
   display: flex;
   align-items: center;
   gap: 14px;
   flex-wrap: wrap;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
 }
 .header-row h1 {
   flex: 1;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
   color: #9bbcff;
   letter-spacing: 0.01em;
 }
 .writeup-link {
-  font-size: 12px;
+  font-size: 14px;
   color: #9bbcff;
   text-decoration: none;
   border-bottom: 1px solid #9bbcff66;
@@ -39,7 +39,7 @@ body {
 }
 .writeup-link:hover { color: #c8d8ff; border-color: #c8d8ff; }
 .header-controls { gap: 8px; }
-.header-controls label { color: #778; font-size: 12px; }
+.header-controls label { color: #99aabb; font-size: 14px; }
 #game-select {
   background: #1a1a2e;
   color: #c8c8d8;
@@ -49,7 +49,14 @@ body {
   font-size: 13px;
   cursor: pointer;
 }
-#session-info { font-size: 11px; color: #667; }
+#session-info { font-size: 13px; color: #99aabb; }
+.page-subtitle {
+  margin: 3px 0 6px;
+  font-size: 14px;
+  color: #99aabb;
+  max-width: 1000px;
+  line-height: 1.5;
+}
 
 /* ---- Loading ---- */
 #loading { color: #667; font-size: 13px; margin: 40px 0; }
@@ -57,30 +64,105 @@ body {
 /* ---- Main columns ---- */
 #main-cols {
   display: flex;
-  gap: 18px;
+  gap: 14px;
   align-items: stretch;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 
+/* Column header row: label on left, help button on right — matches stats-header-row */
+.col-header-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
 .col-label {
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #445;
-  margin-bottom: 5px;
+  white-space: nowrap;
+  flex: 1;
+}
+.col-ctrl-group {
+  display: flex;
+  gap: 3px;
+  flex-shrink: 0;
 }
 
-/* Frame column */
-#frame-col { position: relative; flex-shrink: 0; }
+/* ---- Help button + tooltip system ---- */
+.help-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.help-btn {
+  background: transparent;
+  color: #ffd060;
+  border: 1.5px solid #ffd060;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: help;
+  padding: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.1s;
+  flex-shrink: 0;
+}
+.help-btn:hover { background: rgba(255,208,96,0.15); }
+.help-tooltip {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 290px;
+  background: #0d0d22;
+  border: 1px solid #3a3a5a;
+  border-radius: 7px;
+  padding: 12px 14px;
+  z-index: 400;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.65);
+  pointer-events: none;
+  font-size: 11px;
+  color: #99aabb;
+  line-height: 1.55;
+}
+.help-tooltip strong { color: #c8d8f0; }
+.help-tooltip-left {
+  right: auto;
+  left: 0;
+}
+.tt-list {
+  margin: 5px 0 8px 14px;
+  padding: 0;
+  list-style: disc;
+}
+.tt-list li { margin-bottom: 4px; color: #99aabb; }
+.tt-list li strong { color: #b8c8e0; }
+.help-wrap:hover .help-tooltip { display: block; }
+
+/* Hint text in header */
+.help-hint { font-size: 11px; color: #445; }
+.help-hint-q { color: #ffd060; font-weight: 800; }
+
+/* ---- Frame column ---- */
+#frame-col { flex-shrink: 0; width: 320px; }
+#canvas-wrap { position: relative; }
 #frame-canvas {
   display: block;
   image-rendering: pixelated;
-  border: 3px solid #223; /* fixed thickness — prevents layout shift when reward border activates */
+  border: 3px solid #223;
   background: #000;
+  max-width: 100%;
 }
 #frame-canvas.reward-frame { border-color: #33dd77; }
-
 #action-overlay {
   position: absolute;
   bottom: 8px;
@@ -95,42 +177,261 @@ body {
   font-family: monospace;
 }
 
-/* Heatmap column */
-#heatmap-col { flex-shrink: 0; }
-#heatmap-canvas {
+/* ---- Perceptual view column ---- */
+#perceptual-col { flex-shrink: 0; width: 320px; overflow: hidden; }
+#foveated-canvas, #glimpse-canvas, #heatmap-canvas {
   display: block;
   image-rendering: pixelated;
   border: 1px solid #223;
   background: #000;
+  max-width: 100%;
 }
-#heatmap-controls { display: flex; flex-direction: column; gap: 5px; }
-.ctrl-row { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
-.ctrl-label { font-size: 10px; color: #445; min-width: 52px; }
+.perc-tabs-row {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-wrap: wrap;
+}
+#fov-status {
+  font-size: 10px;
+  font-weight: 600;
+  font-family: monospace;
+  margin-top: 3px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: #33ee77;
+  background: rgba(51,238,119,0.1);
+  display: inline-block;
+}
+#fov-status.unstable {
+  color: #ffaa22;
+  background: rgba(255,170,34,0.1);
+}
 
-.k-btn, .mode-btn {
+/* Focus / view toggle / window buttons — shared style */
+.fov-btn, .gw-btn, .perc-tab {
   background: #1a1a2e;
   color: #889;
   border: 1px solid #334;
   border-radius: 4px;
-  padding: 3px 9px;
-  font-size: 11px;
+  padding: 2px 7px;
+  font-size: 10px;
   cursor: pointer;
   transition: background 0.12s, color 0.12s;
   white-space: nowrap;
 }
-.k-btn.active, .mode-btn.active {
+.fov-btn.active, .gw-btn.active, .perc-tab.active {
   background: #2a3a6a;
   color: #9bbcff;
   border-color: #4466aa;
 }
 
-/* ---- Playback ---- */
-#playback { margin-bottom: 10px; }
-#playback-row1 {
+
+/* ---- Stats column ---- */
+#stats-col {
+  flex: 1;
+  min-width: 300px;
+  max-width: 420px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.stats-header-row {
   display: flex;
   align-items: center;
   gap: 6px;
   margin-bottom: 6px;
+}
+.stats-header {
+  flex: 1;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #9bbcff;
+}
+.stats-subtitle {
+  font-size: 12px;
+  color: #778;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+.stat-frame-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 5px 8px;
+  background: #101020;
+  border: 1px solid #1e1e30;
+  border-radius: 5px;
+  margin-top: 6px;
+  margin-bottom: 0;
+  font-variant-numeric: tabular-nums;
+}
+.stat-frame-label {
+  font-size: 11px;
+  color: #667;
+  font-weight: 600;
+}
+.stat-frame-val {
+  font-size: 13px;
+  color: #c8d8f0;
+  font-weight: 700;
+  margin-right: 10px;
+}
+
+/* ---- Plot selectors ---- */
+.plot-selector-section {
+  margin-bottom: 5px;
+}
+.plot-selector-label {
+  display: block;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #445;
+  margin-bottom: 3px;
+}
+.plot-selector-row {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.plot-cat-btn, .plot-metric-btn {
+  background: #1a1a2e;
+  color: #778;
+  border: 1px solid #334;
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+  white-space: nowrap;
+}
+.plot-cat-btn.active, .plot-metric-btn.active {
+  background: #2a3a6a;
+  color: #9bbcff;
+  border-color: #4466aa;
+}
+
+/* ---- Plot display ---- */
+#plot-container {
+  margin-top: 0;
+  background: #101020;
+  border: 1px solid #1e1e30;
+  border-radius: 5px;
+  padding: 6px;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+#plot-img {
+  display: block;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  object-fit: contain;
+  object-position: top center;
+  border-radius: 3px;
+  background: #0e0e1c;
+}
+#plot-caption {
+  font-size: 10px;
+  color: #556;
+  margin-top: 5px;
+  line-height: 1.4;
+  flex-shrink: 0;
+}
+
+/* ---- Reward badge ---- */
+.reward-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(51,238,119,0.85);
+  color: #0d0d1a;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 5px;
+  pointer-events: none;
+  animation: reward-fade 0.5s ease-out forwards;
+  z-index: 10;
+}
+@keyframes reward-fade {
+  0%   { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-12px); }
+}
+
+/* ---- Cache warm-up status ---- */
+#cache-status {
+  font-size: 11px;
+  color: #9bbcff;
+  background: rgba(40,50,100,0.5);
+  border: 1px solid #334;
+  border-radius: 4px;
+  padding: 4px 10px;
+  margin-bottom: 6px;
+  display: inline-block;
+}
+#cache-status::before { content: '⏳ '; }
+
+/* ---- Legend strip (below canvases, before playback) ---- */
+#legend-strip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 5px 2px;
+  margin-bottom: 8px;
+  border-top: 1px solid #1a1a2e;
+}
+.ls-label {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #334;
+  white-space: nowrap;
+}
+.ls-sep {
+  width: 1px;
+  height: 12px;
+  background: #222233;
+  margin: 0 2px;
+}
+.il-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #778;
+  white-space: nowrap;
+}
+.il-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.il-act {
+  font-size: 11px;
+  font-family: monospace;
+  color: #ffe066;
+  white-space: nowrap;
+}
+
+/* ---- Playback ---- */
+#playback { margin-bottom: 8px; }
+#playback-row1 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 5px;
   flex-wrap: wrap;
 }
 .pb-btn {
@@ -165,7 +466,6 @@ body {
 }
 .speed-btn.active { background: #232344; color: #9bbcff; border-color: #4466aa; }
 #speed-label { font-size: 11px; color: #445; margin-left: 2px; }
-
 #seek-slider {
   width: 100%;
   accent-color: #5577cc;
@@ -174,7 +474,7 @@ body {
 }
 
 /* ---- Timeline ---- */
-#timeline-wrap { margin-bottom: 12px; }
+#timeline-wrap { margin-bottom: 10px; }
 #timeline-canvas {
   display: block;
   width: 100%;
@@ -186,12 +486,13 @@ body {
 #info-panel {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 6px 16px;
+  gap: 5px 16px;
   background: #101020;
   border: 1px solid #1e1e30;
   border-radius: 5px;
-  padding: 10px 14px;
+  padding: 8px 14px;
   font-size: 12px;
+  margin-bottom: 0;
 }
 .info-item { display: flex; gap: 5px; align-items: baseline; }
 .info-key { color: #445; white-space: nowrap; }
@@ -199,192 +500,3 @@ body {
 .info-val.reward-pos { color: #55dd88; font-weight: 600; }
 .info-val.reward-neg { color: #dd6655; }
 
-/* ---- Landing page description / bullets ---- */
-.page-subtitle {
-  margin: 4px 0 8px;
-  font-size: 14px;
-  color: #8899bb;
-  max-width: 820px;
-}
-.interpretation-bullets {
-  margin: 0 0 8px 18px;
-  padding: 0;
-  font-size: 13px;
-  color: #99aac0;
-  max-width: 820px;
-}
-.interpretation-bullets li { margin-bottom: 4px; }
-.interpretation-bullets strong { color: #c8d8f0; }
-/* ---- Side panel bottom row (gaze overlay key + action legend side by side) ---- */
-.side-bottom-row {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-.side-bottom-row .side-section { flex: 1; min-width: 110px; }
-
-/* ---- Slice buttons (reward-aligned sub-row) ---- */
-.slice-btn {
-  background: #1a1a2e;
-  color: #889;
-  border: 1px solid #334;
-  border-radius: 4px;
-  padding: 3px 9px;
-  font-size: 11px;
-  cursor: pointer;
-  transition: background 0.12s, color 0.12s;
-  white-space: nowrap;
-}
-.slice-btn.active {
-  background: #2a3a6a;
-  color: #9bbcff;
-  border-color: #4466aa;
-}
-
-/* ---- Mode description line ---- */
-.mode-desc-text {
-  font-size: 11px;
-  color: #556;
-  font-style: italic;
-  margin-top: 5px;
-  line-height: 1.5;
-}
-
-/* ---- Side panel ---- */
-#side-panel {
-  flex: 1;
-  min-width: 0;
-  padding-top: 22px;
-  overflow: hidden;
-}
-
-/* Inline legend in side panel */
-.inline-legend {
-  margin-top: 10px;
-  padding-top: 8px;
-  border-top: 1px solid #1e1e30;
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-}
-.il-legend-label {
-  font-size: 9px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #334;
-  margin-bottom: 2px;
-}
-.il-overlay-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 12px;
-  align-items: center;
-}
-.il-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 11px;
-  color: #778;
-  white-space: nowrap;
-}
-.il-dot {
-  display: inline-block;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.il-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1px 12px;
-}
-.il-act {
-  font-size: 11px;
-  font-family: monospace;
-  color: #ffe066;
-  line-height: 1.75;
-}
-/* ---- How-to-use section ---- */
-#how-to-use {
-  margin-top: 18px;
-  padding: 14px 18px;
-  background: #101020;
-  border: 1px solid #1e1e30;
-  border-radius: 6px;
-}
-.htu-header {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #445;
-  margin-bottom: 10px;
-}
-.htu-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  gap: 10px;
-}
-.htu-card {
-  background: #0d0d1e;
-  border: 1px solid #1e1e30;
-  border-radius: 5px;
-  padding: 10px 12px;
-}
-.htu-card-title {
-  font-size: 11px;
-  font-weight: 700;
-  color: #9bbcff;
-  margin-bottom: 5px;
-}
-.htu-card-body {
-  font-size: 11px;
-  color: #778;
-  line-height: 1.65;
-}
-.htu-key {
-  font-family: monospace;
-  color: #ffe066;
-}
-.side-section {}
-.side-title {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #445;
-  margin-bottom: 6px;
-}
-.side-list {
-  margin: 0 0 0 0;
-  padding: 0;
-  list-style: none;
-}
-.side-list li {
-  font-size: 11px;
-  color: #778;
-  margin-bottom: 4px;
-  line-height: 1.5;
-  padding-left: 2px;
-}
-.side-list strong { color: #99aac0; }
-.action-legend .act-icon {
-  display: inline-block;
-  font-family: monospace;
-  font-size: 13px;
-  color: #ffe066;
-  min-width: 26px;
-  margin-right: 2px;
-}
-.gaze-swatch {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  margin-right: 5px;
-  vertical-align: middle;
-  flex-shrink: 0;
-}

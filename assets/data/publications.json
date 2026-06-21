@@ -1,5 +1,22 @@
 [
   {
+    "id": "multimodal-apc-2026",
+    "type": "workshop",
+    "selected": true,
+    "badge": "Workshop",
+    "title": "Multi-Modal Natural Intelligence through Active Predictive Coding",
+    "authors": "Jeffrey Duan, Vishwas Sathish, Crimson Stambaugh, Rajesh P. N. Rao",
+    "authors_html": "Jeffrey Duan, <strong>Vishwas Sathish</strong>, Crimson Stambaugh, <a href='https://www.rajeshpnrao.com/' target='_blank' rel='noopener'>Rajesh P. N. Rao</a>",
+    "venue": "NeuroAI Multimodal Intelligence Workshop @ AAAI 2026 (PMLR v308)",
+    "venue_html": "<a href='https://proceedings.mlr.press/v308/duan26a.html' target='_blank' rel='noopener'>NeuroAI Multimodal Intelligence Workshop @ AAAI 2026</a> (PMLR v308)",
+    "year": 2026,
+    "summary": "Demonstrates how active predictive coding provides a unified brain-inspired framework for multi-modal intelligence, enabling visual recognition, spatial navigation, language processing, and goal inference through hierarchical sensory-motor circuits.",
+    "thumbnail": null,
+    "links": {
+      "paper": "https://proceedings.mlr.press/v308/duan26a.html"
+    }
+  },
+  {
     "id": "lessons-neuroscience-ai-2025",
     "type": "preprint",
     "selected": true,
@@ -10,7 +27,7 @@
     "venue": "arXiv preprint, December 2025",
     "venue_html": "<a href='https://arxiv.org/abs/2512.22568' target='_blank' rel='noopener'>arXiv:2512.22568</a>, December 2025",
     "year": 2025,
-    "summary": "A position paper arguing that integrating actions, compositional structure, and episodic memory — inspired by neuroscience — is key to building safe, interpretable, and human-like AI systems.",
+    "summary": "A position paper arguing that integrating actions, compositional structure, and episodic memory (inspired by neuroscience) is key to building safe, interpretable, and human-like AI systems.",
     "thumbnail": null,
     "links": {
       "arxiv": "https://arxiv.org/abs/2512.22568"
@@ -76,8 +93,8 @@
     "title": "Apparatuses, Systems, and Methods for Active Predictive Coding Networks",
     "authors": "Rajesh P. N. Rao, Dimitrios Gklezakos, Vishwas Sathish",
     "authors_html": "<a href='https://www.rajeshpnrao.com/' target='_blank' rel='noopener'>Rajesh P. N. Rao</a>, <a href='https://neural.cs.washington.edu/people' target='_blank' rel='noopener'>Dimitrios Gklezakos</a>, <strong>Vishwas Sathish</strong>",
-    "venue": "Full US Patent filed (Serial No. 18/408,173) — Patent Pending",
-    "venue_html": "Full US Patent filed (Serial No. 18/408,173) &mdash; <em>Patent Pending</em>",
+    "venue": "Full US Patent filed (Serial No. 18/408,173), Patent Pending",
+    "venue_html": "Full US Patent filed (Serial No. 18/408,173), <em>Patent Pending</em>",
     "year": 2023,
     "summary": "Patent covering the core architecture and methods of active predictive coding neural networks.",
     "thumbnail": null,

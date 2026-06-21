@@ -1,0 +1,374 @@
+{
+  "breakout": {
+    "visible_clip": {
+      "gaze_path": {
+        "png": "plots/per_game/breakout/clip_gaze_path_over_time.png",
+        "svg": "plots/per_game/breakout/clip_gaze_path_over_time.svg",
+        "title": "Gaze movement",
+        "caption": "Cumulative estimated on-screen gaze path as the clip plays."
+      },
+      "focused_gaze": {
+        "png": "plots/per_game/breakout/clip_focused_stability_over_time.png",
+        "svg": "plots/per_game/breakout/clip_focused_stability_over_time.svg",
+        "title": "Focused gaze",
+        "caption": "Each 1-second window coloured blue if gaze stayed locally compact."
+      },
+      "screen_coverage": {
+        "png": "plots/per_game/breakout/clip_screen_coverage_over_time.png",
+        "svg": "plots/per_game/breakout/clip_screen_coverage_over_time.svg",
+        "title": "Screen coverage",
+        "caption": "Cumulative fraction of the 16\u00d721 screen grid visited by gaze."
+      }
+    },
+    "all_trials": {
+      "gaze_path": {
+        "png": "plots/per_game/breakout/game_gaze_path_distribution.png",
+        "svg": "plots/per_game/breakout/game_gaze_path_distribution.svg",
+        "title": "Gaze movement",
+        "caption": "Estimated on-screen gaze path per minute across all trials. Each point is one trial; intervals show mean \u00b1 1 SD."
+      },
+      "focused_gaze": {
+        "png": "plots/per_game/breakout/game_focused_time_distribution.png",
+        "svg": "plots/per_game/breakout/game_focused_time_distribution.svg",
+        "title": "Focused gaze",
+        "caption": "Percent of 1-second windows where gaze stayed locally compact. Each point is one trial."
+      },
+      "screen_coverage": {
+        "png": "plots/per_game/breakout/game_screen_coverage_distribution.png",
+        "svg": "plots/per_game/breakout/game_screen_coverage_distribution.svg",
+        "title": "Screen coverage",
+        "caption": "Fraction of 16\u00d721 grid cells visited by gaze over the full trial. Each point is one trial."
+      }
+    },
+    "contrast": {
+      "gaze_path": {
+        "png": "plots/per_game/breakout/contrast_gaze_path.png",
+        "svg": "plots/per_game/breakout/contrast_gaze_path.svg",
+        "title": "Gaze movement",
+        "caption": "Normal vs high-score gaze path rate. Each point is one trial; intervals show mean \u00b1 1 SD."
+      },
+      "focused_gaze": {
+        "png": "plots/per_game/breakout/contrast_focused_time.png",
+        "svg": "plots/per_game/breakout/contrast_focused_time.svg",
+        "title": "Focused gaze",
+        "caption": "Normal vs high-score focused gaze percentage."
+      },
+      "screen_coverage": {
+        "png": "plots/per_game/breakout/contrast_screen_coverage.png",
+        "svg": "plots/per_game/breakout/contrast_screen_coverage.svg",
+        "title": "Screen coverage",
+        "caption": "Normal vs high-score screen coverage over the full trial."
+      }
+    }
+  },
+  "space_invaders": {
+    "visible_clip": {
+      "gaze_path": {
+        "png": "plots/per_game/space_invaders/clip_gaze_path_over_time.png",
+        "svg": "plots/per_game/space_invaders/clip_gaze_path_over_time.svg",
+        "title": "Gaze movement",
+        "caption": "Cumulative estimated on-screen gaze path as the clip plays."
+      },
+      "focused_gaze": {
+        "png": "plots/per_game/space_invaders/clip_focused_stability_over_time.png",
+        "svg": "plots/per_game/space_invaders/clip_focused_stability_over_time.svg",
+        "title": "Focused gaze",
+        "caption": "Each 1-second window coloured blue if gaze stayed locally compact."
+      },
+      "screen_coverage": {
+        "png": "plots/per_game/space_invaders/clip_screen_coverage_over_time.png",
+        "svg": "plots/per_game/space_invaders/clip_screen_coverage_over_time.svg",
+        "title": "Screen coverage",
+        "caption": "Cumulative fraction of the 16\u00d721 screen grid visited by gaze."
+      }
+    },
+    "all_trials": {
+      "gaze_path": {
+        "png": "plots/per_game/space_invaders/game_gaze_path_distribution.png",
+        "svg": "plots/per_game/space_invaders/game_gaze_path_distribution.svg",
+        "title": "Gaze movement",
+        "caption": "Estimated on-screen gaze path per minute across all trials. Each point is one trial; intervals show mean \u00b1 1 SD."
+      },
+      "focused_gaze": {
+        "png": "plots/per_game/space_invaders/game_focused_time_distribution.png",
+        "svg": "plots/per_game/space_invaders/game_focused_time_distribution.svg",
+        "title": "Focused gaze",
+        "caption": "Percent of 1-second windows where gaze stayed locally compact. Each point is one trial."
+      },
+      "screen_coverage": {
+        "png": "plots/per_game/space_invaders/game_screen_coverage_distribution.png",
+        "svg": "plots/per_game/space_invaders/game_screen_coverage_distribution.svg",
+        "title": "Screen coverage",
+        "caption": "Fraction of 16\u00d721 grid cells visited by gaze over the full trial. Each point is one trial."
+      }
+    },
+    "contrast": {
+      "gaze_path": {
+        "png": "plots/per_game/space_invaders/contrast_gaze_path.png",
+        "svg": "plots/per_game/space_invaders/contrast_gaze_path.svg",
+        "title": "Gaze movement",
+        "caption": "Normal vs high-score gaze path rate. Each point is one trial; intervals show mean \u00b1 1 SD."
+      },
+      "focused_gaze": {
+        "png": "plots/per_game/space_invaders/contrast_focused_time.png",
+        "svg": "plots/per_game/space_invaders/contrast_focused_time.svg",
+        "title": "Focused gaze",
+        "caption": "Normal vs high-score focused gaze percentage."
+      },
+      "screen_coverage": {
+        "png": "plots/per_game/space_invaders/contrast_screen_coverage.png",
+        "svg": "plots/per_game/space_invaders/contrast_screen_coverage.svg",
+        "title": "Screen coverage",
+        "caption": "Normal vs high-score screen coverage over the full trial."
+      }
+    }
+  },
+  "montezuma_revenge": {
+    "visible_clip": {
+      "gaze_path": {
+        "png": "plots/per_game/montezuma_revenge/clip_gaze_path_over_time.png",
+        "svg": "plots/per_game/montezuma_revenge/clip_gaze_path_over_time.svg",
+        "title": "Gaze movement",
+        "caption": "Cumulative estimated on-screen gaze path as the clip plays."
+      },
+      "focused_gaze": {
+        "png": "plots/per_game/montezuma_revenge/clip_focused_stability_over_time.png",
+        "svg": "plots/per_game/montezuma_revenge/clip_focused_stability_over_time.svg",
+        "title": "Focused gaze",
+        "caption": "Each 1-second window coloured blue if gaze stayed locally compact."
+      },
+      "screen_coverage": {
+        "png": "plots/per_game/montezuma_revenge/clip_screen_coverage_over_time.png",
+        "svg": "plots/per_game/montezuma_revenge/clip_screen_coverage_over_time.svg",
+        "title": "Screen coverage",
+        "caption": "Cumulative fraction of the 16\u00d721 screen grid visited by gaze."
+      }
+    },
+    "all_trials": {
+      "gaze_path": {
+        "png": "plots/per_game/montezuma_revenge/game_gaze_path_distribution.png",
+        "svg": "plots/per_game/montezuma_revenge/game_gaze_path_distribution.svg",
+        "title": "Gaze movement",
+        "caption": "Estimated on-screen gaze path per minute across all trials. Each point is one trial; intervals show mean \u00b1 1 SD."
+      },
+      "focused_gaze": {
+        "png": "plots/per_game/montezuma_revenge/game_focused_time_distribution.png",
+        "svg": "plots/per_game/montezuma_revenge/game_focused_time_distribution.svg",
+        "title": "Focused gaze",
+        "caption": "Percent of 1-second windows where gaze stayed locally compact. Each point is one trial."
+      },
+      "screen_coverage": {
+        "png": "plots/per_game/montezuma_revenge/game_screen_coverage_distribution.png",
+        "svg": "plots/per_game/montezuma_revenge/game_screen_coverage_distribution.svg",
+        "title": "Screen coverage",
+        "caption": "Fraction of 16\u00d721 grid cells visited by gaze over the full trial. Each point is one trial."
+      }
+    },
+    "contrast": {
+      "gaze_path": {
+        "png": "plots/per_game/montezuma_revenge/contrast_gaze_path.png",
+        "svg": "plots/per_game/montezuma_revenge/contrast_gaze_path.svg",
+        "title": "Gaze movement",
+        "caption": "Normal vs high-score gaze path rate. Each point is one trial; intervals show mean \u00b1 1 SD."
+      },
+      "focused_gaze": {
+        "png": "plots/per_game/montezuma_revenge/contrast_focused_time.png",
+        "svg": "plots/per_game/montezuma_revenge/contrast_focused_time.svg",
+        "title": "Focused gaze",
+        "caption": "Normal vs high-score focused gaze percentage."
+      },
+      "screen_coverage": {
+        "png": "plots/per_game/montezuma_revenge/contrast_screen_coverage.png",
+        "svg": "plots/per_game/montezuma_revenge/contrast_screen_coverage.svg",
+        "title": "Screen coverage",
+        "caption": "Normal vs high-score screen coverage over the full trial."
+      }
+    }
+  },
+  "ms_pacman": {
+    "visible_clip": {
+      "gaze_path": {
+        "png": "plots/per_game/ms_pacman/clip_gaze_path_over_time.png",
+        "svg": "plots/per_game/ms_pacman/clip_gaze_path_over_time.svg",
+        "title": "Gaze movement",
+        "caption": "Cumulative estimated on-screen gaze path as the clip plays."
+      },
+      "focused_gaze": {
+        "png": "plots/per_game/ms_pacman/clip_focused_stability_over_time.png",
+        "svg": "plots/per_game/ms_pacman/clip_focused_stability_over_time.svg",
+        "title": "Focused gaze",
+        "caption": "Each 1-second window coloured blue if gaze stayed locally compact."
+      },
+      "screen_coverage": {
+        "png": "plots/per_game/ms_pacman/clip_screen_coverage_over_time.png",
+        "svg": "plots/per_game/ms_pacman/clip_screen_coverage_over_time.svg",
+        "title": "Screen coverage",
+        "caption": "Cumulative fraction of the 16\u00d721 screen grid visited by gaze."
+      }
+    },
+    "all_trials": {
+      "gaze_path": {
+        "png": "plots/per_game/ms_pacman/game_gaze_path_distribution.png",
+        "svg": "plots/per_game/ms_pacman/game_gaze_path_distribution.svg",
+        "title": "Gaze movement",
+        "caption": "Estimated on-screen gaze path per minute across all trials. Each point is one trial; intervals show mean \u00b1 1 SD."
+      },
+      "focused_gaze": {
+        "png": "plots/per_game/ms_pacman/game_focused_time_distribution.png",
+        "svg": "plots/per_game/ms_pacman/game_focused_time_distribution.svg",
+        "title": "Focused gaze",
+        "caption": "Percent of 1-second windows where gaze stayed locally compact. Each point is one trial."
+      },
+      "screen_coverage": {
+        "png": "plots/per_game/ms_pacman/game_screen_coverage_distribution.png",
+        "svg": "plots/per_game/ms_pacman/game_screen_coverage_distribution.svg",
+        "title": "Screen coverage",
+        "caption": "Fraction of 16\u00d721 grid cells visited by gaze over the full trial. Each point is one trial."
+      }
+    },
+    "contrast": {
+      "gaze_path": {
+        "png": "plots/per_game/ms_pacman/contrast_gaze_path.png",
+        "svg": "plots/per_game/ms_pacman/contrast_gaze_path.svg",
+        "title": "Gaze movement",
+        "caption": "Normal vs high-score gaze path rate. Each point is one trial; intervals show mean \u00b1 1 SD."
+      },
+      "focused_gaze": {
+        "png": "plots/per_game/ms_pacman/contrast_focused_time.png",
+        "svg": "plots/per_game/ms_pacman/contrast_focused_time.svg",
+        "title": "Focused gaze",
+        "caption": "Normal vs high-score focused gaze percentage."
+      },
+      "screen_coverage": {
+        "png": "plots/per_game/ms_pacman/contrast_screen_coverage.png",
+        "svg": "plots/per_game/ms_pacman/contrast_screen_coverage.svg",
+        "title": "Screen coverage",
+        "caption": "Normal vs high-score screen coverage over the full trial."
+      }
+    }
+  },
+  "hero": {
+    "visible_clip": {
+      "gaze_path": {
+        "png": "plots/per_game/hero/clip_gaze_path_over_time.png",
+        "svg": "plots/per_game/hero/clip_gaze_path_over_time.svg",
+        "title": "Gaze movement",
+        "caption": "Cumulative estimated on-screen gaze path as the clip plays."
+      },
+      "focused_gaze": {
+        "png": "plots/per_game/hero/clip_focused_stability_over_time.png",
+        "svg": "plots/per_game/hero/clip_focused_stability_over_time.svg",
+        "title": "Focused gaze",
+        "caption": "Each 1-second window coloured blue if gaze stayed locally compact."
+      },
+      "screen_coverage": {
+        "png": "plots/per_game/hero/clip_screen_coverage_over_time.png",
+        "svg": "plots/per_game/hero/clip_screen_coverage_over_time.svg",
+        "title": "Screen coverage",
+        "caption": "Cumulative fraction of the 16\u00d721 screen grid visited by gaze."
+      }
+    },
+    "all_trials": {
+      "gaze_path": {
+        "png": "plots/per_game/hero/game_gaze_path_distribution.png",
+        "svg": "plots/per_game/hero/game_gaze_path_distribution.svg",
+        "title": "Gaze movement",
+        "caption": "Estimated on-screen gaze path per minute across all trials. Each point is one trial; intervals show mean \u00b1 1 SD."
+      },
+      "focused_gaze": {
+        "png": "plots/per_game/hero/game_focused_time_distribution.png",
+        "svg": "plots/per_game/hero/game_focused_time_distribution.svg",
+        "title": "Focused gaze",
+        "caption": "Percent of 1-second windows where gaze stayed locally compact. Each point is one trial."
+      },
+      "screen_coverage": {
+        "png": "plots/per_game/hero/game_screen_coverage_distribution.png",
+        "svg": "plots/per_game/hero/game_screen_coverage_distribution.svg",
+        "title": "Screen coverage",
+        "caption": "Fraction of 16\u00d721 grid cells visited by gaze over the full trial. Each point is one trial."
+      }
+    },
+    "contrast": {
+      "gaze_path": {
+        "png": "plots/per_game/hero/contrast_gaze_path.png",
+        "svg": "plots/per_game/hero/contrast_gaze_path.svg",
+        "title": "Gaze movement",
+        "caption": "Normal vs high-score gaze path rate. Each point is one trial; intervals show mean \u00b1 1 SD."
+      },
+      "focused_gaze": {
+        "png": "plots/per_game/hero/contrast_focused_time.png",
+        "svg": "plots/per_game/hero/contrast_focused_time.svg",
+        "title": "Focused gaze",
+        "caption": "Normal vs high-score focused gaze percentage."
+      },
+      "screen_coverage": {
+        "png": "plots/per_game/hero/contrast_screen_coverage.png",
+        "svg": "plots/per_game/hero/contrast_screen_coverage.svg",
+        "title": "Screen coverage",
+        "caption": "Normal vs high-score screen coverage over the full trial."
+      }
+    }
+  },
+  "frostbite": {
+    "visible_clip": {
+      "gaze_path": {
+        "png": "plots/per_game/frostbite/clip_gaze_path_over_time.png",
+        "svg": "plots/per_game/frostbite/clip_gaze_path_over_time.svg",
+        "title": "Gaze movement",
+        "caption": "Cumulative estimated on-screen gaze path as the clip plays."
+      },
+      "focused_gaze": {
+        "png": "plots/per_game/frostbite/clip_focused_stability_over_time.png",
+        "svg": "plots/per_game/frostbite/clip_focused_stability_over_time.svg",
+        "title": "Focused gaze",
+        "caption": "Each 1-second window coloured blue if gaze stayed locally compact."
+      },
+      "screen_coverage": {
+        "png": "plots/per_game/frostbite/clip_screen_coverage_over_time.png",
+        "svg": "plots/per_game/frostbite/clip_screen_coverage_over_time.svg",
+        "title": "Screen coverage",
+        "caption": "Cumulative fraction of the 16\u00d721 screen grid visited by gaze."
+      }
+    },
+    "all_trials": {
+      "gaze_path": {
+        "png": "plots/per_game/frostbite/game_gaze_path_distribution.png",
+        "svg": "plots/per_game/frostbite/game_gaze_path_distribution.svg",
+        "title": "Gaze movement",
+        "caption": "Estimated on-screen gaze path per minute across all trials. Each point is one trial; intervals show mean \u00b1 1 SD."
+      },
+      "focused_gaze": {
+        "png": "plots/per_game/frostbite/game_focused_time_distribution.png",
+        "svg": "plots/per_game/frostbite/game_focused_time_distribution.svg",
+        "title": "Focused gaze",
+        "caption": "Percent of 1-second windows where gaze stayed locally compact. Each point is one trial."
+      },
+      "screen_coverage": {
+        "png": "plots/per_game/frostbite/game_screen_coverage_distribution.png",
+        "svg": "plots/per_game/frostbite/game_screen_coverage_distribution.svg",
+        "title": "Screen coverage",
+        "caption": "Fraction of 16\u00d721 grid cells visited by gaze over the full trial. Each point is one trial."
+      }
+    },
+    "contrast": {
+      "gaze_path": {
+        "png": "plots/per_game/frostbite/contrast_gaze_path.png",
+        "svg": "plots/per_game/frostbite/contrast_gaze_path.svg",
+        "title": "Gaze movement",
+        "caption": "Normal vs high-score gaze path rate. Each point is one trial; intervals show mean \u00b1 1 SD."
+      },
+      "focused_gaze": {
+        "png": "plots/per_game/frostbite/contrast_focused_time.png",
+        "svg": "plots/per_game/frostbite/contrast_focused_time.svg",
+        "title": "Focused gaze",
+        "caption": "Normal vs high-score focused gaze percentage."
+      },
+      "screen_coverage": {
+        "png": "plots/per_game/frostbite/contrast_screen_coverage.png",
+        "svg": "plots/per_game/frostbite/contrast_screen_coverage.svg",
+        "title": "Screen coverage",
+        "caption": "Normal vs high-score screen coverage over the full trial."
+      }
+    }
+  }
+}
