@@ -1,5 +1,16 @@
 [
   {
+    "id": "svrl",
+    "type": "Paper Page",
+    "featured": true,
+    "title": "SVRL — Self-Verification via Reinforcement Learning",
+    "description": "Project page for our ECCV 2026 paper: an RL-only finetuning framework that teaches compact multimodal agents to decide when to search, write better queries, and verify retrieved evidence inside their own reasoning traces.",
+    "thumbnail": "assets/img/thumbnails/svrl.png",
+    "links": {
+      "website": "/projects/svrl/"
+    }
+  },
+  {
     "id": "atari-eye-tracking",
     "type": "Visualization",
     "featured": true,

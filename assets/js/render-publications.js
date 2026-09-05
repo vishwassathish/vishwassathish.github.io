@@ -19,6 +19,14 @@ function pubLinkLabel(type) {
   return map[type] || (type.charAt(0).toUpperCase() + type.slice(1));
 }
 
+/**
+ * A link whose URL is still "#" is a placeholder — the artifact exists but
+ * isn't posted yet. It renders as a muted, non-clickable chip.
+ */
+function isPlaceholderLink(url) {
+  return url === '#';
+}
+
 function renderPubCard(pub, root) {
   // Thumbnail
   const thumbHtml = pub.thumbnail
@@ -27,7 +35,7 @@ function renderPubCard(pub, root) {
 
   // Title with optional link
   const firstLink = pub.links && (pub.links.paper || pub.links.arxiv);
-  const titleHtml = firstLink
+  const titleHtml = firstLink && !isPlaceholderLink(firstLink)
     ? `<a href="${firstLink}" target="_blank" rel="noopener">${pub.title}</a>`
     : pub.title;
 
@@ -36,7 +44,9 @@ function renderPubCard(pub, root) {
     ? Object.entries(pub.links)
         .filter(([, url]) => url)
         .map(([type, url]) =>
-          `<a href="${url}" class="pub-link" target="_blank" rel="noopener">${pubLinkLabel(type)}</a>`)
+          isPlaceholderLink(url)
+            ? `<span class="pub-link pub-link-placeholder" title="Coming soon">${pubLinkLabel(type)}</span>`
+            : `<a href="${url}" class="pub-link" target="_blank" rel="noopener">${pubLinkLabel(type)}</a>`)
         .join('')
     : '';
 

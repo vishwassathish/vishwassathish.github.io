@@ -1,5 +1,24 @@
 [
   {
+    "id": "svrl-eccv-2026",
+    "type": "conference",
+    "selected": true,
+    "badge": "Conference",
+    "title": "Eliciting Self-Verification in Multimodal Reasoning Agents with Reinforcement Learning",
+    "authors": "Vishwas Sathish, Viresh Ranjan, Xinliang Zhu, Arnab Dhua, Douglas Gray",
+    "authors_html": "<strong>Vishwas Sathish</strong>, Viresh Ranjan, Xinliang Zhu, Arnab Dhua, Douglas Gray",
+    "venue": "European Conference on Computer Vision (ECCV) 2026, Malmö, Sweden",
+    "venue_html": "European Conference on Computer Vision (<strong>ECCV</strong>) 2026, Malmö, Sweden",
+    "year": 2026,
+    "summary": "Self-Verification via Reinforcement Learning (SVRL) trains small multimodal models to verify retrieved evidence during inference, enabling self-sufficient test-time scaling without external verifiers.",
+    "thumbnail": "assets/img/thumbnails/svrl.png",
+    "links": {
+      "paper": "#",
+      "poster": "#",
+      "website": "/projects/svrl/"
+    }
+  },
+  {
     "id": "multimodal-apc-2026",
     "type": "workshop",
     "selected": true,

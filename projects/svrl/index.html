@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SVRL — Eliciting Self-Verification in Multimodal Reasoning Agents with RL</title>
+  <meta name="description" content="Project page for 'Eliciting Self-Verification in Multimodal Reasoning Agents with Reinforcement Learning' (SVRL), ECCV 2026.">
+  <link rel="canonical" href="https://vishwassathish.github.io/projects/svrl/">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="SVRL — Eliciting Self-Verification in Multimodal Reasoning Agents with Reinforcement Learning">
+  <meta property="og:description" content="An RL-only finetuning framework that trains multimodal agents to verify and filter retrieved evidence inside their own reasoning traces. ECCV 2026.">
+  <meta property="og:url" content="https://vishwassathish.github.io/projects/svrl/">
+  <meta property="og:image" content="https://vishwassathish.github.io/assets/img/thumbnails/svrl.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <link rel="stylesheet" href="paper.css">
+</head>
+<body>
+
+<header id="site-header"></header>
+
+<main class="page-content">
+
+  <!-- ══════════════════ Title block ══════════════════ -->
+  <div class="container">
+    <div class="paper-hero">
+      <p class="paper-venue">ECCV 2026 &nbsp;·&nbsp; Malmö, Sweden</p>
+
+      <h1 class="paper-title">
+        Eliciting Self-Verification in Multimodal Reasoning Agents
+        with Reinforcement Learning
+      </h1>
+
+      <ul class="paper-authors">
+        <li class="author">
+          <a href="https://vishwassathish.github.io/">Vishwas Sathish</a>
+          <span class="author-email">vsathish@cs.washington.edu</span>
+        </li>
+        <li class="author">
+          Viresh Ranjan
+          <span class="author-email">vireshr@amazon.com</span>
+        </li>
+        <li class="author">
+          Xinliang Zhu
+          <span class="author-email">xlzhu@amazon.com</span>
+        </li>
+        <li class="author">
+          Arnab Dhua
+          <span class="author-email">adhua@amazon.com</span>
+        </li>
+        <li class="author">
+          Douglas Gray
+          <span class="author-email">douggray@amazon.com</span>
+        </li>
+      </ul>
+
+      <p class="paper-note">
+        Vishwas Sathish and Viresh Ranjan contributed equally.
+        Work done during an internship at Amazon.
+      </p>
+
+      <div class="paper-actions">
+        <span class="btn btn-soon" title="Link coming soon">Paper</span>
+        <span class="btn btn-soon" title="Link coming soon">Supplementary</span>
+        <span class="btn btn-soon" title="Link coming soon">Poster</span>
+        <span class="btn btn-soon" title="Link coming soon">Code</span>
+        <a class="btn" href="#bibtex">BibTeX</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ Teaser ══════════════════ -->
+  <figure class="fig fig-wide">
+    <img src="img/teaser.webp" alt="A multi-turn SVRL trajectory: the agent reasons about a bird photo, issues an image search, verifies which retrieved sources are useful, issues a text search, and answers 18–19 days.">
+    <figcaption>
+      <strong>Multi-hop tool-augmented VQA with SVRL.</strong>
+      The question requires identifying the bird and then retrieving its incubation period
+      (18&ndash;19 days). SVRL adds explicit verification scores over tool outputs, candidate
+      query sampling for better tool awareness, and implicit reflection inside the
+      reasoning trace.
+    </figcaption>
+  </figure>
+
+  <div class="container">
+
+    <!-- ══════════════════ TL;DR ══════════════════ -->
+    <section class="page-section">
+      <div class="highlight-grid">
+        <div class="highlight">
+          <h3>Fine-grained search control</h3>
+          <p>
+            Reward terms that discourage unnecessary tool calls and reward informative,
+            diverse query proposals &mdash; feedback on both <em>when</em> to search and
+            <em>what</em> to search for.
+          </p>
+        </div>
+        <div class="highlight">
+          <h3>Self-verification for evidence filtering</h3>
+          <p>
+            The agent emits structured verification scores over retrieved items inside its
+            own reasoning trace. Evidence selection becomes learnable, and applies at
+            inference with <em>no external verifier</em>.
+          </p>
+        </div>
+        <div class="highlight">
+          <h3>Stable optimization &amp; test-time scaling</h3>
+          <p>
+            Dr.&nbsp;GRPO stabilizes training under trajectory-dependent rewards, and
+            sampling more candidate search queries at inference keeps improving accuracy.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ══════════════════ Abstract ══════════════════ -->
+    <section class="page-section" aria-labelledby="abstract-heading">
+      <div class="section-header">
+        <h2 class="section-title" id="abstract-heading">Abstract</h2>
+      </div>
+      <p class="abstract-body">
+        Reasoning agents increasingly rely on external tools such as web search to answer
+        complex queries. Reinforcement learning (RL) finetuning algorithms such as GRPO have
+        improved long-form reasoning in text-only language models, particularly for coding and
+        mathematics. Reliable tool use in multimodal agents, however, remains challenging
+        because models must interpret text and images while integrating noisy retrieved
+        evidence, often under sparse outcome-level supervision without explicit verification
+        signals. We present <strong>Self-Verification via Reinforcement Learning (SVRL)</strong>,
+        an RL-only finetuning framework that trains multimodal agents to verify and filter
+        retrieved evidence within their own reasoning traces, reducing reliance on external
+        verifiers at inference time. SVRL also introduces a search-aware penalty that
+        discourages unnecessary tool calls and a query-diversity reward that encourages diverse,
+        well-formed search queries, providing fine-grained feedback on when and what to search.
+        Finetuning Qwen-2.5-VL-7B with SVRL on only 5,000 visual question answering examples
+        yields consistent gains in multi-hop VQA generalization and tool efficiency across
+        benchmarks. Overall, SVRL narrows the gap between compact agents and much larger
+        proprietary models while requiring substantially lower training and inference cost.
+      </p>
+    </section>
+
+    <hr>
+
+    <!-- ══════════════════ Motivation ══════════════════ -->
+    <section class="page-section" aria-labelledby="motivation-heading">
+      <div class="section-header">
+        <h2 class="section-title" id="motivation-heading">Why tool-augmented multimodal agents fail</h2>
+      </div>
+      <p>
+        Analyzing a GRPO-finetuned search agent on FVQA surfaces three recurring failure modes.
+        First, agents are poorly calibrated about <em>when</em> to search: search was required
+        but not invoked in over 10% of cases, while over 30% triggered unnecessary search.
+        Second, tool outputs are noisy and go unfiltered &mdash; nearly 45% of retrieved results
+        were irrelevant, and the agent still answered incorrectly in over 28% of cases even when
+        it issued an appropriate query and relevant evidence was present. Third, outcome-only
+        supervision leaves every intermediate decision unlabeled, so distinct failure causes
+        collapse into the same terminal penalty.
+      </p>
+
+      <div class="fig-row">
+        <figure class="fig">
+          <img src="img/pitfall-no-search.webp" loading="lazy"
+               alt="Failure case: the agent answers 9-11 days from its own guess without invoking any tool.">
+          <figcaption><strong>No tool calibration.</strong> The agent never invokes search and answers from a wrong prior.</figcaption>
+        </figure>
+        <figure class="fig">
+          <img src="img/pitfall-no-verify.webp" loading="lazy"
+               alt="Failure case: the agent trusts a noisy retrieval identifying the wrong bird species and answers 15 days.">
+          <figcaption><strong>Unverified evidence.</strong> Noisy results are trusted as-is and derail the rest of the trace.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ══════════════════ Method ══════════════════ -->
+    <section class="page-section" aria-labelledby="method-heading">
+      <div class="section-header">
+        <h2 class="section-title" id="method-heading">Method</h2>
+      </div>
+      <p>
+        SVRL treats the multimodal agent as a stochastic policy over multi-turn trajectories and
+        finetunes it with a GRPO-style objective, replacing the sparse trajectory reward with a
+        product of fine-grained factors:
+      </p>
+      <ul class="method-list">
+        <li>
+          <strong>Search-aware calibration</strong> (<code>r<sub>aware</sub></code>) &mdash; a single
+          tool-free forward pass labels each training instance as <code>search_free</code> or not,
+          and rollouts that call a tool on a <code>search_free</code> instance are downweighted.
+          This targets avoidable searches without suppressing necessary ones.
+        </li>
+        <li>
+          <strong>Query diversity</strong> (<code>r<sub>count</sub></code>) &mdash; the agent proposes
+          <em>k</em> candidate queries and executes one; the fraction of unique, well-formed
+          proposals scales the task reward.
+        </li>
+        <li>
+          <strong>Verification alignment</strong> (<code>r<sub>qalign</sub></code>,
+          <code>r<sub>salign</sub></code>) &mdash; the agent emits a binary usefulness vector over
+          retrieved items (e.g. <code>&lt;verify&gt; 0,1,0,1 &lt;/verify&gt;</code>) plus a short
+          justification. A train-time oracle verifier with access to the ground-truth answer scores
+          the same queries and snippets, and the agent is rewarded for agreeing with it.
+        </li>
+      </ul>
+      <p>
+        The verification factors are gated on final-answer correctness to avoid reward hacking,
+        and the oracle verifier is <strong>discarded at inference</strong> &mdash; the deployed
+        agent verifies on its own.
+      </p>
+
+      <figure class="fig fig-wide">
+        <img src="img/test-time-verification.webp" loading="lazy"
+             alt="Test-time verification: the frozen agent proposes several candidate queries, an external verifier filters bad queries and noisy snippets, and the answer is produced from the retained evidence.">
+        <figcaption>
+          <strong>Test-time verification (the gain we want to internalize).</strong>
+          A stronger text-only verifier filters candidate queries and tags noisy snippets for a
+          frozen agent. This lifts multi-hop VQA accuracy with no finetuning at all &mdash; but it
+          costs an extra model at inference.
+        </figcaption>
+      </figure>
+
+      <figure class="fig fig-wide">
+        <img src="img/self-verification.webp" loading="lazy"
+             alt="Self-verification during finetuning: the agent scores retrieved snippets while an oracle verifier with the ground-truth answer produces reference labels, yielding alignment rewards.">
+        <figcaption>
+          <strong>Self-verification via oracle feedback during finetuning.</strong>
+          The oracle verifier sees the same snippets plus the ground-truth answer and annotates
+          each snippet by its utility. The agent's own scores are rewarded for aligning with those
+          labels. This verifier exists only during training.
+        </figcaption>
+      </figure>
+    </section>
+
+    <hr>
+
+    <!-- ══════════════════ Results ══════════════════ -->
+    <section class="page-section" aria-labelledby="results-heading">
+      <div class="section-header">
+        <h2 class="section-title" id="results-heading">Results</h2>
+      </div>
+      <p>
+        We train Qwen-2.5-VL-7B-Instruct on 5,000 FVQA examples and evaluate in-distribution
+        (FVQA-test, InfoSeek) and out-of-distribution (MMSearch, LiveVQA, SimpleVQA). Acc is
+        answer accuracy; SR is search ratio &mdash; the fraction of questions on which the agent
+        chose to search.
+      </p>
+    </section>
+  </div>
+
+  <figure class="fig fig-table">
+    <img src="img/results-table.webp" loading="lazy"
+         alt="Results table comparing Direct Answer, RAG Workflow, and Adaptive Search regimes across five benchmarks. SVRL-full-7B reaches 65.3 accuracy on FVQA-test and 64.7 on InfoSeek.">
+    <figcaption>
+      <strong>Performance across benchmarks.</strong>
+      SVRL improves accuracy on every dataset while lowering the search ratio, i.e. a better
+      accuracy&ndash;cost tradeoff. SVRL-full-7B gains roughly 8 points on FVQA-test and 7 points
+      on InfoSeek over the strongest adaptive-search baseline, and approaches GPT-4o on FVQA-test
+      (65.3 vs. 66.0) while operating in the 7B regime.
+    </figcaption>
+  </figure>
+
+  <div class="container">
+    <section class="page-section">
+      <div class="stat-row">
+        <div class="stat"><span class="stat-num">+8</span><span class="stat-label">points on FVQA-test<br>over the best adaptive-search baseline</span></div>
+        <div class="stat"><span class="stat-num">+7</span><span class="stat-label">points on InfoSeek<br>at a lower search ratio</span></div>
+        <div class="stat"><span class="stat-num">5k</span><span class="stat-label">training examples<br>7B parameters, no external verifier</span></div>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ══════════════════ Qualitative ══════════════════ -->
+    <section class="page-section" aria-labelledby="qualitative-heading">
+      <div class="section-header">
+        <h2 class="section-title" id="qualitative-heading">Qualitative examples</h2>
+      </div>
+      <p>
+        The finetuned agent produces reasoning traces that compare and reconcile evidence across
+        retrieved results &mdash; behavior we never supervise with critique text directly. It also
+        stops searching when the image alone is sufficient. The last row shows a failure that
+        survives verification.
+      </p>
+    </section>
+  </div>
+
+  <figure class="fig fig-wide">
+    <img src="img/qualitative.webp" loading="lazy"
+         alt="Four qualitative multi-hop examples from the SVRL-finetuned agent, three correct and one incorrect.">
+    <figcaption>
+      <strong>Multi-hop traces from the SVRL-finetuned agent.</strong>
+      The agent answers directly when no search is needed (top left), reconciles conflicting
+      snippets before committing (middle), and still fails when several retrieved sources agree
+      on the wrong entity (bottom).
+    </figcaption>
+  </figure>
+
+  <div class="container">
+    <hr>
+
+    <!-- ══════════════════ BibTeX ══════════════════ -->
+    <section class="page-section" id="bibtex" aria-labelledby="bibtex-heading">
+      <div class="section-header">
+        <h2 class="section-title" id="bibtex-heading">BibTeX</h2>
+        <button class="section-link copy-btn" id="copy-bib" type="button">Copy</button>
+      </div>
+      <pre><code id="bib-text">@inproceedings{sathish2026svrl,
+  title     = {Eliciting Self-Verification in Multimodal Reasoning Agents
+               with Reinforcement Learning},
+  author    = {Sathish, Vishwas and Ranjan, Viresh and Zhu, Xinliang
+               and Dhua, Arnab and Gray, Douglas},
+  booktitle = {European Conference on Computer Vision (ECCV)},
+  year      = {2026}
+}</code></pre>
+      <p class="text-muted paper-note">
+        Page numbers and the proceedings entry will be updated once the camera-ready version is published.
+      </p>
+    </section>
+
+  </div><!-- /.container -->
+</main>
+
+<footer id="site-footer"></footer>
+
+<script src="../../assets/js/main.js"></script>
+<script>
+  document.getElementById('copy-bib').addEventListener('click', (e) => {
+    navigator.clipboard.writeText(document.getElementById('bib-text').textContent)
+      .then(() => {
+        e.target.textContent = 'Copied';
+        setTimeout(() => { e.target.textContent = 'Copy'; }, 1600);
+      });
+  });
+</script>
+</body>
+</html>
