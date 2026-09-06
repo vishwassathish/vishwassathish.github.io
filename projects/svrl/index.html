@@ -35,37 +35,30 @@
 
       <ul class="paper-authors">
         <li class="author">
-          <a href="https://vishwassathish.github.io/">Vishwas Sathish</a>
+          <a href="https://vishwassathish.github.io/">Vishwas Sathish</a><sup>*</sup>
           <span class="author-email">vsathish@cs.washington.edu</span>
         </li>
         <li class="author">
-          Viresh Ranjan
+          <a href="https://www.linkedin.com/in/viresh-ranjan-28308834/" target="_blank" rel="noopener">Viresh Ranjan</a><sup>*</sup>
           <span class="author-email">vireshr@amazon.com</span>
         </li>
         <li class="author">
-          Xinliang Zhu
+          <a href="https://www.linkedin.com/in/xinliang-zhu-6b589942/" target="_blank" rel="noopener">Xinliang Zhu</a>
           <span class="author-email">xlzhu@amazon.com</span>
         </li>
         <li class="author">
-          Arnab Dhua
+          <a href="https://www.linkedin.com/in/arnabdhua/" target="_blank" rel="noopener">Arnab Dhua</a>
           <span class="author-email">adhua@amazon.com</span>
         </li>
         <li class="author">
-          Douglas Gray
+          <a href="https://www.linkedin.com/in/de3ug/" target="_blank" rel="noopener">Douglas Gray</a>
           <span class="author-email">douggray@amazon.com</span>
         </li>
       </ul>
 
-      <p class="paper-note">
-        Vishwas Sathish and Viresh Ranjan contributed equally.
-        Work done during an internship at Amazon.
-      </p>
-
       <div class="paper-actions">
         <span class="btn btn-soon" title="Link coming soon">Paper</span>
-        <span class="btn btn-soon" title="Link coming soon">Supplementary</span>
         <span class="btn btn-soon" title="Link coming soon">Poster</span>
-        <span class="btn btn-soon" title="Link coming soon">Code</span>
         <a class="btn" href="#bibtex">BibTeX</a>
       </div>
     </div>
@@ -232,6 +225,38 @@
           labels. This verifier exists only during training.
         </figcaption>
       </figure>
+
+      <div class="algo">
+        <p class="algo-title">Algorithm 1 &middot; SVRL finetuning</p>
+        <p class="algo-require">
+          <strong>Require:</strong> Dataset <em>&#119967;</em>, system prompt <em>&#119982;</em>,
+          train-time verifier <em>&#119970;</em>, policy <em>&pi;<sub>&theta;</sub></em>,
+          search tools <em>&#119983;</em>, format weight <em>&alpha;</em>,
+          group size <em>G</em>
+        </p>
+        <ol class="algo-steps">
+          <li class="algo-head">Self-labeling.</li>
+          <li><b>for all</b> (<em>I</em>, <em>q</em>, <em>y*</em>) &isin; <em>&#119967;</em> <b>do</b></li>
+          <li class="i1"><em>&#375;</em> &larr; <em>&pi;<sub>&theta;</sub></em>(<em>&#119982;</em>, <em>I</em>, <em>q</em>)<span class="algo-note">single pass; no tool calls</span></li>
+          <li class="i1"><em>&ell;</em>(<em>I</em>, <em>q</em>) &larr; &#120793;[<em>&#375;</em> = <em>y*</em>]<span class="algo-note">1 iff <code>search_free</code></span></li>
+          <li><b>end for</b></li>
+          <li class="algo-head">RL finetuning with Dr.GRPO.</li>
+          <li><b>while</b> not converged <b>do</b></li>
+          <li class="i1">Sample minibatch <em>B</em> &sub; <em>&#119967;</em></li>
+          <li class="i1"><b>for all</b> (<em>I</em>, <em>q</em>, <em>y*</em>) &isin; <em>B</em> <b>do</b></li>
+          <li class="i2">Sample rollouts {<em>&tau;</em><sup>(<em>i</em>)</sup>}<sup><em>G</em></sup><sub><em>i</em>=1</sub> &sim; <em>&pi;<sub>&theta;<sub>old</sub></sub></em>(&middot; | <em>&#119982;</em>, <em>I</em>, <em>q</em>; <em>&#119983;</em>)</li>
+          <li class="i2"><b>for</b> <em>i</em> = 1 <b>to</b> <em>G</em> <b>do</b></li>
+          <li class="i3">Parse <em>&tau;</em><sup>(<em>i</em>)</sup> &rarr; (<em>y</em>, <em>p</em>, <em>v</em>)<span class="algo-note">answer, tool params, self-verification</span></li>
+          <li class="i3"><em>v*</em> &larr; <em>&#119970;</em>(<em>I</em>, <em>q</em>, <em>y*</em>, <em>p</em>)<span class="algo-note">train-time verification labels</span></li>
+          <li class="i3"><em>r</em><sub>svrl</sub> &larr; <code>search_aware</code>(<em>&ell;</em>(<em>I</em>,<em>q</em>), <em>&tau;</em><sup>(<em>i</em>)</sup>) &middot; <code>query_count</code>(<em>&tau;</em><sup>(<em>i</em>)</sup>)<span class="algo-note">search calibration</span></li>
+          <li class="i3"><em>r</em><sub>svrl</sub> &larr; <em>r</em><sub>svrl</sub> &middot; <code>query_align</code>(<em>v</em>, <em>v*</em>) &middot; <code>snippet_align</code>(<em>v</em>, <em>v*</em>)<span class="algo-note">verification alignment</span></li>
+          <li class="i3"><em>r</em><sup>(<em>i</em>)</sup> &larr; (1 &minus; <em>&alpha;</em>) &middot; <code>acc_score</code> &middot; <em>r</em><sub>svrl</sub> + <em>&alpha;</em> &middot; <code>format_score</code></li>
+          <li class="i2"><b>end for</b></li>
+          <li class="i2">Update <em>&theta;</em> using {(<em>&tau;</em><sup>(<em>i</em>)</sup>, <em>r</em><sup>(<em>i</em>)</sup>)}<sup><em>G</em></sup><sub><em>i</em>=1</sub><span class="algo-note">group advantages + Dr.GRPO objective</span></li>
+          <li class="i1"><b>end for</b></li>
+          <li><b>end while</b></li>
+        </ol>
+      </div>
     </section>
 
     <hr>
@@ -247,26 +272,72 @@
         answer accuracy; SR is search ratio &mdash; the fraction of questions on which the agent
         chose to search.
       </p>
+
+      <div class="table-scroll">
+        <table class="data-table">
+          <caption>
+            <strong>Performance across benchmarks.</strong>
+            SVRL improves accuracy on every dataset while lowering the search ratio, i.e. a
+            better accuracy&ndash;cost tradeoff. SVRL-full-7B gains roughly 8 points on
+            FVQA-test and 9 points on InfoSeek over the strongest adaptive-search baseline,
+            and approaches GPT-4o on FVQA-test (65.3 vs. 66.0) while operating in the 7B regime.
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col" rowspan="2">Model</th>
+              <th scope="col" colspan="2">FVQA-test</th>
+              <th scope="col" colspan="2">InfoSeek</th>
+              <th scope="col" colspan="2">MMSearch</th>
+              <th scope="col" colspan="2">LiveVQA</th>
+              <th scope="col" colspan="2">SimpleVQA</th>
+            </tr>
+            <tr>
+              <th scope="col">Acc</th><th scope="col">SR</th>
+              <th scope="col">Acc</th><th scope="col">SR</th>
+              <th scope="col">Acc</th><th scope="col">SR</th>
+              <th scope="col">Acc</th><th scope="col">SR</th>
+              <th scope="col">Acc</th><th scope="col">SR</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="row-group"><td colspan="11">Direct answer</td></tr>
+            <tr><td>Qwen-2.5-VL-7B</td>
+              <td>26.7</td><td>0.0</td><td>20.1</td><td>0.0</td><td>12.8</td><td>0.0</td><td>17.8</td><td>0.0</td><td>38.4</td><td>0.0</td></tr>
+            <tr><td>Qwen-2.5-VL-32B</td>
+              <td>24.7</td><td>0.0</td><td>25.8</td><td>0.0</td><td>15.7</td><td>0.0</td><td>18.7</td><td>0.0</td><td>40.1</td><td>0.0</td></tr>
+            <tr><td>Qwen-2.5-VL-72B</td>
+              <td>27.1</td><td>0.0</td><td>28.0</td><td>0.0</td><td>15.7</td><td>0.0</td><td>20.1</td><td>0.0</td><td>42.2</td><td>0.0</td></tr>
+            <tr><td>GPT-4o</td>
+              <td>41.7</td><td>0.0</td><td>42.7</td><td>0.0</td><td>22.2</td><td>0.0</td><td>26.9</td><td>0.0</td><td>46.6</td><td>0.0</td></tr>
+
+            <tr class="row-group"><td colspan="11">RAG workflow</td></tr>
+            <tr><td>Qwen-2.5-VL-7B</td>
+              <td>51.6</td><td>100</td><td>53.7</td><td>100</td><td>52.2</td><td>100</td><td>48.0</td><td>100</td><td>51.6</td><td>100</td></tr>
+            <tr><td>Qwen-2.5-VL-32B</td>
+              <td>57.0</td><td>100</td><td>56.8</td><td>100</td><td>57.9</td><td>100</td><td>49.6</td><td>100</td><td>54.5</td><td>100</td></tr>
+            <tr><td>Qwen-2.5-VL-72B</td>
+              <td>62.2</td><td>100</td><td>59.4</td><td>100</td><td>59.6</td><td>100</td><td>56.0</td><td>100</td><td>61.0</td><td>100</td></tr>
+            <tr><td>GPT-4o</td>
+              <td>66.0</td><td>100</td><td>59.1</td><td>100</td><td>62.5</td><td>100</td><td>59.6</td><td>100</td><td>63.4</td><td>100</td></tr>
+
+            <tr class="row-group"><td colspan="11">Adaptive search</td></tr>
+            <tr><td>MMSearch-R1++</td>
+              <td>56.4</td><td>80.3</td><td>55.1</td><td>59.7</td><td>53.8</td><td>88.5</td><td>48.4</td><td>76.2</td><td>57.4</td><td>42.5</td></tr>
+            <tr class="row-ours"><td><strong>SVRL-full-7B</strong></td>
+              <td><strong>65.3</strong></td><td><strong>61.4</strong></td>
+              <td><strong>64.7</strong></td><td><strong>52.3</strong></td>
+              <td><strong>60.3</strong></td><td><strong>82.0</strong></td>
+              <td><strong>57.8</strong></td><td><strong>48.6</strong></td>
+              <td><strong>58.3</strong></td><td><strong>27.0</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
     </section>
-  </div>
 
-  <figure class="fig fig-table">
-    <img src="img/results-table.webp" loading="lazy"
-         alt="Results table comparing Direct Answer, RAG Workflow, and Adaptive Search regimes across five benchmarks. SVRL-full-7B reaches 65.3 accuracy on FVQA-test and 64.7 on InfoSeek.">
-    <figcaption>
-      <strong>Performance across benchmarks.</strong>
-      SVRL improves accuracy on every dataset while lowering the search ratio, i.e. a better
-      accuracy&ndash;cost tradeoff. SVRL-full-7B gains roughly 8 points on FVQA-test and 7 points
-      on InfoSeek over the strongest adaptive-search baseline, and approaches GPT-4o on FVQA-test
-      (65.3 vs. 66.0) while operating in the 7B regime.
-    </figcaption>
-  </figure>
-
-  <div class="container">
     <section class="page-section">
       <div class="stat-row">
         <div class="stat"><span class="stat-num">+8</span><span class="stat-label">points on FVQA-test<br>over the best adaptive-search baseline</span></div>
-        <div class="stat"><span class="stat-num">+7</span><span class="stat-label">points on InfoSeek<br>at a lower search ratio</span></div>
+        <div class="stat"><span class="stat-num">+9</span><span class="stat-label">points on InfoSeek<br>at a lower search ratio</span></div>
         <div class="stat"><span class="stat-num">5k</span><span class="stat-label">training examples<br>7B parameters, no external verifier</span></div>
       </div>
     </section>
@@ -299,6 +370,319 @@
   </figure>
 
   <div class="container">
+    <hr>
+
+    <!-- ══════════════════ Additional results ══════════════════ -->
+    <section class="page-section" aria-labelledby="more-results-heading">
+      <div class="section-header">
+        <h2 class="section-title" id="more-results-heading">Additional results</h2>
+      </div>
+
+      <h3 class="sub-heading">Ablations</h3>
+      <p>
+        Each component is added on top of the baseline recipe. <strong>MMSearch-R1</strong>
+        reproduces the original system prompt, reward and tools. <strong>MMSearch-R1++</strong>
+        switches to a ReAct-style prompt and removes the KL penalty and entropy coefficient.
+        The SVRL rows then add query alignment, an LLM-judge reward, the search-aware
+        calibration term, external test-time verification, and finally the train-time
+        self-verification objective.
+      </p>
+      <div class="table-scroll">
+        <table class="data-table">
+          <caption>
+            <strong>Ablations on finetuning with GRPO.</strong>
+            Acc is LLM-as-judge accuracy, SR is search ratio. SVRL-ttv uses an external
+            verifier at inference; SVRL-self-verification replaces it with the train-time
+            objective and recovers most of the denoising benefit without any verifier
+            dependence at inference.
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col" rowspan="2">Model</th>
+              <th scope="col" colspan="2">FVQA-test</th>
+              <th scope="col" colspan="2">InfoSeek</th>
+            </tr>
+            <tr>
+              <th scope="col">Acc</th><th scope="col">SR</th>
+              <th scope="col">Acc</th><th scope="col">SR</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>MMSearch-R1</td><td>51.1</td><td>64.2</td><td>49.8</td><td>63.5</td></tr>
+            <tr><td>MMSearch-R1++</td><td>56.4</td><td>80.3</td><td>55.1</td><td>59.7</td></tr>
+            <tr><td>SVRL-query-align</td><td>57.7</td><td>97.6</td><td>58.2</td><td>98.0</td></tr>
+            <tr><td>SVRL-llm-judge</td><td>58.1</td><td>36.7</td><td>58.0</td><td>50.6</td></tr>
+            <tr><td>SVRL-search-aware</td><td>59.9</td><td>80.3</td><td>57.0</td><td>85.8</td></tr>
+            <tr><td>SVRL-ttv</td><td>60.6</td><td>80.3</td><td>58.3</td><td>85.2</td></tr>
+            <tr class="row-ours"><td><strong>SVRL-self-verification</strong></td>
+              <td><strong>64.2</strong></td><td><strong>61.2</strong></td>
+              <td><strong>64.1</strong></td><td><strong>59.2</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="sub-heading">Training dynamics</h3>
+      <figure class="fig fig-wide">
+        <img src="img/training-curves.webp" loading="lazy"
+             alt="Four training curves comparing MMSearch-R1++ and SVRL: training accuracy, tool-use rate, policy gradient norm, and response length.">
+        <figcaption>
+          <strong>SVRL yields more stable RL finetuning dynamics.</strong>
+          Mean over 3 seeds with &plusmn;1 standard deviation. All runs use 400 steps, batch
+          size 32, group size 4, and multi-turn tool-use trajectories. Vanilla GRPO shows
+          intermittent spikes in actor gradient norm and drift in response length; adopting
+          Dr.&nbsp;GRPO removes the normalization factors that amplify gradients under
+          trajectory-dependent rewards.
+        </figcaption>
+      </figure>
+
+      <h3 class="sub-heading">Test-time scaling</h3>
+      <p>
+        On a 256-example subset of FVQA-test we allow up to <em>K</em> parallel text searches
+        per question. SVRL already proposes up to five candidate queries within one reasoning
+        step, so increasing <em>K</em> first uses those directly and then samples additional
+        proposals at gradually higher temperature. Candidate answers are aggregated by exact
+        majority, falling back to a nearest-neighbour consensus over answer embeddings.
+      </p>
+      <figure class="fig fig-narrow">
+        <img src="img/test-time-scaling.webp" loading="lazy"
+             alt="Accuracy versus number of text searches: SVRL rises from 63.7 to 67.6 percent while the baseline plateaus around 64.5 percent after 5 searches.">
+        <figcaption>
+          <strong>Accuracy keeps improving with search budget.</strong>
+          The baseline saturates at roughly 5 searches, while SVRL continues to gain &mdash;
+          evidence that the learned query proposals are diverse enough to benefit from extra
+          test-time compute.
+        </figcaption>
+      </figure>
+
+      <h3 class="sub-heading">Search calibration</h3>
+      <p>
+        Splitting FVQA by whether the agent chose to search shows the gain is not just from
+        searching more &mdash; SVRL searches considerably <em>less</em> and is more accurate on
+        both subsets.
+      </p>
+      <div class="table-scroll">
+        <table class="data-table">
+          <caption>Search versus no-search behavior on FVQA.</caption>
+          <thead>
+            <tr><th scope="col">Metric</th><th scope="col">MMSearch-R1++</th><th scope="col">SVRL</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Used search</td><td>1445 (80.3%)</td><td>1105 (61.4%)</td></tr>
+            <tr><td>Accuracy on search subset</td><td>51.0%</td><td>56.4%</td></tr>
+            <tr><td>No search</td><td>355 (19.7%)</td><td>695 (38.6%)</td></tr>
+            <tr><td>Accuracy on no-search subset</td><td>78.6%</td><td>79.4%</td></tr>
+            <tr><td>Overall accuracy</td><td>56.4%</td><td>65.3%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        At inference the model generates an average of <strong>4.86 unique queries</strong> per
+        text-search step, so the policy does not collapse to a single repeated query template
+        despite the fixed five-query interface.
+      </p>
+
+      <h3 class="sub-heading">Where the errors go</h3>
+      <p>
+        Conditioning on cases where an external judge rates the issued query as good, SVRL
+        still improves &mdash; so the gains extend past query generation into downstream
+        evidence use.
+      </p>
+      <div class="table-scroll">
+        <table class="data-table">
+          <caption>Conditioned query analysis. Error rates (%); lower is better.</caption>
+          <thead>
+            <tr><th scope="col">Condition</th><th scope="col">MMSearch-R1++</th><th scope="col">SVRL</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Good query &rarr; wrong answer</td><td>38.4</td><td>33.7</td></tr>
+            <tr><td>Good query + useful result &rarr; wrong answer</td><td>33.8</td><td>29.1</td></tr>
+            <tr><td>Good query &rarr; no useful result</td><td>8.3</td><td>6.9</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="sub-heading">How good is the learned verifier?</h3>
+      <p>
+        Comparing the agent's own <code>&lt;verify&gt;</code> mask against oracle filtering
+        labels over all retrieved summaries, agreement is 71.3%. The disagreements are strongly
+        asymmetric: the learned filter is <em>conservative</em>, rarely discarding useful
+        evidence but frequently keeping noise.
+      </p>
+      <div class="table-scroll">
+        <table class="data-table">
+          <caption>Alignment between SVRL's verification mask and oracle filtering labels.</caption>
+          <thead>
+            <tr><th scope="col">Metric</th><th scope="col">Value</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Total snippets scored by both</td><td>5490</td></tr>
+            <tr><td>Agreement</td><td>3913 / 5490 (71.3%)</td></tr>
+            <tr><td>Both relevant</td><td>2851</td></tr>
+            <tr><td>Both noise</td><td>1062</td></tr>
+            <tr><td>Under-filtered (kept, oracle says noise)</td><td>1495</td></tr>
+            <tr><td>Over-filtered (dropped, oracle says useful)</td><td>82</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="sub-heading">A second backbone, and proprietary baselines</h3>
+      <p>
+        The same recipe applied to Qwen3-VL-8B performs comparably to SVRL-7B, so the gains
+        are not tied to one backbone. Both SVRL variants also score above a much larger
+        proprietary system in the search-based regime.
+      </p>
+      <div class="table-scroll">
+        <table class="data-table">
+          <caption>
+            Accuracy (%) under judge-based evaluation and exact match (EM).
+            EM is uniformly lower &mdash; it is sensitive to aliases and paraphrases &mdash; but the
+            ranking of the stronger search-based methods is the same under both protocols.
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col" rowspan="2">Model</th>
+              <th scope="col" colspan="2">FVQA</th>
+              <th scope="col" colspan="2">InfoSeek</th>
+            </tr>
+            <tr><th scope="col">Judge</th><th scope="col">EM</th><th scope="col">Judge</th><th scope="col">EM</th></tr>
+          </thead>
+          <tbody>
+            <tr class="row-group"><td colspan="5">Direct answer</td></tr>
+            <tr><td>Qwen3-VL-8B</td><td>22.2</td><td>15.4</td><td>22.2</td><td>13.9</td></tr>
+            <tr><td>GPT-5.2</td><td>34.0</td><td>14.3</td><td>29.9</td><td>12.4</td></tr>
+            <tr class="row-group"><td colspan="5">Adaptive search</td></tr>
+            <tr><td>MMSearch-R1++</td><td>56.4</td><td>40.6</td><td>55.1</td><td>30.4</td></tr>
+            <tr><td><strong>SVRL-7B</strong></td><td><strong>65.3</strong></td><td><strong>43.0</strong></td><td><strong>64.6</strong></td><td><strong>41.7</strong></td></tr>
+            <tr><td><strong>SVRL-8B</strong></td><td>64.9</td><td>40.2</td><td>64.0</td><td>36.5</td></tr>
+            <tr><td>GPT-5.2-thinking</td><td>60.8</td><td>21.2</td><td>52.2</td><td>15.8</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ══════════════════ System prompt & setup ══════════════════ -->
+    <section class="page-section" aria-labelledby="prompt-heading">
+      <div class="section-header">
+        <h2 class="section-title" id="prompt-heading">System prompt &amp; setup</h2>
+      </div>
+      <p>
+        The agent is prompted in a ReAct style: every tool call must be preceded by a
+        <code>&lt;reason&gt;</code> block, and after any tool call the next turn must emit a
+        binary verification mask before the following action. Each episode allows at most three
+        interaction steps &mdash; one image search and up to two text searches &mdash; within an
+        8124-token budget.
+      </p>
+
+      <div class="table-scroll">
+        <table class="data-table table-text">
+          <caption>Representative multi-turn trajectory format.</caption>
+          <thead>
+            <tr><th scope="col">Round</th><th scope="col">Model output</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Round 1</td>
+              <td><code>&lt;reason&gt; … need to perform image search. &lt;/reason&gt;</code><br>
+                  <code>&lt;search&gt;&lt;img&gt;&lt;/search&gt;</code></td>
+            </tr>
+            <tr>
+              <td>Round 2</td>
+              <td><code>&lt;reason&gt; Sources 1 and 3 are helpful … need to perform text search. &lt;/reason&gt;</code><br>
+                  <code>&lt;verify&gt; 1,0,1,0 &lt;/verify&gt;</code><br>
+                  <code>&lt;text_search&gt; q1, q2, q3, q4, q5 &lt;/text_search&gt;</code></td>
+            </tr>
+            <tr>
+              <td>Final round</td>
+              <td><code>&lt;reason&gt; Sources 3 and 4 present … &lt;/reason&gt;</code><br>
+                  <code>&lt;verify&gt; 0,0,1,1 &lt;/verify&gt;</code><br>
+                  <code>&lt;answer&gt; 18-19 days &lt;/answer&gt;</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details class="prompt-details">
+        <summary>Full system prompt used for search-based training and inference</summary>
+        <pre><code>System message.
+You are a helpful assistant who will be evaluated on a Visual Question Answering
+Task. You should strictly follow a reason-to-act process to answer a user-provided
+question about an image. All thinking must be written inside &lt;reason&gt; and
+&lt;/reason&gt; tags.
+
+Available actions.
+First analyze the question and any available observations, including the
+user-provided image and any retrieved search results. Then choose one of the
+following actions: &lt;search&gt;&lt;img&gt;&lt;/search&gt; to perform image search;
+&lt;text_search&gt;query1, query2, query3, query4, query5&lt;/text_search&gt; to generate
+five unique relevant text queries, one of which is selected at random during
+training; or &lt;answer&gt;xxxxx&lt;/answer&gt; to return the final answer. If an action
+was performed previously, output a binary relevance list containing as many comma
+separated values as the number of tool output snippets like this:
+&lt;verify&gt;0/1, 0/1, ...&lt;/verify&gt; before choosing the next action. Retrieved image
+and text results are placed inside &lt;information&gt; and &lt;/information&gt; tags.
+
+Allowed output formats.
+The model output must follow exactly one of the following formats:
+
+  &lt;reason&gt; YOUR THINKING PROCESS &lt;/reason&gt;
+  &lt;search&gt;&lt;img&gt;&lt;/search&gt;
+
+or
+
+  &lt;reason&gt; YOUR THINKING PROCESS &lt;/reason&gt;
+  &lt;verify&gt;0/1, 0/1, ...&lt;/verify&gt;
+  &lt;text_search&gt; FIVE GENERATED COMMA SEPARATED UNIQUE TEXT QUERIES &lt;/text_search&gt;
+
+or
+
+  &lt;reason&gt; YOUR THINKING PROCESS TO ASSESS TOOL OUTPUTS AND ANSWER THE QUESTION &lt;/reason&gt;
+  &lt;verify&gt;0/1, 0/1, ...&lt;/verify&gt;
+  &lt;answer&gt; YOUR ANSWER AFTER GETTING ENOUGH INFORMATION &lt;/answer&gt;
+
+Additional instructions.
+If an image or text search call was made previously, the model should first reason
+about why each returned summary was helpful or unhelpful and then output a binary
+relevance list inside &lt;verify&gt; and &lt;/verify&gt; before producing the final answer.
+If no prior search call was made, output an empty &lt;verify&gt; &lt;/verify&gt; block. The
+number of binary scores must match the number of retrieved summaries. The final
+answer must appear only inside &lt;answer&gt; and &lt;/answer&gt; tags, without extra
+explanation. If the question expects a year, date, quantity or location, be as
+specific as possible and mention appropriate units. If the question is yes-or-no,
+answer only yes or no.</code></pre>
+      </details>
+
+      <h3 class="sub-heading">Implementation details</h3>
+      <div class="table-scroll">
+        <table class="data-table">
+          <caption>Main reward terms and hyperparameters used in SVRL finetuning.</caption>
+          <tbody>
+            <tr><td>Base model</td><td>Qwen2.5-VL-7B-Instruct</td></tr>
+            <tr><td>Hardware</td><td>1 node, 8 &times; A100</td></tr>
+            <tr><td>Training steps / global batch size</td><td>400 / 32</td></tr>
+            <tr><td>Dr.&nbsp;GRPO group size <em>G</em></td><td>4</td></tr>
+            <tr><td>Actor learning rate / decay ratio</td><td>2e-6 / 0.95</td></tr>
+            <tr><td>Warmup steps</td><td>45</td></tr>
+            <tr><td>KL coefficient <em>&beta;</em> / entropy coefficient</td><td>0.001 / 0.0</td></tr>
+            <tr><td>Max context / prompt / response length</td><td>8124 / 4096 / 2048</td></tr>
+            <tr><td>Max interaction steps <em>T</em></td><td>3</td></tr>
+            <tr><td>Image search limit / text search limit</td><td>1 / 2</td></tr>
+            <tr><td>Candidate text queries per call <em>k</em></td><td>5</td></tr>
+            <tr><td>Search-aware coefficient <em>&lambda;<sub>sa</sub></em></td><td>0.1</td></tr>
+            <tr><td>Format weight <em>&alpha;</em></td><td>0.1</td></tr>
+            <tr><td>Training reward</td><td>Exact match</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-muted paper-note">
+        Search tools: image search via SerpAPI; text search follows a search&ndash;parse&ndash;summarize
+        pipeline where retrieved pages are converted to markdown and summarized to 300&ndash;500
+        words. Retrieval results are cached in DynamoDB, with approximate matching above 0.85
+        Jaccard similarity, cutting text-search cost by up to 40%.
+      </p>
+    </section>
+
     <hr>
 
     <!-- ══════════════════ BibTeX ══════════════════ -->

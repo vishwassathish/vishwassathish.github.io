@@ -38,9 +38,9 @@ function injectNav() {
   const linksHtml = NAV_LINKS.map(({ href, label, match }) => {
     let isActive;
     if (match === null) {
-      // Home: active only on root or index.html
-      isActive = currentPath === '/' || currentPath.endsWith('/index.html') ||
-                 currentPath.endsWith('/');
+      // Home: only the site root — not sub-directory index pages like
+      // /projects/svrl/, which would otherwise match on the trailing slash
+      isActive = currentPath.replace(/index\.html$/, '') === '/';
     } else {
       isActive = currentPath.includes(match);
     }
