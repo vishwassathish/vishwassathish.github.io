@@ -82,7 +82,7 @@ async function fetchAndRenderPublications(containerId, filter = 'all') {
   const url  = root + 'assets/data/publications.json';
 
   try {
-    const res  = await fetch(url);
+    const res  = await fetch(url, { cache: 'no-cache' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     let pubs = await res.json();
 

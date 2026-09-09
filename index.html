@@ -15,7 +15,7 @@
 
   <link rel="icon"             type="image/png" href="assets/img/uw_logo.png">
   <link rel="apple-touch-icon"                  href="assets/img/uw_logo.png">
-  <link rel="stylesheet"                        href="assets/css/styles.css">
+  <link rel="stylesheet"                        href="assets/css/styles.css?v=20260908">
 </head>
 <body>
 
@@ -149,15 +149,15 @@
 
 <footer id="site-footer"></footer>
 
-<script src="assets/js/main.js"></script>
-<script src="assets/js/render-news.js"></script>
-<script src="assets/js/render-publications.js"></script>
-<script src="assets/js/render-projects.js"></script>
+<script src="assets/js/main.js?v=20260908"></script>
+<script src="assets/js/render-news.js?v=20260908"></script>
+<script src="assets/js/render-publications.js?v=20260908"></script>
+<script src="assets/js/render-projects.js?v=20260908"></script>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     fetchAndRenderNews('news-container', 4);
     fetchAndRenderPublications('selected-pubs-container', 'selected');
-    fetchAndRenderProjects('featured-projects-container', 'all');
+    fetchAndRenderProjects('featured-projects-container', 'featured');
   });
 </script>
 </body>

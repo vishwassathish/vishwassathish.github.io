@@ -3,19 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SVRL — Eliciting Self-Verification in Multimodal Reasoning Agents with RL</title>
+  <title>SVRL</title>
   <meta name="description" content="Project page for 'Eliciting Self-Verification in Multimodal Reasoning Agents with Reinforcement Learning' (SVRL), ECCV 2026.">
   <link rel="canonical" href="https://vishwassathish.github.io/projects/svrl/">
 
   <meta property="og:type" content="article">
-  <meta property="og:title" content="SVRL — Eliciting Self-Verification in Multimodal Reasoning Agents with Reinforcement Learning">
+  <meta property="og:title" content="SVRL: Eliciting Self-Verification in Multimodal Reasoning Agents with Reinforcement Learning">
   <meta property="og:description" content="An RL-only finetuning framework that trains multimodal agents to verify and filter retrieved evidence inside their own reasoning traces. ECCV 2026.">
   <meta property="og:url" content="https://vishwassathish.github.io/projects/svrl/">
   <meta property="og:image" content="https://vishwassathish.github.io/assets/img/thumbnails/svrl.png">
   <meta name="twitter:card" content="summary_large_image">
 
-  <link rel="stylesheet" href="../../assets/css/styles.css">
-  <link rel="stylesheet" href="paper.css">
+  <link rel="icon" type="image/png" href="../../assets/img/uw_logo.png">
+  <link rel="stylesheet" href="../../assets/css/styles.css?v=20260908">
+  <link rel="stylesheet" href="paper.css?v=20260908">
 </head>
 <body>
 
@@ -24,7 +25,7 @@
 <main class="page-content">
 
   <!-- ══════════════════ Title block ══════════════════ -->
-  <div class="container">
+  <div class="container" id="top">
     <div class="paper-hero">
       <p class="paper-venue">ECCV 2026 &nbsp;·&nbsp; Malmö, Sweden</p>
 
@@ -57,60 +58,30 @@
       </ul>
 
       <div class="paper-actions">
-        <span class="btn btn-soon" title="Link coming soon">Paper</span>
-        <span class="btn btn-soon" title="Link coming soon">Poster</span>
+        <a class="btn btn-accent" href="#demo">VQA Explorer</a>
+        <a class="btn" href="https://arxiv.org/abs/2609.08025" target="_blank" rel="noopener">Paper</a>
+        <a class="btn" href="https://eccv.ecva.net/virtual/2026/poster/5534" target="_blank" rel="noopener">Poster</a>
+        <a class="btn" href="https://www.youtube.com/watch?v=hXMbxWPTmSc" target="_blank" rel="noopener">Video</a>
         <a class="btn" href="#bibtex">BibTeX</a>
       </div>
     </div>
   </div>
 
-  <!-- ══════════════════ Teaser ══════════════════ -->
-  <figure class="fig fig-wide">
-    <img src="img/teaser.webp" alt="A multi-turn SVRL trajectory: the agent reasons about a bird photo, issues an image search, verifies which retrieved sources are useful, issues a text search, and answers 18–19 days.">
-    <figcaption>
-      <strong>Multi-hop tool-augmented VQA with SVRL.</strong>
-      The question requires identifying the bird and then retrieving its incubation period
-      (18&ndash;19 days). SVRL adds explicit verification scores over tool outputs, candidate
-      query sampling for better tool awareness, and implicit reflection inside the
-      reasoning trace.
-    </figcaption>
-  </figure>
+  <!-- ══════════════════ Section nav ══════════════════ -->
+  <nav class="paper-nav" id="paper-nav" aria-label="Sections of this page">
+    <div class="container paper-nav-inner">
+      <a href="#top">Top</a>
+      <a href="#demo">Explorer</a>
+      <a href="#video">Video</a>
+      <a href="#methods">Methods</a>
+      <a href="#results">Results</a>
+    </div>
+  </nav>
 
   <div class="container">
 
-    <!-- ══════════════════ TL;DR ══════════════════ -->
-    <section class="page-section">
-      <div class="highlight-grid">
-        <div class="highlight">
-          <h3>Fine-grained search control</h3>
-          <p>
-            Reward terms that discourage unnecessary tool calls and reward informative,
-            diverse query proposals &mdash; feedback on both <em>when</em> to search and
-            <em>what</em> to search for.
-          </p>
-        </div>
-        <div class="highlight">
-          <h3>Self-verification for evidence filtering</h3>
-          <p>
-            The agent emits structured verification scores over retrieved items inside its
-            own reasoning trace. Evidence selection becomes learnable, and applies at
-            inference with <em>no external verifier</em>.
-          </p>
-        </div>
-        <div class="highlight">
-          <h3>Stable optimization &amp; test-time scaling</h3>
-          <p>
-            Dr.&nbsp;GRPO stabilizes training under trajectory-dependent rewards, and
-            sampling more candidate search queries at inference keeps improving accuracy.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <hr>
-
     <!-- ══════════════════ Abstract ══════════════════ -->
-    <section class="page-section" aria-labelledby="abstract-heading">
+    <section class="page-section" id="abstract" aria-labelledby="abstract-heading">
       <div class="section-header">
         <h2 class="section-title" id="abstract-heading">Abstract</h2>
       </div>
@@ -136,6 +107,115 @@
 
     <hr>
 
+    <!-- ══════════════════ Interactive demo ══════════════════ -->
+    <section class="page-section" id="demo" aria-labelledby="demo-heading">
+      <div class="section-header">
+        <h2 class="section-title" id="demo-heading">Explore real reasoning traces with self-verification</h2>
+      </div>
+      <p>
+        Eleven held-out FVQA questions. Step through what the agent actually did: its
+        reasoning, when it called a tool, what came back, which evidence it kept, and the answer
+        it committed to. Switch models to see how the baseline handled the same question.
+      </p>
+
+      <div class="demo-body">
+        <div class="demo-picker-outer">
+          <button id="demo-scroll-left" class="demo-scroll demo-scroll-l" type="button"
+                  aria-label="Scroll questions left" hidden>&lsaquo;</button>
+          <div id="demo-picker-wrap" class="demo-picker-wrap">
+            <div id="demo-picker" class="demo-picker"></div>
+          </div>
+          <button id="demo-scroll-right" class="demo-scroll demo-scroll-r" type="button"
+                  aria-label="Scroll questions right" hidden>&rsaquo;</button>
+        </div>
+
+        <div class="demo-stage">
+          <div id="demo-question" class="demo-question"></div>
+
+          <div id="demo-models" class="demo-models" role="group" aria-label="Choose a model">
+            <button class="demo-model active" data-model="svrl" type="button">SVRL (ours)</button>
+            <button class="demo-model" data-model="baseline" type="button">MMSearch-R1++</button>
+          </div>
+
+          <div id="demo-transcript" class="demo-transcript"></div>
+          <div id="demo-verdict"></div>
+          <div class="demo-controls">
+            <button id="demo-prev" class="demo-btn" type="button">&larr; Back</button>
+            <span id="demo-progress" class="demo-progress"></span>
+            <button id="demo-next" class="demo-btn demo-btn-primary" type="button">Next step &rarr;</button>
+            <button id="demo-all" class="demo-btn" type="button">Reveal all</button>
+            <button id="demo-collapse" class="demo-btn" type="button">Collapse</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ══════════════════ Video ══════════════════ -->
+    <section class="page-section" id="video" aria-labelledby="video-heading">
+      <div class="section-header">
+        <h2 class="section-title" id="video-heading">Video</h2>
+        <a class="section-link" href="https://www.youtube.com/watch?v=hXMbxWPTmSc"
+           target="_blank" rel="noopener">Watch on YouTube &rarr;</a>
+      </div>
+      <div class="video-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/hXMbxWPTmSc"
+                title="SVRL: Eliciting Self-Verification in Multimodal Reasoning Agents with Reinforcement Learning"
+                loading="lazy" allowfullscreen
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
+    </section>
+
+    <hr>
+
+    <!-- ══════════════════ Methods ══════════════════ -->
+    <section class="page-section" id="methods" aria-labelledby="methods-heading">
+      <div class="section-header">
+        <h2 class="section-title" id="methods-heading">Methods</h2>
+      </div>
+
+      <figure class="fig">
+        <img src="img/teaser.webp" alt="A multi-turn SVRL trajectory: the agent reasons about a bird photo, issues an image search, verifies which retrieved sources are useful, issues a text search, and answers 18-19 days.">
+        <figcaption>
+          <strong>Multi-hop tool-augmented VQA with SVRL.</strong>
+          The question requires identifying the bird and then retrieving its incubation period
+          (18&ndash;19 days). SVRL adds explicit verification scores over tool outputs, candidate
+          query sampling for better tool awareness, and implicit reflection inside the
+          reasoning trace.
+        </figcaption>
+      </figure>
+
+      <div class="highlight-grid">
+        <div class="highlight">
+          <h3>Fine-grained search control</h3>
+          <p>
+            Reward terms that discourage unnecessary tool calls and reward informative,
+            diverse query proposals, giving feedback on both <em>when</em> to search and
+            <em>what</em> to search for.
+          </p>
+        </div>
+        <div class="highlight">
+          <h3>Self-verification for evidence filtering</h3>
+          <p>
+            The agent emits structured verification scores over retrieved items inside its
+            own reasoning trace. Evidence selection becomes learnable, and applies at
+            inference with <em>no external verifier</em>.
+          </p>
+        </div>
+        <div class="highlight">
+          <h3>Stable optimization &amp; test-time scaling</h3>
+          <p>
+            Dr.&nbsp;GRPO stabilizes training under trajectory-dependent rewards, and
+            sampling more candidate search queries at inference keeps improving accuracy.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
     <!-- ══════════════════ Motivation ══════════════════ -->
     <section class="page-section" aria-labelledby="motivation-heading">
       <div class="section-header">
@@ -145,13 +225,15 @@
         Analyzing a GRPO-finetuned search agent on FVQA surfaces three recurring failure modes.
         First, agents are poorly calibrated about <em>when</em> to search: search was required
         but not invoked in over 10% of cases, while over 30% triggered unnecessary search.
-        Second, tool outputs are noisy and go unfiltered &mdash; nearly 45% of retrieved results
+        Second, tool outputs are noisy and go unfiltered. Nearly 45% of retrieved results
         were irrelevant, and the agent still answered incorrectly in over 28% of cases even when
         it issued an appropriate query and relevant evidence was present. Third, outcome-only
         supervision leaves every intermediate decision unlabeled, so distinct failure causes
         collapse into the same terminal penalty.
       </p>
 
+      <!-- Column widths track each image's aspect ratio (1.81 and 3.25), so the two
+           render at exactly the same height and together fill one text-block width. -->
       <div class="fig-row">
         <figure class="fig">
           <img src="img/pitfall-no-search.webp" loading="lazy"
@@ -168,10 +250,10 @@
 
     <hr>
 
-    <!-- ══════════════════ Method ══════════════════ -->
-    <section class="page-section" aria-labelledby="method-heading">
+    <!-- ══════════════════ Algorithm ══════════════════ -->
+    <section class="page-section" id="algorithm" aria-labelledby="algorithm-heading">
       <div class="section-header">
-        <h2 class="section-title" id="method-heading">Method</h2>
+        <h2 class="section-title" id="algorithm-heading">Algorithm</h2>
       </div>
       <p>
         SVRL treats the multimodal agent as a stochastic policy over multi-turn trajectories and
@@ -180,19 +262,19 @@
       </p>
       <ul class="method-list">
         <li>
-          <strong>Search-aware calibration</strong> (<code>r<sub>aware</sub></code>) &mdash; a single
+          <strong>Search-aware calibration</strong> (<code>r<sub>aware</sub></code>): a single
           tool-free forward pass labels each training instance as <code>search_free</code> or not,
           and rollouts that call a tool on a <code>search_free</code> instance are downweighted.
           This targets avoidable searches without suppressing necessary ones.
         </li>
         <li>
-          <strong>Query diversity</strong> (<code>r<sub>count</sub></code>) &mdash; the agent proposes
+          <strong>Query diversity</strong> (<code>r<sub>count</sub></code>): the agent proposes
           <em>k</em> candidate queries and executes one; the fraction of unique, well-formed
           proposals scales the task reward.
         </li>
         <li>
           <strong>Verification alignment</strong> (<code>r<sub>qalign</sub></code>,
-          <code>r<sub>salign</sub></code>) &mdash; the agent emits a binary usefulness vector over
+          <code>r<sub>salign</sub></code>): the agent emits a binary usefulness vector over
           retrieved items (e.g. <code>&lt;verify&gt; 0,1,0,1 &lt;/verify&gt;</code>) plus a short
           justification. A train-time oracle verifier with access to the ground-truth answer scores
           the same queries and snippets, and the agent is rewarded for agreeing with it.
@@ -200,31 +282,9 @@
       </ul>
       <p>
         The verification factors are gated on final-answer correctness to avoid reward hacking,
-        and the oracle verifier is <strong>discarded at inference</strong> &mdash; the deployed
+        and the oracle verifier is <strong>discarded at inference</strong>. The deployed
         agent verifies on its own.
       </p>
-
-      <figure class="fig fig-wide">
-        <img src="img/test-time-verification.webp" loading="lazy"
-             alt="Test-time verification: the frozen agent proposes several candidate queries, an external verifier filters bad queries and noisy snippets, and the answer is produced from the retained evidence.">
-        <figcaption>
-          <strong>Test-time verification (the gain we want to internalize).</strong>
-          A stronger text-only verifier filters candidate queries and tags noisy snippets for a
-          frozen agent. This lifts multi-hop VQA accuracy with no finetuning at all &mdash; but it
-          costs an extra model at inference.
-        </figcaption>
-      </figure>
-
-      <figure class="fig fig-wide">
-        <img src="img/self-verification.webp" loading="lazy"
-             alt="Self-verification during finetuning: the agent scores retrieved snippets while an oracle verifier with the ground-truth answer produces reference labels, yielding alignment rewards.">
-        <figcaption>
-          <strong>Self-verification via oracle feedback during finetuning.</strong>
-          The oracle verifier sees the same snippets plus the ground-truth answer and annotates
-          each snippet by its utility. The agent's own scores are rewarded for aligning with those
-          labels. This verifier exists only during training.
-        </figcaption>
-      </figure>
 
       <div class="algo">
         <p class="algo-title">Algorithm 1 &middot; SVRL finetuning</p>
@@ -262,14 +322,14 @@
     <hr>
 
     <!-- ══════════════════ Results ══════════════════ -->
-    <section class="page-section" aria-labelledby="results-heading">
+    <section class="page-section" id="results" aria-labelledby="results-heading">
       <div class="section-header">
         <h2 class="section-title" id="results-heading">Results</h2>
       </div>
       <p>
         We train Qwen-2.5-VL-7B-Instruct on 5,000 FVQA examples and evaluate in-distribution
         (FVQA-test, InfoSeek) and out-of-distribution (MMSearch, LiveVQA, SimpleVQA). Acc is
-        answer accuracy; SR is search ratio &mdash; the fraction of questions on which the agent
+        answer accuracy; SR is search ratio, the fraction of questions on which the agent
         chose to search.
       </p>
 
@@ -344,85 +404,14 @@
 
     <hr>
 
-    <!-- ══════════════════ Qualitative ══════════════════ -->
-    <section class="page-section" aria-labelledby="qualitative-heading">
-      <div class="section-header">
-        <h2 class="section-title" id="qualitative-heading">Qualitative examples</h2>
-      </div>
-      <p>
-        The finetuned agent produces reasoning traces that compare and reconcile evidence across
-        retrieved results &mdash; behavior we never supervise with critique text directly. It also
-        stops searching when the image alone is sufficient. The last row shows a failure that
-        survives verification.
-      </p>
-    </section>
-  </div>
-
-  <figure class="fig fig-wide">
-    <img src="img/qualitative.webp" loading="lazy"
-         alt="Four qualitative multi-hop examples from the SVRL-finetuned agent, three correct and one incorrect.">
-    <figcaption>
-      <strong>Multi-hop traces from the SVRL-finetuned agent.</strong>
-      The agent answers directly when no search is needed (top left), reconciles conflicting
-      snippets before committing (middle), and still fails when several retrieved sources agree
-      on the wrong entity (bottom).
-    </figcaption>
-  </figure>
-
-  <div class="container">
-    <hr>
-
     <!-- ══════════════════ Additional results ══════════════════ -->
     <section class="page-section" aria-labelledby="more-results-heading">
       <div class="section-header">
         <h2 class="section-title" id="more-results-heading">Additional results</h2>
       </div>
 
-      <h3 class="sub-heading">Ablations</h3>
-      <p>
-        Each component is added on top of the baseline recipe. <strong>MMSearch-R1</strong>
-        reproduces the original system prompt, reward and tools. <strong>MMSearch-R1++</strong>
-        switches to a ReAct-style prompt and removes the KL penalty and entropy coefficient.
-        The SVRL rows then add query alignment, an LLM-judge reward, the search-aware
-        calibration term, external test-time verification, and finally the train-time
-        self-verification objective.
-      </p>
-      <div class="table-scroll">
-        <table class="data-table">
-          <caption>
-            <strong>Ablations on finetuning with GRPO.</strong>
-            Acc is LLM-as-judge accuracy, SR is search ratio. SVRL-ttv uses an external
-            verifier at inference; SVRL-self-verification replaces it with the train-time
-            objective and recovers most of the denoising benefit without any verifier
-            dependence at inference.
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col" rowspan="2">Model</th>
-              <th scope="col" colspan="2">FVQA-test</th>
-              <th scope="col" colspan="2">InfoSeek</th>
-            </tr>
-            <tr>
-              <th scope="col">Acc</th><th scope="col">SR</th>
-              <th scope="col">Acc</th><th scope="col">SR</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>MMSearch-R1</td><td>51.1</td><td>64.2</td><td>49.8</td><td>63.5</td></tr>
-            <tr><td>MMSearch-R1++</td><td>56.4</td><td>80.3</td><td>55.1</td><td>59.7</td></tr>
-            <tr><td>SVRL-query-align</td><td>57.7</td><td>97.6</td><td>58.2</td><td>98.0</td></tr>
-            <tr><td>SVRL-llm-judge</td><td>58.1</td><td>36.7</td><td>58.0</td><td>50.6</td></tr>
-            <tr><td>SVRL-search-aware</td><td>59.9</td><td>80.3</td><td>57.0</td><td>85.8</td></tr>
-            <tr><td>SVRL-ttv</td><td>60.6</td><td>80.3</td><td>58.3</td><td>85.2</td></tr>
-            <tr class="row-ours"><td><strong>SVRL-self-verification</strong></td>
-              <td><strong>64.2</strong></td><td><strong>61.2</strong></td>
-              <td><strong>64.1</strong></td><td><strong>59.2</strong></td></tr>
-          </tbody>
-        </table>
-      </div>
-
       <h3 class="sub-heading">Training dynamics</h3>
-      <figure class="fig fig-wide">
+      <figure class="fig">
         <img src="img/training-curves.webp" loading="lazy"
              alt="Four training curves comparing MMSearch-R1++ and SVRL: training accuracy, tool-use rate, policy gradient norm, and response length.">
         <figcaption>
@@ -443,12 +432,12 @@
         proposals at gradually higher temperature. Candidate answers are aggregated by exact
         majority, falling back to a nearest-neighbour consensus over answer embeddings.
       </p>
-      <figure class="fig fig-narrow">
+      <figure class="fig fig-plot">
         <img src="img/test-time-scaling.webp" loading="lazy"
              alt="Accuracy versus number of text searches: SVRL rises from 63.7 to 67.6 percent while the baseline plateaus around 64.5 percent after 5 searches.">
         <figcaption>
           <strong>Accuracy keeps improving with search budget.</strong>
-          The baseline saturates at roughly 5 searches, while SVRL continues to gain &mdash;
+          The baseline saturates at roughly 5 searches, while SVRL continues to gain,
           evidence that the learned query proposals are diverse enough to benefit from extra
           test-time compute.
         </figcaption>
@@ -457,7 +446,7 @@
       <h3 class="sub-heading">Search calibration</h3>
       <p>
         Splitting FVQA by whether the agent chose to search shows the gain is not just from
-        searching more &mdash; SVRL searches considerably <em>less</em> and is more accurate on
+        searching more. SVRL searches considerably <em>less</em> and is more accurate on
         both subsets.
       </p>
       <div class="table-scroll">
@@ -484,7 +473,7 @@
       <h3 class="sub-heading">Where the errors go</h3>
       <p>
         Conditioning on cases where an external judge rates the issued query as good, SVRL
-        still improves &mdash; so the gains extend past query generation into downstream
+        still improves, so the gains extend past query generation into downstream
         evidence use.
       </p>
       <div class="table-scroll">
@@ -535,7 +524,7 @@
         <table class="data-table">
           <caption>
             Accuracy (%) under judge-based evaluation and exact match (EM).
-            EM is uniformly lower &mdash; it is sensitive to aliases and paraphrases &mdash; but the
+            EM is uniformly lower, since it is sensitive to aliases and paraphrases, but the
             ranking of the stronger search-based methods is the same under both protocols.
           </caption>
           <thead>
@@ -571,7 +560,7 @@
         The agent is prompted in a ReAct style: every tool call must be preceded by a
         <code>&lt;reason&gt;</code> block, and after any tool call the next turn must emit a
         binary verification mask before the following action. Each episode allows at most three
-        interaction steps &mdash; one image search and up to two text searches &mdash; within an
+        interaction steps (one image search and up to two text searches) within an
         8124-token budget.
       </p>
 
@@ -653,34 +642,6 @@ specific as possible and mention appropriate units. If the question is yes-or-no
 answer only yes or no.</code></pre>
       </details>
 
-      <h3 class="sub-heading">Implementation details</h3>
-      <div class="table-scroll">
-        <table class="data-table">
-          <caption>Main reward terms and hyperparameters used in SVRL finetuning.</caption>
-          <tbody>
-            <tr><td>Base model</td><td>Qwen2.5-VL-7B-Instruct</td></tr>
-            <tr><td>Hardware</td><td>1 node, 8 &times; A100</td></tr>
-            <tr><td>Training steps / global batch size</td><td>400 / 32</td></tr>
-            <tr><td>Dr.&nbsp;GRPO group size <em>G</em></td><td>4</td></tr>
-            <tr><td>Actor learning rate / decay ratio</td><td>2e-6 / 0.95</td></tr>
-            <tr><td>Warmup steps</td><td>45</td></tr>
-            <tr><td>KL coefficient <em>&beta;</em> / entropy coefficient</td><td>0.001 / 0.0</td></tr>
-            <tr><td>Max context / prompt / response length</td><td>8124 / 4096 / 2048</td></tr>
-            <tr><td>Max interaction steps <em>T</em></td><td>3</td></tr>
-            <tr><td>Image search limit / text search limit</td><td>1 / 2</td></tr>
-            <tr><td>Candidate text queries per call <em>k</em></td><td>5</td></tr>
-            <tr><td>Search-aware coefficient <em>&lambda;<sub>sa</sub></em></td><td>0.1</td></tr>
-            <tr><td>Format weight <em>&alpha;</em></td><td>0.1</td></tr>
-            <tr><td>Training reward</td><td>Exact match</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="text-muted paper-note">
-        Search tools: image search via SerpAPI; text search follows a search&ndash;parse&ndash;summarize
-        pipeline where retrieved pages are converted to markdown and summarized to 300&ndash;500
-        words. Retrieval results are cached in DynamoDB, with approximate matching above 0.85
-        Jaccard similarity, cutting text-search cost by up to 40%.
-      </p>
     </section>
 
     <hr>
@@ -691,17 +652,17 @@ answer only yes or no.</code></pre>
         <h2 class="section-title" id="bibtex-heading">BibTeX</h2>
         <button class="section-link copy-btn" id="copy-bib" type="button">Copy</button>
       </div>
-      <pre><code id="bib-text">@inproceedings{sathish2026svrl,
-  title     = {Eliciting Self-Verification in Multimodal Reasoning Agents
-               with Reinforcement Learning},
-  author    = {Sathish, Vishwas and Ranjan, Viresh and Zhu, Xinliang
-               and Dhua, Arnab and Gray, Douglas},
-  booktitle = {European Conference on Computer Vision (ECCV)},
-  year      = {2026}
+      <pre><code id="bib-text">@misc{sathish2026svrl,
+  title         = {Eliciting Self-Verification in Multimodal Reasoning Agents
+                   with Reinforcement Learning},
+  author        = {Sathish, Vishwas and Ranjan, Viresh and Zhu, Xinliang
+                   and Dhua, Arnab and Gray, Douglas},
+  year          = {2026},
+  eprint        = {2609.08025},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.AI},
+  url           = {https://arxiv.org/abs/2609.08025}
 }</code></pre>
-      <p class="text-muted paper-note">
-        Page numbers and the proceedings entry will be updated once the camera-ready version is published.
-      </p>
     </section>
 
   </div><!-- /.container -->
@@ -709,7 +670,8 @@ answer only yes or no.</code></pre>
 
 <footer id="site-footer"></footer>
 
-<script src="../../assets/js/main.js"></script>
+<script src="../../assets/js/main.js?v=20260908"></script>
+<script src="demo/demo.js?v=20260908"></script>
 <script>
   document.getElementById('copy-bib').addEventListener('click', (e) => {
     navigator.clipboard.writeText(document.getElementById('bib-text').textContent)
@@ -718,6 +680,30 @@ answer only yes or no.</code></pre>
         setTimeout(() => { e.target.textContent = 'Copy'; }, 1600);
       });
   });
+
+  // Highlight the section nav link for whichever section is in view.
+  (() => {
+    const links = [...document.querySelectorAll('#paper-nav a')];
+    const targets = links
+      .map(a => document.querySelector(a.getAttribute('href')))
+      .filter(Boolean);
+    if (!targets.length) return;
+
+    const mark = (id) => links.forEach(a =>
+      a.classList.toggle('active', a.getAttribute('href') === `#${id}`));
+
+    const seen = new Map();
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(en => seen.set(en.target.id, en));
+      // topmost section currently intersecting wins
+      const visible = [...seen.values()]
+        .filter(en => en.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      if (visible.length) mark(visible[0].target.id);
+    }, { rootMargin: '-25% 0px -60% 0px', threshold: 0 });
+
+    targets.forEach(t => io.observe(t));
+  })();
 </script>
 </body>
 </html>

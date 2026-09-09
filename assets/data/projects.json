@@ -3,7 +3,7 @@
     "id": "svrl",
     "type": "Paper Page",
     "featured": true,
-    "title": "SVRL — Self-Verification via Reinforcement Learning",
+    "title": "SVRL \u2014 Self-Verification via Reinforcement Learning",
     "description": "Project page for our ECCV 2026 paper: an RL-only finetuning framework that teaches compact multimodal agents to decide when to search, write better queries, and verify retrieved evidence inside their own reasoning traces.",
     "thumbnail": "assets/img/thumbnails/svrl.png",
     "links": {
@@ -18,14 +18,14 @@
     "description": "An interactive visualization exploring human gaze patterns, fixation stability, and spatial attention across six Atari games using the Atari-HEAD eye-tracking dataset, comparing normal play with high-score sessions.",
     "thumbnail": "assets/img/thumbnails/atari-eye-tracking.png",
     "links": {
-      "demo":    "projects/atari-eye-tracking/",
+      "demo": "projects/atari-eye-tracking/",
       "writeup": "projects/atari-eye-tracking/writeup.html"
     }
   },
   {
     "id": "llm-cognition-puzzles",
     "type": "Research Report",
-    "featured": true,
+    "featured": false,
     "title": "Examining LLM Cognition Through Puzzles and Optical Illusions",
     "description": "An investigation into whether large language models exhibit human-like cognitive biases when presented with classic puzzles, checker-shadow illusions, and visual reasoning tasks.",
     "thumbnail": "assets/img/thumbnails/Checker_shadow_illusion.png",

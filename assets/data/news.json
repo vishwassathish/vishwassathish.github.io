@@ -1,7 +1,11 @@
 [
   {
+    "date": "Sep 2026",
+    "description": "<a href='https://arxiv.org/abs/2609.08025' target='_blank' rel='noopener'>Arxiv</a> for <em>Eliciting Self-Verification in Multimodal Reasoning Agents with Reinforcement Learning</em> is now available. Checkout the <a href='https://eccv.ecva.net/virtual/2026/poster/5534' target='_blank' rel='noopener'>ECCV 2026 poster here</a>, along with the <a href='https://www.youtube.com/watch?v=hXMbxWPTmSc' target='_blank' rel='noopener'>video</a> and <a href='/projects/svrl/'>project page</a>."
+  },
+  {
     "date": "Jun 2026",
-    "description": "My paper <em>Eliciting Self-Verification in Multimodal Reasoning Agents with Reinforcement Learning</em> has been accepted as a conference paper at <strong>ECCV 2026</strong>. Arxiv coming soon!"
+    "description": "My paper <em>Eliciting Self-Verification in Multimodal Reasoning Agents with Reinforcement Learning</em> has been accepted as a conference paper at <strong>ECCV 2026</strong>."
   },
   {
     "date": "Jun 2026",

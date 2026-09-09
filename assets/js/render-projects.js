@@ -54,7 +54,7 @@ async function fetchAndRenderProjects(containerId, filter = 'all') {
   const url  = root + 'assets/data/projects.json';
 
   try {
-    const res = await fetch(url);
+    const res = await fetch(url, { cache: 'no-cache' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     let projects = await res.json();
 
