@@ -547,6 +547,12 @@
   color: var(--text-light);
 }
 .verdict-answer { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+/* answer text and its correct/incorrect pill sit on one line */
+/* The answer <p> is not the last child here, so it keeps the global
+   margin-bottom; flex centres the margin box and the text drifts above the
+   pill. Zero it and let the row centre on the text itself. */
+.answer-line { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; }
+.answer-line p { margin-bottom: 0; line-height: 1.4; }
 .verdict-judge p { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem; }
 .judge-pill {
   font-size: 0.7rem;

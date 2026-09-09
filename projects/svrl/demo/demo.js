@@ -127,11 +127,16 @@ function renderStep(step) {
               </div>`;
     }
 
-    case 'answer':
+    case 'answer': {
+      const r = run();
       return `<div class="turn turn-answer">
-                <span class="turn-tag">Answer</span>
-                <p>${esc(step.text)}</p>
+                <span class="turn-tag">${esc(MODELS[model].label)} answered</span>
+                <div class="answer-line">
+                  <p>${esc(step.text)}</p>
+                  <span class="judge-pill${r.judge_score ? '' : ' judge-wrong'}">${r.judge_score ? 'Correct' : 'Incorrect'}</span>
+                </div>
               </div>`;
+    }
 
     default:
       return '';
@@ -166,12 +171,10 @@ function renderStage() {
   const done = shown >= total;
   document.getElementById('demo-verdict').innerHTML = done ? `
     <div class="verdict">
-      <div class="verdict-answer">
-        <span class="verdict-label">${esc(MODELS[model].label)} answered</span>
-        <strong>${esc(r.final_answer)}</strong>
-        <span class="judge-pill${r.judge_score ? '' : ' judge-wrong'}">${r.judge_score ? 'Correct' : 'Incorrect'}</span>
+      <div class="verdict-judge">
+        <span class="verdict-label">LLM judge reasoning</span>
+        <p>${esc(r.judge_reason)}</p>
       </div>
-      <div class="verdict-judge"><span class="verdict-label">LLM judge</span><p>${esc(r.judge_reason)}</p></div>
     </div>` : '';
 
   document.getElementById('demo-progress').textContent = `Step ${shown} / ${total}`;
@@ -197,6 +200,7 @@ function anchorToExplorer(force = false) {
 
 function select(i) {
   current = i;
+  model = 'svrl';            // every question opens on our model
   shown = 1;
   renderPicker();
   renderStage();
