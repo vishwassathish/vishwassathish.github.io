@@ -1,12 +1,13 @@
 [
   {
     "id": "svrl",
-    "type": "Paper Page",
+    "type": "SVRL",
     "featured": true,
-    "title": "SVRL \u2014 Self-Verification via Reinforcement Learning",
+    "title": "Self-Verification via Reinforcement Learning",
     "description": "Project page for our ECCV 2026 paper: an RL-only finetuning framework that teaches compact multimodal agents to decide when to search, write better queries, and verify retrieved evidence inside their own reasoning traces.",
     "thumbnail": "assets/img/thumbnails/svrl.png",
     "links": {
+      "paper": "https://arxiv.org/abs/2609.08025",
       "website": "/projects/svrl/"
     }
   },

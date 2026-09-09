@@ -65,7 +65,7 @@
     "venue_html": "<a href='https://arxiv.org/abs/2502.10621' target='_blank' rel='noopener'>arXiv:2502.10621</a>, February 2025",
     "year": 2025,
     "summary": "Systematic machine-learning approach for classifying acute pain from raw electrophysiological signals, using Power-In-Band features and signal coherence on a curated sEEG dataset.",
-    "thumbnail": null,
+    "thumbnail": "assets/img/thumbnails/paindecog.png",
     "links": {
       "arxiv": "https://arxiv.org/abs/2502.10621"
     }
@@ -165,7 +165,7 @@
     "venue": "Technical Report, University of Washington, March 2024",
     "year": 2024,
     "summary": "Analyzing power disparities and access inequalities in large language model development and deployment.",
-    "thumbnail": null,
+    "thumbnail": "assets/img/thumbnails/llempower.png",
     "links": {
       "arxiv": "https://arxiv.org/abs/2404.09356"
     }
