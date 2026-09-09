@@ -13,6 +13,7 @@
     "summary": "Self-Verification via Reinforcement Learning (SVRL) trains small multimodal models to verify retrieved evidence during inference, enabling self-sufficient test-time scaling without external verifiers.",
     "thumbnail": "assets/img/thumbnails/svrl.png",
     "links": {
+      "paper": "https://media.eventhosts.cc/Conferences/ECCV2026/pdfs/11206.pdf",
       "arxiv": "https://arxiv.org/abs/2609.08025",
       "poster": "https://eccv.ecva.net/virtual/2026/poster/5534",
       "video": "https://www.youtube.com/watch?v=hXMbxWPTmSc",
