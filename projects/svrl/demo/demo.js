@@ -184,6 +184,17 @@ function renderStage() {
     b.classList.toggle('active', b.dataset.model === model));
 }
 
+/* Collapsing or switching models shortens the transcript sharply, which drags
+   later sections up under the viewport. Bring the explorer back into view. */
+function anchorToExplorer(force = false) {
+  const el = document.getElementById('demo');
+  if (!el) return;
+  const top = el.getBoundingClientRect().top;
+  if (force || top < 0 || top > window.innerHeight) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
 function select(i) {
   current = i;
   shown = 1;
@@ -240,6 +251,7 @@ async function initDemo() {
     model = btn.dataset.model;
     shown = 1;                 // the two runs diverge, so restart the replay
     renderStage();
+    anchorToExplorer();
   });
 
   document.getElementById('demo-next').addEventListener('click', () => {
@@ -253,7 +265,7 @@ async function initDemo() {
   });
   // back to just the opening reasoning turn
   document.getElementById('demo-collapse').addEventListener('click', () => {
-    shown = 1; renderStage();
+    shown = 1; renderStage(); anchorToExplorer(true);
   });
 
   select(0);
