@@ -1035,7 +1035,7 @@
    ],
    "final_answer": "1894-06-30",
    "judge_score": 1.0,
-   "judge_reason": "The model response \"1894-06-30\" exactly matches the ground truth answer \"1894-06-30\" in both content and format. Therefore, it is correct according to the evaluation principles."
+   "judge_reason": "The model response \"1894-06-30\" exactly matches the ground truth answer \"1894-06-30\" in both content and format. There are no candidate answers to consider, and the response adheres to the required date format. Therefore, the model's response is correct."
   }
  },
  {
@@ -1502,7 +1502,7 @@
    ],
    "final_answer": "2024-08-05",
    "judge_score": 1.0,
-   "judge_reason": "The ground truth date 5/8/24, per the stated DD/MM/YY format, corresponds to 05 August 2024."
+   "judge_reason": "The ground truth date 5/8/24, per the stated DD/MM/YY format, corresponds to 05 August 2024. The model response 2024-08-05 matches this date in YYYY-MM-DD format, so it is correct."
   },
   "baseline": {
    "steps": [
@@ -1570,7 +1570,7 @@
    ],
    "final_answer": "2024-08-05",
    "judge_score": 1.0,
-   "judge_reason": "The ground truth date 5/8/24, per the stated DD/MM/YY format, corresponds to 05 August 2024."
+   "judge_reason": "The ground truth date 5/8/24, per the stated DD/MM/YY format, corresponds to 05 August 2024. The model response 2024-08-05 matches this date in YYYY-MM-DD format, so it is correct."
   }
  },
  {
@@ -1860,8 +1860,8 @@
     }
    ],
    "final_answer": "Glacier National Park",
-   "judge_score": 1.0,
-   "judge_reason": "Same final answer as SVRL. The original grader marked this incorrect on date formatting alone, so the label has been corrected here."
+   "judge_score": 0.0,
+   "judge_reason": "The model response \"Glacier National Park\" does not directly answer the question of where the park is located. The ground truth answer specifies the location as \"northwestern Montana,\" which is a geographical description. While Glacier National Park is indeed located in northwestern Montana, the model response does not explicitly state this location, thus failing to align with the ground truth answer."
   }
  },
  {
@@ -2319,7 +2319,7 @@
    ],
    "final_answer": "Vietnam",
    "judge_score": 1.0,
-   "judge_reason": "Same final answer as SVRL. The original grader marked this incorrect on date formatting alone, so the label has been corrected here."
+   "judge_reason": "The question asks where the name is commonly used. The ground truth answer \u201cthanh\u201d refers to a Vietnamese name, implying the location is Vietnam. The model response \u201cVietnam\u201d correctly identifies the country where the name is commonly used."
   }
  },
  {
@@ -2522,7 +2522,7 @@
    ],
    "final_answer": "Ari\u00e8ge",
    "judge_score": 1.0,
-   "judge_reason": "Same final answer as SVRL. The original grader marked this incorrect on date formatting alone, so the label has been corrected here."
+   "judge_reason": "The ground truth answer is \"southern France.\" The model responded \"Ari\u00e8ge,\" which is a department located in southern France. This is a more specific location within the correct region, aligning with the ground truth per the rule that more specific correct answers are acceptable."
   }
  }
 ]
